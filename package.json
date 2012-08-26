@@ -1,0 +1,14 @@
+{ 
+  "name" : "class4js",
+  "version": "1.0.0",
+  "author": "Gediminas Backevicius <gediminas.backevicius@gmail.com>",
+  "keywords": ["class"], 
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gedbac/class4js.git"
+  },
+  "main" : "./lib/class4js.js",
+  "engines": {
+    "node": ">=0.8.8"
+  }
+}
