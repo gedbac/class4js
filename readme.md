@@ -15,6 +15,8 @@ __The Open/Close principle__
 
 ## API
 
+Private class members are decorated with __ and protected with _.
+
 ### Create class
 
 Creates a class: 
@@ -47,4 +49,4 @@ __Example__
 ## Licenses
 
 This software is distributed under the terms of the GNU General Public License, 
-version 3 (GPL-3.0) (see license.md).
+version 3 (GPL-3.0).
