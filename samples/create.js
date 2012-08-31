@@ -1,6 +1,6 @@
 "use strict";
 
-var class4js = require("class4js");
+require("class4js");
 
 var Person = $class({
   __construct__: function (name) {
