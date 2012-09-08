@@ -1,6 +1,6 @@
 "use strict";
 
-var class4js = require("../../lib/class4js.js");
+var class4js = require("../lib/class4js.js");
 
 var Calculator = $class({
   __static__: {

@@ -1,6 +1,6 @@
 "use strict";
 
-var class4js = require("../../lib/class4js.js");
+var class4js = require("../lib/class4js.js");
 
 var IDrawable = $interface({
 
@@ -39,7 +39,7 @@ var Rectangle = $class({
 
   draw: function (context) {
     console.log("Rectangle is drawn...");
-  } 
+  }
 
 }, null, IDrawable);
 
