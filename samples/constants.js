@@ -1,6 +1,6 @@
 "use strict";
 
-require("class4js");
+var class4js = require("../../lib/class4js.js");
 
 var Person = $class({
   MAX_AGE: 99,

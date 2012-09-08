@@ -21,11 +21,11 @@ Private class members are decorated with __ and protected with _.
 
 Creates a class: 
 
-    class4js.Class.create(properties:Object, parent:Object): Object
+    class4js.Class.create(properties:Object, parent:Object, interfaces:Array): Object
 
 or
 
-    $class(properties:Object, parent:Object): Object
+    $class(properties:Object, parent:Object, interfaces:Array): Object
 
 __Example__
 
@@ -190,6 +190,75 @@ __Example__
     
     var rec = new Rectangle();
     rec.draw();
+
+### Interfaces
+
+Creates an interfaces: 
+
+    class4js.Interface.create(properties:Object, parent:Object): Object
+
+or
+
+    $interface(properties:Object, parent:Object): Object
+
+You can check if object is compatable with given interface
+
+    class4js.Interface.instanceOf(source:Object, target:Object): Boolean
+
+or
+
+    $is(source:Object, target:Object): Boolean 
+
+__Example__
+
+    "use strict";
+    
+    require("class4js.js");
+    
+    var IDrawable = $interface({
+    
+      visible: {
+        get: function () {
+        }
+      },
+    
+      drawOrder: {
+        get: function () {
+        }
+      },
+    
+      draw: function (context) {
+      } 
+    
+    });
+    
+    var Rectangle = $class({
+      __construct__: function (visible, drawOrder) {
+        this.__visible = visible;
+        this.__drawOrder = drawOrder;
+      },
+    
+      visible: {
+        get: function () {
+          return this.__visible;
+        }
+      },
+    
+      drawOrder: {
+        get: function () {
+          return this.__drawOrder;
+        }
+      },
+    
+      draw: function (context) {
+        console.log("Rectangle is drawn...");
+      } 
+    
+    }, null, IDrawable);
+    
+    var rec = new Rectangle(true, 10);
+    
+    console.log($is(rec, IDrawable));
 
 ## License
 
