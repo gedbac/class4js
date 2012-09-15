@@ -18,3 +18,7 @@
 ## 2012.09.15, Version 1.2.0 (Stable)
 
 * ObjectFactory was implemented
+
+## 2012.09.15, Version 1.2.1 (Stable)
+
+* Bug fix: Constructors calling order was changed

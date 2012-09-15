@@ -4,6 +4,7 @@ var class4js = require("../lib/class4js.js");
 
 var Shape = $class({
   __construct__: function () {
+    console.log("Shape constructor was invoked...");
   },
   draw: function () {
     console.log("Shape is drawn...");
@@ -12,6 +13,7 @@ var Shape = $class({
 
 var Rectangle = $class({
   __construct__: function () {
+    console.log("Rectangle constructor was invoked...");
   },
   draw: function () {
     this._super.draw();
