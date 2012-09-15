@@ -14,3 +14,7 @@
 
 * Samples were updated
 * Interface checking was improved
+
+## 2012.09.15, Version 1.2.0 (Stable)
+
+* ObjectFactory was implemented

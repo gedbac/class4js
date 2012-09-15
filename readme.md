@@ -260,6 +260,83 @@ __Example__
     
     console.log($is(rec, IDrawable));
 
+### Object factory
+
+Creates new object by given type and copies properties values to created object:
+
+    class4js.ObjectFactory.create(type:Function, options:Object): Object
+
+or
+
+    $create(type:Function, options:Object): Object
+
+__Example__
+
+    "use strict";
+    
+    require("../lib/class4js.js");
+    
+    var Person = $class({
+      
+      __construct__: function () {
+        this.__name = null;
+        this.__age = 0;
+      },
+    
+      name: {
+        get: function () {
+          return this.__name;
+        },
+        set: function (value) {
+          this.__name = value;
+        }
+      },
+    
+      age: {
+        get: function () {
+          return this.__age;
+        },
+        set: function (value) {
+          this.__age = value;
+        }
+      }
+    
+    });
+    
+    var person1 = new Person();
+    person1.name = "John Smith";
+    person1.age = 30;
+    console.log(person1);
+    
+    var person2 = $create(Person, {
+      name: "John Smith",
+      age: 30
+    });
+    console.log(person2);
+    
+    var Organisation = $class({
+    
+      __construct__: function () {
+        this.__persons = [];
+      },
+    
+      add: function (person) {
+        this.__persons.push($create(Person, person));
+      }
+    
+    });
+    
+    var organisation = new Organisation();
+    
+    organisation.add(person1);
+    organisation.add(person2);
+    organisation.add({
+      name: "Peter Joe",
+      age: 42
+    });
+    
+    console.log(organisation);
+
 ## License
 
 This software is distributed under the terms of the GNU General Public License, 
