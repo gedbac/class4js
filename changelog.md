@@ -22,3 +22,11 @@
 ## 2012.09.15, Version 1.2.1 (Stable)
 
 * Bug fix: Constructors calling order was changed
+
+## 2012.10.06, Version 1.3.0 (Stable)
+
+* Makefile was added
+* Now class4js can be used in browsers
+* Samples for browser was added
+* Minified version was added for browsers
+* All modules are compiled to single class4js module

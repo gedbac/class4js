@@ -1,9 +1,9 @@
 { 
   "name" : "class4js",
   "description": "The class4j library is for class-driven development in JavaScript.",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "author": "Gediminas Backevicius <gediminas.backevicius@gmail.com>",
-  "keywords": ["class", "interface", "inheritance", "constant", "static"], 
+  "keywords": ["class", "interface", "inheritance", "constant", "static", "browser", "prototype"], 
   "repository": {
     "type": "git",
     "url": "https://github.com/gedbac/class4js.git"
