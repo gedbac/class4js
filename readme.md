@@ -5,6 +5,8 @@ allows to emulate classes in JavaScript. Library based on ECMAScript 5 API and
 implements _open/close principle_. When class is created, class is closed for 
 modifications.
 
+The library can be used with nodejs and in the web browsers.
+
 __The Open/Close principle__
 
     A module should be open for extension but closed for modifications.
@@ -336,6 +338,46 @@ __Example__
     });
     
     console.log(organisation);
+
+### Web browsers
+
+If you want to use __class4js__ in the web browser, simply include __class4js.min.js__
+file to your page.
+
+__index.html__
+
+    <!DOCTYPE HTML>
+    <html>
+    <head>
+      <script src="class4js.min.js"></script>
+      <script src="sample.js"></script>
+    </head>
+    <body>
+      <div>Sample...</div>
+    </body>
+    </html>
+
+__sample.js__
+
+    (function () {
+    
+      "use strict";
+    
+      var Person = $class({
+        __construct__: function (name) {
+          this.__name = name;
+          console.log("ctor");
+        },
+        getName: function () {
+          return this.__name;
+        }
+      });
+    
+      var person = new Person("John Smith");
+    
+      console.log(person.getName());
+    
+    }());
 
 ## License
 
