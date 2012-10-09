@@ -432,6 +432,19 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
+   * @field {Array} __extensions
+   */
+  __extensions: {
+    value: [],
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
    * @method __initialize
    * @param {Object} prototype
    * @param {Array} args
@@ -562,6 +575,11 @@ var Class = Object.create(null, {
   create: {
     value: function (properties, parent, interfaces) {
       var constructor = function () {
+        if (Class.__extensions && Class.__extensions.length > 0) {
+          for (var i = 0; i < Class.__extensions.length; i++) {
+            Class.__extensions[i].call(this); 
+          }
+        }
         if (parent) {
           Class.__initialize.call(this, parent.prototype, arguments);
         }
@@ -613,7 +631,27 @@ var Class = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method addExtension
+   * @param {Function} extension
+   */
+  addExtension: 
+  {
+    value: function (extension) {
+      if (extension) {
+        Class.__extensions.push(extension);
+      } 
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
+
 });
 Object.freeze(Class);
 

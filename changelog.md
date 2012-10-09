@@ -30,3 +30,7 @@
 * Samples for browser was added
 * Minified version was added for browsers
 * All modules are compiled to single class4js module
+
+## 2012.10.09, Version 1.4.0 (Stable)
+
+* Implemented extensions which enables you to add methods to existing types without creating a new derived type 

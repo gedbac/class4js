@@ -339,6 +339,59 @@ __Example__
     
     console.log(organisation);
 
+### Extensions
+
+Extensions enables you to add methods to existing types without creating a new 
+derived type.
+
+  class4js.Class.addExtension(extension:Function): void
+
+__Example__
+
+    "use strict";
+    
+    var class4js = require("../../lib/class4js.js");
+    
+    var ICollection = $interface({
+    
+      items: function() {
+      }
+    
+    });
+    
+    var Collection = $class({
+      
+      __construct__: function (items) {
+        this.__items = items;
+      },
+    
+      items: function () {
+        return this.__items;
+      }
+    
+    });
+    
+    class4js.Class.addExtension(function () {
+      if ($is(this, ICollection)) {
+        Object.defineProperty(this, "forEach", {
+          value: function (callback) {
+            for (var i = 0; i < this.items().length; i++) {
+              callback(this.items()[i]);
+            }   
+          },
+          writable: false,
+          enumerable: true,
+          configurable: false
+        });
+      }
+    }); 
+    
+    var collection = new Collection([1, 2, 3]);
+    
+    collection.forEach(function (item) {
+      console.log(item);
+    });
+
 ### Web browsers
 
 If you want to use __class4js__ in the web browser, simply include __class4js.min.js__
@@ -349,11 +402,12 @@ __index.html__
     <!DOCTYPE HTML>
     <html>
     <head>
-      <script src="class4js.min.js"></script>
-      <script src="sample.js"></script>
+      <title>Samples</title>
     </head>
     <body>
       <div>Sample...</div>
+      <script src="class4js.min.js"></script>
+      <script src="sample.js"></script>
     </body>
     </html>
 
