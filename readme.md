@@ -344,7 +344,7 @@ __Example__
 Extensions enables you to add methods to existing types without creating a new 
 derived type.
 
-  class4js.Class.addExtension(extension:Function): void
+    class4js.Class.addExtension(extension:Function): void
 
 __Example__
 
