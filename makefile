@@ -32,6 +32,7 @@ class4js.js: clean-browser
 
 class4js.min.js: class4js.js
 	$(CC) --compilation_level $(CFlAGS) --js $^ --js_output_file $@
+	node ./build/jsbuild.js
 
 clean-browser:
 	rm -f class4js.js

@@ -34,3 +34,7 @@
 ## 2012.10.09, Version 1.4.0 (Stable)
 
 * Implemented extensions which enables you to add methods to existing types without creating a new derived type 
+
+## 2012.10.10, Version 1.4.1 (Stable)
+
+* Bug fix: "user strict" statement was added to minified file
