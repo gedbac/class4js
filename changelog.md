@@ -38,3 +38,8 @@
 ## 2012.10.10, Version 1.4.1 (Stable)
 
 * Bug fix: "user strict" statement was added to minified file
+
+## 2012.10.11, Version 1.4.2 (Stable)
+
+* Javascript compiler was replaced to yuicompressor
+* Method ObjectFactory.initialize was added

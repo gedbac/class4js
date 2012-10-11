@@ -280,9 +280,12 @@ __Example__
     
     var Person = $class({
       
-      __construct__: function () {
+      __construct__: function (props) {
         this.__name = null;
         this.__age = 0;
+        if (props) {
+          $init(this, props);
+        }
       },
     
       name: {
@@ -305,9 +308,10 @@ __Example__
     
     });
     
-    var person1 = new Person();
-    person1.name = "John Smith";
-    person1.age = 30;
+    var person1 = new Person({
+      name: "John Smith",
+      age: 30
+    });
     console.log(person1);
     
     var person2 = $create(Person, {

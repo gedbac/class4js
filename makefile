@@ -1,4 +1,4 @@
-CC = java -jar ./build/compiler.jar
+CC = java -jar ./build/yuicompressor-2.4.8.jar
 CFlAGS = WHITESPACE_ONLY
 SOURCES_FILES = class4js.js \
 								type_exception.js \
@@ -31,8 +31,8 @@ class4js.js: clean-browser
 	echo "\n}(window));" >> $@
 
 class4js.min.js: class4js.js
-	$(CC) --compilation_level $(CFlAGS) --js $^ --js_output_file $@
-	node ./build/jsbuild.js
+	$(CC) --type js --nomunge --preserve-semi --disable-optimizations $^ -o $@
+	node ./build/include-strict-mode.js
 
 clean-browser:
 	rm -f class4js.js

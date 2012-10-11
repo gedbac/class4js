@@ -19,14 +19,9 @@ var ObjectFactory = Object.create(null, {
         if (properties instanceof type) {
           return properties;
         } else {
-          var instance = new type();
-          if (properties) {
-            var names = Object.keys(properties); 
-            for (var i = 0; i < names.length; i++) {
-              instance[names[i]] = properties[names[i]];
-            }
-          }
-          return instance;
+          var object = new type();
+          ObjectFactory.initialize(object, properties);
+          return object;
         }
       } else {
         throw new TypeException("Type is not set.");
@@ -35,6 +30,25 @@ var ObjectFactory = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.ObjectFactory}
+   * @static
+   * @public
+   * @method initialize
+   * @param {Object} target
+   * @param {Object} properties
+   */
+  initialize: {
+    value: function (target, properties) {
+      if (target && properties) {
+        var names = Object.keys(properties); 
+        for (var i = 0; i < names.length; i++) {
+          target[names[i]] = properties[names[i]];
+        }
+      }
+    }
   }
 
 }); 
@@ -42,4 +56,5 @@ var ObjectFactory = Object.create(null, {
 class4js.ObjectFactory = ObjectFactory;
 
 global.$create = class4js.ObjectFactory.create;
+global.$init = class4js.ObjectFactory.initialize;
 
