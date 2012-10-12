@@ -43,3 +43,7 @@
 
 * Javascript compiler was replaced to yuicompressor
 * Method ObjectFactory.initialize was added
+
+## 2012.10.12, Version 1.4.3 (Stable)
+
+* Bug fix: Field was made writable

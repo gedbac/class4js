@@ -169,7 +169,7 @@ var TypeBuilder = Object.create(null, {
         if (TypeBuilder.isValidName(name)) {
           Object.defineProperty(owner, name, {
             value: value,
-            writable: false,
+            writable: true,
             enumerable: TypeBuilder.isPublic(name),
             configurable: false
           });
