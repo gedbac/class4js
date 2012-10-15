@@ -373,7 +373,7 @@ __Example__
         return this.__items;
       }
     
-    });
+    }, null, ICollection);
     
     class4js.Class.addExtension(function () {
       if ($is(this, ICollection)) {
