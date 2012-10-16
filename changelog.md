@@ -47,3 +47,7 @@
 ## 2012.10.12, Version 1.4.3 (Stable)
 
 * Bug fix: Field was made writable
+
+## 2012.10.15, Version 1.4.4 (Stable)
+
+* Object initializer was build-in to the object constructor 

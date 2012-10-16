@@ -29,7 +29,12 @@ var Class = Object.create(null, {
     value: function (prototype, args) {
       if (prototype && prototype.hasOwnProperty("__construct__")) {
         if (typeof prototype["__construct__"] === "function") {
-          prototype["__construct__"].apply(this, args);
+          if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
+            prototype["__construct__"].apply(this);
+            ObjectFactory.initialize(this, args[0]);
+          } else {
+            prototype["__construct__"].apply(this, args);
+          }
         }
       }
     },

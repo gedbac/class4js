@@ -107,7 +107,7 @@ var TypeBuilder = Object.create(null, {
   },
 
   /**
-   * memberOf {class4js.TypeBuilder}
+   * @memberOf {class4js.TypeBuilder}
    * @static
    * @public
    * @method isValidConstantName
@@ -121,6 +121,23 @@ var TypeBuilder = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method isObjectInitializer
+   * @param {Object} param
+   * @returns {Boolean}
+   */
+  isObjectInitializer: {
+    value: function (param) {
+      if (typeof param === "object" && Object.getPrototypeOf(param) === Object.prototype) {
+        return true;
+      }
+      return false;
+    }
   },
 
   /**
