@@ -197,7 +197,7 @@ __Example__
 
 Creates an interfaces: 
 
-    class4js.Interface.create(properties:Object, parent:Object): Object
+    class4js.Interface.create(properties:Object, parents:Array): Object
 
 or
 
@@ -211,33 +211,41 @@ or
 
     $is(source:Object, target:Object): Boolean 
 
+An interface can inherit or more other interfaces.
+
 __Example__
 
     "use strict";
     
     require("class4js.js");
     
-    var IDrawable = $interface({
-    
-      visible: {
-        get: function () {
-        }
-      },
-    
-      drawOrder: {
-        get: function () {
-        }
-      },
-    
-      draw: function (context) {
-      } 
-    
+    var IComponent = $interface({ 
+      id: {
+        get: function () {}
+      }
     });
     
+    var IDrawable = $interface({
+      visible: {
+        get: function () {}
+      },
+      drawOrder: {
+        get: function () {}
+      },
+      draw: function (context) {} 
+    }, IComponent);
+    
     var Rectangle = $class({
+    
       __construct__: function (visible, drawOrder) {
         this.__visible = visible;
         this.__drawOrder = drawOrder;
+      },
+    
+      id: {
+        get: function () {
+          return this.__id;
+        }
       },
     
       visible: {

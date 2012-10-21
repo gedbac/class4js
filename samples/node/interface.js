@@ -2,27 +2,34 @@
 
 var class4js = require("../../lib/class4js.js");
 
-var IDrawable = $interface({
-
-  visible: {
-    get: function () {
-    }
-  },
-
-  drawOrder: {
-    get: function () {
-    }
-  },
-
-  draw: function (context) {
-  } 
-
+var IComponent = $interface({ 
+  id: {
+    get: function () {}
+  }
 });
 
+var IDrawable = $interface({
+  visible: {
+    get: function () {}
+  },
+  drawOrder: {
+    get: function () {}
+  },
+  draw: function (context) {} 
+}, IComponent);
+
 var Rectangle = $class({
+
   __construct__: function (visible, drawOrder) {
+    this.__id = 10;
     this.__visible = visible;
     this.__drawOrder = drawOrder;
+  },
+
+  id: {
+    get: function () {
+      return this.__id;
+    }
   },
 
   visible: {

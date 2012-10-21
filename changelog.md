@@ -51,3 +51,7 @@
 ## 2012.10.15, Version 1.4.4 (Stable)
 
 * Object initializer was build-in to the object constructor 
+
+## 2012.10.21, Version 1.4.5 (Stable)
+
+* Now an interface can extend more than one interface
