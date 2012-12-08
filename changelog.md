@@ -52,6 +52,8 @@
 
 * Object initializer was build-in to the object constructor 
 
-## 2012.10.21, Version 1.4.5 (Stable)
+## 2012.12.08, Version 1.5.0 (Stable)
 
 * Now an interface can extend more than one interface
+* Re-factored type checking
+* Re-factored object factory

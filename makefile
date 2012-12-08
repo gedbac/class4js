@@ -39,3 +39,19 @@ clean-browser:
 	rm -f class4js.min.js
 
 clean: clean-node clean-browser
+
+samples-node:
+	node ./samples/node/create.js
+	node ./samples/node/constants.js
+	node ./samples/node/fields.js
+	node ./samples/node/inheritance.js
+	node ./samples/node/interface.js
+	node ./samples/node/object_factory.js
+	node ./samples/node/properties.js
+	node ./samples/node/static.js
+	node ./samples/node/extension.js
+	node ./samples/node/multiple_interface_inheritance.js
+	node ./samples/node/type_checking.js
+
+samples-browser:
+	xdg-open ./samples/browser/index.html

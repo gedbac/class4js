@@ -392,3 +392,4 @@ var TypeBuilder = Object.create(null, {
 });
 
 class4js.TypeBuilder = TypeBuilder;
+

@@ -25,4 +25,4 @@ console.log(person.getName());
 console.log(person.getAge());
 
 // Error will be raised here:
-person.setGender("male");
+// person.setGender("male");

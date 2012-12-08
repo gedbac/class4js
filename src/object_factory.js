@@ -36,40 +36,18 @@ var ObjectFactory = Object.create(null, {
    * @memberOf {class4js.ObjectFactory}
    * @static
    * @public
-   * @method __hasProperty
-   * @param {Object} target
-   * @param {String} propertyName
-   */
-  __hasProperty: {
-    value: function (target, propertyName) {
-      if (!target.hasOwnProperty(propertyName)) {
-        var prototype = Object.getPrototypeOf(target);
-        if (prototype) {
-          return ObjectFactory.__hasProperty(prototype, propertyName);
-        }
-        return false; 
-      }
-      return true;
-    } 
-  },
-
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
    * @method initialize
    * @param {Object} target
-   * @param {Object} properties
+   * @param {Object} source
    */
   initialize: {
-    value: function (target, properties) {
-      if (target && properties) {
-        var names = Object.keys(properties); 
-        for (var i = 0; i < names.length; i++) {
-          if (ObjectFactory.__hasProperty(target, names[i])) {
-            target[names[i]] = properties[names[i]];
+    value: function (target, source) {
+      if (target && source) {
+        for (var propertyName in source) {
+          if (propertyName in target) {
+            target[propertyName] = source[propertyName];
           } else {
-            throw new TypeException("Target doesn't contain a property '" + names[i] + "'"); 
+            throw new TypeException("Target doesn't contains a property '" + propertyName + "'"); 
           }
         }
       }

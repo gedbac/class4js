@@ -439,6 +439,7 @@ var TypeBuilder = Object.create(null, {
 });
 
 class4js.TypeBuilder = TypeBuilder;
+
 /**
  * @static
  * @class {class4js.Class}
@@ -539,17 +540,36 @@ var Class = Object.create(null, {
    */
   __descriptorsAreEqual: { 
     value: function (property, source, target) {
-      var properties = Object.keys(target);
-      for (var i = 0; i < properties.length; i++) {
-        var name = properties[i];
-        if (name != "writable" && name != "enumerable" && name != "configurable") {
-          if (name in target) {
-            if (!(name in source) || typeof target[name] !== typeof source[name]) { 
-              throw new TypeException("Implementation of the property '" + property + "' is invalid");
-            } 
+      for (var propertyName in target) {
+        if (propertyName != "writable" && propertyName != "enumerable" 
+            && propertyName != "configurable") {
+          if (!(propertyName in source) || typeof target[propertyName] !== typeof source[propertyName]) {
+            throw new TypeException("Implementation of the property '" + propertyName + "' is invalid");
           }
         }
       }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __getPropertyDescriptor
+   * @param {Object} object
+   * @param {String} propertyName
+   * @returns {Objecy}
+   */
+  __getPropertyDescriptor: {
+    value: function (object, propertyName) {
+      var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
+      if (!descriptor) {
+        return Class.__getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
+      }
+      return descriptor;
     },
     writable: false,
     enumerable: false,
@@ -568,20 +588,23 @@ var Class = Object.create(null, {
   __instanceOf: {
     value: function (source, target) {
       if (source && target) {
-        for (var property in target) {
-          if (!(property in source)) {
-            throw new TypeException("Class doesn't implemet property: " + property);
+        for (var propertyName in target) {
+          if (!(propertyName in source)) {
+            throw new TypeException("Class doesn't implemet property: " + propertyName);
           } else {
-            var sourceDescriptor = Object.getOwnPropertyDescriptor(source, property);
-            var targetDescriptor = Object.getOwnPropertyDescriptor(target, property);
-            Class.__descriptorsAreEqual(property, sourceDescriptor, targetDescriptor);
+            var sourceDescriptor = Class.__getPropertyDescriptor(source, propertyName);
+            var targetDescriptor = Class.__getPropertyDescriptor(target, propertyName);
+            Class.__descriptorsAreEqual(propertyName, sourceDescriptor, targetDescriptor);
           }
         }
         return true;
       } else {
         throw new TypeException("Source or target is not set");
-      }   
-    } 
+      }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
   },
 
   /**
@@ -662,8 +685,7 @@ var Class = Object.create(null, {
    * @method addExtension
    * @param {Function} extension
    */
-  addExtension: 
-  {
+  addExtension: {
     value: function (extension) {
       if (extension) {
         Class.__extensions.push(extension);
@@ -766,15 +788,20 @@ var Interface = Object.create(null, {
   instanceOf: {
     value: function (source, target) {
       if (source && target) {
-        for (var property in target) {
-          if (!(property in source)) {
-            return false;
+        if (typeof target === "object") {
+          for (var propertyName in target) {
+            if (!(propertyName in source)) {
+              return false;
+            }
           }
+        } else if (!(source instanceof target)) {            
+          return false;
         }
         return true;
       } else {
         throw new TypeException("Source or target is not set");
       }
+      return false;
     },
     writable: false,
     enumerable: true,
@@ -827,40 +854,18 @@ var ObjectFactory = Object.create(null, {
    * @memberOf {class4js.ObjectFactory}
    * @static
    * @public
-   * @method __hasProperty
-   * @param {Object} target
-   * @param {String} propertyName
-   */
-  __hasProperty: {
-    value: function (target, propertyName) {
-      if (!target.hasOwnProperty(propertyName)) {
-        var prototype = Object.getPrototypeOf(target);
-        if (prototype) {
-          return ObjectFactory.__hasProperty(prototype, propertyName);
-        }
-        return false; 
-      }
-      return true;
-    } 
-  },
-
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
    * @method initialize
    * @param {Object} target
-   * @param {Object} properties
+   * @param {Object} source
    */
   initialize: {
-    value: function (target, properties) {
-      if (target && properties) {
-        var names = Object.keys(properties); 
-        for (var i = 0; i < names.length; i++) {
-          if (ObjectFactory.__hasProperty(target, names[i])) {
-            target[names[i]] = properties[names[i]];
+    value: function (target, source) {
+      if (target && source) {
+        for (var propertyName in source) {
+          if (propertyName in target) {
+            target[propertyName] = source[propertyName];
           } else {
-            throw new TypeException("Target doesn't contain a property '" + names[i] + "'"); 
+            throw new TypeException("Target doesn't contains a property '" + propertyName + "'"); 
           }
         }
       }

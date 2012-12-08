@@ -83,15 +83,20 @@ var Interface = Object.create(null, {
   instanceOf: {
     value: function (source, target) {
       if (source && target) {
-        for (var property in target) {
-          if (!(property in source)) {
-            return false;
+        if (typeof target === "object") {
+          for (var propertyName in target) {
+            if (!(propertyName in source)) {
+              return false;
+            }
           }
+        } else if (!(source instanceof target)) {            
+          return false;
         }
         return true;
       } else {
         throw new TypeException("Source or target is not set");
       }
+      return false;
     },
     writable: false,
     enumerable: true,
