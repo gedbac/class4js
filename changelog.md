@@ -56,4 +56,4 @@
 
 * Now an interface can extend more than one interface
 * Re-factored type checking
-* Re-factored object factory
+* Re-factored object factoryt 
