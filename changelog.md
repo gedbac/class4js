@@ -57,3 +57,7 @@
 * Now an interface can extend more than one interface
 * Re-factored type checking
 * Re-factored object factoryt 
+
+## 2012.12.09, Version 1.6.0 (Stable)
+
+* Namespace was introduced

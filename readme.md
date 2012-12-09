@@ -193,6 +193,34 @@ __Example__
     var rec = new Rectangle();
     rec.draw();
 
+### Namespaces
+
+Creates a namespace:
+
+    class4js.Namespace.create(name:String): void
+
+or
+
+    $namespace(name:String): void
+
+__Example__
+
+    "use strict";
+    
+    require("../../lib/class4js.js");
+    
+    $namespace("org.myapp.util");
+    
+    org.myapp.util = (function () {
+    
+      var util = {};
+    
+      return util;
+    
+    }());
+    
+    console.log(org);
+
 ### Interfaces
 
 Creates an interfaces: 

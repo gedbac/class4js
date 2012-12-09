@@ -2,6 +2,7 @@ CC = java -jar ./build/yuicompressor-2.4.8.jar
 CFlAGS = WHITESPACE_ONLY
 SOURCES_FILES = class4js.js \
 								type_exception.js \
+								namespace.js \
 								type_builder.js \
 								class.js \
 								interface.js \
@@ -52,6 +53,7 @@ samples-node:
 	node ./samples/node/extension.js
 	node ./samples/node/multiple_interface_inheritance.js
 	node ./samples/node/type_checking.js
+	node ./samples/node/namespace.js
 
 samples-browser:
 	xdg-open ./samples/browser/index.html
