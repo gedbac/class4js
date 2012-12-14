@@ -18,7 +18,9 @@ TypeException.prototype = Object.create(Object.prototype, {
   name: {
     get: function () {
       return this.__name;
-    }
+    },
+    enumerable: true,
+    configurable: false
   },
 
   /**
@@ -39,3 +41,4 @@ Object.seal(TypeException);
 Object.seal(TypeException.prototype);
 
 class4js.TypeException = TypeException;
+

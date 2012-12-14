@@ -61,3 +61,7 @@
 ## 2012.12.09, Version 1.6.0 (Stable)
 
 * Namespace was introduced
+
+## 2012.12.14, Version 1.6.1 (Stable)
+
+* Minor changes

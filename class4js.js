@@ -24,7 +24,9 @@ TypeException.prototype = Object.create(Object.prototype, {
   name: {
     get: function () {
       return this.__name;
-    }
+    },
+    enumerable: true,
+    configurable: false
   },
 
   /**
@@ -45,6 +47,7 @@ Object.seal(TypeException);
 Object.seal(TypeException.prototype);
 
 class4js.TypeException = TypeException;
+
 /**
  * @static
  * @class {class4js.Namespace}
@@ -477,6 +480,8 @@ var TypeBuilder = Object.create(null, {
   }
 
 });
+
+Object.seal(TypeBuilder);
 
 class4js.TypeBuilder = TypeBuilder;
 
@@ -913,6 +918,8 @@ var ObjectFactory = Object.create(null, {
   }
 
 }); 
+
+Object.seal(ObjectFactory);
 
 class4js.ObjectFactory = ObjectFactory;
 
