@@ -5,7 +5,8 @@ SOURCES_FILES = type_exception.js \
 								type_builder.js \
 								class.js \
 								interface.js \
-								object_factory.js
+								object_factory.js \
+								module.js
 
 all: build-node build-browser
 
@@ -35,6 +36,7 @@ run-samples-node:
 	node ./samples/node/multiple_interface_inheritance.js
 	node ./samples/node/type_checking.js
 	node ./samples/node/namespace.js
+	node ./samples/node/module.js
 
 build-browser: class4js.min.js
 
@@ -70,3 +72,4 @@ run-samples-phantomjs:
 	phantomjs ./samples/node/multiple_interface_inheritance.js
 	phantomjs ./samples/node/type_checking.js
 	phantomjs ./samples/node/namespace.js
+	phantomjs ./samples/node/module.js
