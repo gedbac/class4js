@@ -58,8 +58,5 @@ var ObjectFactory = Object.create(null, {
 
 Object.seal(ObjectFactory);
 
-class4js.ObjectFactory = ObjectFactory;
-
-global.$create = class4js.ObjectFactory.create;
-global.$init = class4js.ObjectFactory.initialize;
+exports.ObjectFactory = ObjectFactory;
 

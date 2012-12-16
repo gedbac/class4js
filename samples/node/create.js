@@ -15,3 +15,8 @@ var Person = $class({
 var person = new Person("John Smith");
 
 console.log(person.getName());
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

@@ -9,3 +9,8 @@ var Person = $class({
 });
 
 console.log(Person.MAX_AGE);
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

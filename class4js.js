@@ -2,8 +2,7 @@ var class4js = (function (global) {
 
 "use strict";
 
-var class4js = {};
-
+var exports = {};
 /**
  * @class {class4js.TypeException}
  * @constructor {class4js.TypeException}
@@ -41,12 +40,13 @@ TypeException.prototype = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false
   } 
+
 });
 
 Object.seal(TypeException);
 Object.seal(TypeException.prototype);
 
-class4js.TypeException = TypeException;
+exports.TypeException = TypeException;
 
 /**
  * @static
@@ -84,9 +84,7 @@ var Namespace = Object.create(null, {
 });
 Object.freeze(Namespace);
 
-class4js.Namespace = Namespace;
-
-global.$namespace = class4js.Namespace.create;
+exports.Namespace = Namespace;
 
 /**
  * @static
@@ -483,7 +481,7 @@ var TypeBuilder = Object.create(null, {
 
 Object.seal(TypeBuilder);
 
-class4js.TypeBuilder = TypeBuilder;
+exports.TypeBuilder = TypeBuilder;
 
 /**
  * @static
@@ -744,9 +742,7 @@ var Class = Object.create(null, {
 });
 Object.freeze(Class);
 
-class4js.Class = Class; 
-
-global.$class = class4js.Class.create;
+exports.Class = Class;
 
 /**
  * @static
@@ -856,10 +852,7 @@ var Interface = Object.create(null, {
 });
 Object.freeze(Interface);
 
-class4js.Interface = Interface;
-
-global.$interface = class4js.Interface.create;
-global.$is = class4js.Interface.instanceOf;
+exports.Interface = Interface
 
 /**
  * @static
@@ -921,11 +914,20 @@ var ObjectFactory = Object.create(null, {
 
 Object.seal(ObjectFactory);
 
-class4js.ObjectFactory = ObjectFactory;
+exports.ObjectFactory = ObjectFactory;
 
-global.$create = class4js.ObjectFactory.create;
-global.$init = class4js.ObjectFactory.initialize;
+function register(scope) {
+  scope.$namespace = Namespace.create;
+  scope.$class = Class.create;
+  scope.$interface = Interface.create;
+  scope.$is = Interface.instanceOf;
+  scope.$create = ObjectFactory.create;
+  scope.$init = ObjectFactory.initialize;
+}
 
-return class4js;
+if (global) {
+  register(global);
+}
+return exports;
 
 }(window));

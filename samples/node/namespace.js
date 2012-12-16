@@ -13,3 +13,8 @@ org.myapp.util = (function () {
 }());
 
 console.log(org);
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

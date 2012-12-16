@@ -34,7 +34,5 @@ var Namespace = Object.create(null, {
 });
 Object.freeze(Namespace);
 
-class4js.Namespace = Namespace;
-
-global.$namespace = class4js.Namespace.create;
+exports.Namespace = Namespace;
 

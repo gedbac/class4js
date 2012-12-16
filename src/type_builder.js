@@ -393,5 +393,5 @@ var TypeBuilder = Object.create(null, {
 
 Object.seal(TypeBuilder);
 
-class4js.TypeBuilder = TypeBuilder;
+exports.TypeBuilder = TypeBuilder;
 

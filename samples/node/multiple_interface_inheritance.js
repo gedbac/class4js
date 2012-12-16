@@ -26,3 +26,8 @@ console.log("Interface 'IElement' members:");
 for (var property in IElement) {
   console.log(property);
 }
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

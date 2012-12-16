@@ -26,3 +26,8 @@ console.log(person.getAge());
 
 // Error will be raised here:
 // person.setGender("male");
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

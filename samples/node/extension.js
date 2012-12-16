@@ -2,6 +2,8 @@
 
 var class4js = require("../../lib/class4js.js");
 
+console.log(class4js);
+
 var ICollection = $interface({
 
   items: function() {
@@ -41,3 +43,8 @@ var collection = new Collection([1, 2, 3]);
 collection.forEach(function (item) {
   console.log(item);
 });
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

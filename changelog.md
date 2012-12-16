@@ -65,3 +65,8 @@
 ## 2012.12.14, Version 1.6.1 (Stable)
 
 * Minor changes
+
+## 2012.12.16, Version 1.6.2 (Stable)
+
+* Class4js module structure was re-factored
+* Class4js was made compatible with PhantomJS

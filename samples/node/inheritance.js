@@ -23,3 +23,8 @@ var Rectangle = $class({
 
 var rec = new Rectangle();
 rec.draw();
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

@@ -106,8 +106,5 @@ var Interface = Object.create(null, {
 });
 Object.freeze(Interface);
 
-class4js.Interface = Interface;
-
-global.$interface = class4js.Interface.create;
-global.$is = class4js.Interface.instanceOf;
+exports.Interface = Interface
 

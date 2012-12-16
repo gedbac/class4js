@@ -78,3 +78,8 @@ var rec = new Rectangle(10, 10, 50, 50);
 
 console.log($is(rec, Rectangle));
 console.log($is(rec, IRectangle));
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}

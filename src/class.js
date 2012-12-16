@@ -257,7 +257,5 @@ var Class = Object.create(null, {
 });
 Object.freeze(Class);
 
-class4js.Class = Class; 
-
-global.$class = class4js.Class.create;
+exports.Class = Class;
 

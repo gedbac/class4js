@@ -53,3 +53,8 @@ var Rectangle = $class({
 var rec = new Rectangle(true, 10);
 
 console.log($is(rec, IDrawable));
+
+// It's required for PhantomJS
+if (phantom) {
+  phantom.exit();
+}
