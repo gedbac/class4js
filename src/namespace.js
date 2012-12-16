@@ -34,5 +34,7 @@ var Namespace = Object.create(null, {
 });
 Object.freeze(Namespace);
 
+global.$namespace = Namespace.create;
+
 exports.Namespace = Namespace;
 

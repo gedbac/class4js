@@ -84,6 +84,8 @@ var Namespace = Object.create(null, {
 });
 Object.freeze(Namespace);
 
+global.$namespace = Namespace.create;
+
 exports.Namespace = Namespace;
 
 /**
@@ -742,6 +744,8 @@ var Class = Object.create(null, {
 });
 Object.freeze(Class);
 
+global.$class = Class.create;
+
 exports.Class = Class;
 
 /**
@@ -852,6 +856,9 @@ var Interface = Object.create(null, {
 });
 Object.freeze(Interface);
 
+global.$interface = Interface.create;
+global.$is = Interface.instanceOf;
+
 exports.Interface = Interface
 
 /**
@@ -914,20 +921,11 @@ var ObjectFactory = Object.create(null, {
 
 Object.seal(ObjectFactory);
 
+global.$create = ObjectFactory.create;
+global.$init = ObjectFactory.initialize;
+
 exports.ObjectFactory = ObjectFactory;
 
-function register(scope) {
-  scope.$namespace = Namespace.create;
-  scope.$class = Class.create;
-  scope.$interface = Interface.create;
-  scope.$is = Interface.instanceOf;
-  scope.$create = ObjectFactory.create;
-  scope.$init = ObjectFactory.initialize;
-}
-
-if (global) {
-  register(global);
-}
 return exports;
 
 }(window));

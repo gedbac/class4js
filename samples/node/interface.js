@@ -55,6 +55,6 @@ var rec = new Rectangle(true, 10);
 console.log($is(rec, IDrawable));
 
 // It's required for PhantomJS
-if (phantom) {
+if (typeof phantom !== "undefined") {
   phantom.exit();
 }

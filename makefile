@@ -5,8 +5,7 @@ SOURCES_FILES = type_exception.js \
 								type_builder.js \
 								class.js \
 								interface.js \
-								object_factory.js \
-								keywords.js
+								object_factory.js
 
 all: build-node build-browser
 

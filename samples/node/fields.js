@@ -28,6 +28,6 @@ console.log(person.getAge());
 // person.setGender("male");
 
 // It's required for PhantomJS
-if (phantom) {
+if (typeof phantom !== "undefined") {
   phantom.exit();
 }

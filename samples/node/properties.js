@@ -29,6 +29,6 @@ console.log(person.name);
 console.log(person.created);
 
 // It's required for PhantomJS
-if (phantom) {
+if (typeof phantom !== "undefined") {
   phantom.exit();
 }

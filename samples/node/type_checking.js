@@ -80,6 +80,6 @@ console.log($is(rec, Rectangle));
 console.log($is(rec, IRectangle));
 
 // It's required for PhantomJS
-if (phantom) {
+if (typeof phantom !== "undefined") {
   phantom.exit();
 }

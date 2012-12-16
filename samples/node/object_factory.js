@@ -77,6 +77,6 @@ organisation.add({
 console.log(organisation);
 
 // It's required for PhantomJS
-if (phantom) {
+if (typeof phantom !== "undefined") {
   phantom.exit();
 }

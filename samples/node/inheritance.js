@@ -25,6 +25,6 @@ var rec = new Rectangle();
 rec.draw();
 
 // It's required for PhantomJS
-if (phantom) {
+if (typeof phantom !== "undefined") {
   phantom.exit();
 }

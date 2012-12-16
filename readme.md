@@ -5,7 +5,7 @@ allows to emulate classes in JavaScript. Library based on ECMAScript 5 API and
 implements _open/close principle_. When class is created, class is closed for 
 modifications.
 
-The library can be used with nodejs and in the web browsers.
+The library can be used with NodeJS, PhantomJS and in the Web Browsers.
 
 __The Open/Close principle__
 
@@ -481,6 +481,32 @@ __sample.js__
       console.log(person.getName());
     
     }());
+
+### PhantomJS
+
+__PhantomJS__ is very similar to the __NodeJS__. __Class4js__ package dedicated for 
+__NodeJS__ can be taken and used in __PhantomJS__ without any modifications.
+
+__Example__
+
+    "use strict";
+    
+    require("./class4js.js");
+    
+    var Person = $class({
+      __construct__: function (name) {
+        this.__name = name;
+      },
+      getName: function () {
+        return this.__name;
+      }
+    });
+    
+    var person = new Person("John Smith");
+    
+    console.log(person.getName());
+    
+    phantom.exit();
 
 ## License
 

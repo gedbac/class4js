@@ -106,5 +106,8 @@ var Interface = Object.create(null, {
 });
 Object.freeze(Interface);
 
+global.$interface = Interface.create;
+global.$is = Interface.instanceOf;
+
 exports.Interface = Interface
 
