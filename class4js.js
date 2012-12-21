@@ -11,7 +11,7 @@ var exports = {};
 var TypeException = function (message) {
   this.__name = "TypeException";
   this.__message = message;
-}
+};
 
 TypeException.prototype = Object.create(Object.prototype, {
 
@@ -666,8 +666,8 @@ var Class = Object.create(null, {
     value: function (properties, parent, interfaces) {
       var constructor = function () {
         if (Class.__extensions && Class.__extensions.length > 0) {
-          for (var i = 0; i < Class.__extensions.length; i++) {
-            Class.__extensions[i].call(this); 
+          for (var j = 0; j < Class.__extensions.length; j++) {
+            Class.__extensions[j].call(this); 
           }
         }
         if (parent) {
@@ -846,7 +846,6 @@ var Interface = Object.create(null, {
       } else {
         throw new TypeException("Source or target is not set");
       }
-      return false;
     },
     writable: false,
     enumerable: true,
@@ -859,7 +858,7 @@ Object.freeze(Interface);
 global.$interface = Interface.create;
 global.$is = Interface.instanceOf;
 
-exports.Interface = Interface
+exports.Interface = Interface;
 
 /**
  * @static

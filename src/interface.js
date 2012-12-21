@@ -96,7 +96,6 @@ var Interface = Object.create(null, {
       } else {
         throw new TypeException("Source or target is not set");
       }
-      return false;
     },
     writable: false,
     enumerable: true,
@@ -109,5 +108,5 @@ Object.freeze(Interface);
 global.$interface = Interface.create;
 global.$is = Interface.instanceOf;
 
-exports.Interface = Interface
+exports.Interface = Interface;
 

@@ -75,3 +75,7 @@
 
 * Modules were introduced
 
+## 2012.12.21, Version1.6.4 (Stable)
+
+* Bugs related to formatting were fixed
+

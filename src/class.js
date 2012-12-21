@@ -179,8 +179,8 @@ var Class = Object.create(null, {
     value: function (properties, parent, interfaces) {
       var constructor = function () {
         if (Class.__extensions && Class.__extensions.length > 0) {
-          for (var i = 0; i < Class.__extensions.length; i++) {
-            Class.__extensions[i].call(this); 
+          for (var j = 0; j < Class.__extensions.length; j++) {
+            Class.__extensions[j].call(this); 
           }
         }
         if (parent) {

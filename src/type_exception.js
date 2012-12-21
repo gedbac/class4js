@@ -6,7 +6,7 @@
 var TypeException = function (message) {
   this.__name = "TypeException";
   this.__message = message;
-}
+};
 
 TypeException.prototype = Object.create(Object.prototype, {
 
