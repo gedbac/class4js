@@ -75,7 +75,13 @@
 
 * Modules were introduced
 
-## 2012.12.21, Version1.6.4 (Stable)
+## 2012.12.21, Version 1.6.4 (Stable)
 
 * Bugs related to formatting were fixed
+
+## 2012.12.22, Version 1.7.0 (Stable)
+
+* Method 'toString' was added to TypeException class
+* Module can be created with arguments
+* Breaking change: extensions were re-designed
 

@@ -8,7 +8,7 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @field {Array} __extensions
+   * @field {TypeExtension[]} __extensions
    */
   __extensions: {
     value: [],
@@ -178,11 +178,7 @@ var Class = Object.create(null, {
   create: {
     value: function (properties, parent, interfaces) {
       var constructor = function () {
-        if (Class.__extensions && Class.__extensions.length > 0) {
-          for (var j = 0; j < Class.__extensions.length; j++) {
-            Class.__extensions[j].call(this); 
-          }
-        }
+        Class.__extend(this);
         if (parent) {
           Class.__initialize.call(this, parent.prototype, arguments);
         }
@@ -239,15 +235,53 @@ var Class = Object.create(null, {
   /**
    * @memberOf {class4js.Class}
    * @static
+   * @private
+   * @method __extend
+   * @param {Object} instance
+   */
+  __extend: {
+    value: function (instance) {
+      if (Class.__extensions && Class.__extensions.length > 0) {
+        for (var i = 0; i < Class.__extensions.length; i++) {
+          var extension = Class.__extensions[i];
+          if (Interface.instanceOf(instance, extension.target)) {
+            TypeBuilder.addMethod(instance, extension.name, extension.value); 
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
    * @public
    * @method addExtension
-   * @param {Function} extension
+   * @param {Object} target
+   * @param {String} name
+   * @param {Function} value
    */
   addExtension: {
-    value: function (extension) {
-      if (extension) {
-        Class.__extensions.push(extension);
+    value: function (target, name, value) {
+      if (!target) {
+        throw new TypeException("Target is not set");
       } 
+      if (!name) {
+        throw new TypeException("Method name is not set");
+      }
+      if (!TypeBuilder.isPublic(name)) {
+        throw new TypeException("Only public methods can be added");
+      }
+      if (!value || !TypeBuilder.isMethod(value)) {
+        throw new TypeException("Method is not set");
+      }
+      if (!TypeBuilder.isMethod(value)) {
+        throw new TypeException("Method is invalid");
+      }
+      Class.__extensions.push(new TypeExtension(target, name, value));
     },
     writable: false,
     enumerable: true,
@@ -258,6 +292,7 @@ var Class = Object.create(null, {
 Object.freeze(Class);
 
 global.$class = Class.create;
+global.$extend = Class.addExtension;
 
 exports.Class = Class;
 

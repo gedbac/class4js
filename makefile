@@ -3,6 +3,7 @@ CFlAGS = WHITESPACE_ONLY
 SOURCES_FILES = type_exception.js \
 								namespace.js \
 								type_builder.js \
+								type_extension.js \
 								class.js \
 								interface.js \
 								object_factory.js \
@@ -37,6 +38,7 @@ run-samples-node:
 	node ./samples/node/type_checking.js
 	node ./samples/node/namespace.js
 	node ./samples/node/module.js
+	node ./samples/node/module_with_arguments.js
 
 build-browser: class4js.min.js
 
@@ -73,3 +75,4 @@ run-samples-phantomjs:
 	phantomjs ./samples/node/type_checking.js
 	phantomjs ./samples/node/namespace.js
 	phantomjs ./samples/node/module.js
+	phantomjs ./samples/node/module_with_arguments.js

@@ -23,20 +23,13 @@ var Collection = $class({
 
 });
 
-class4js.Class.addExtension(function () {
-  if ($is(this, ICollection)) {
-    Object.defineProperty(this, "forEach", {
-      value: function (callback) {
-        for (var i = 0; i < this.items().length; i++) {
-          callback(this.items()[i]);
-        }   
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    });
-  }
-}); 
+$extend(ICollection, "forEach", function (callback) {
+  if (callback) {
+    for (var i = 0; i < this.items().length; i++) {
+      callback(this.items()[i]);
+    } 
+  } 
+});
 
 var collection = new Collection([1, 2, 3]);
 

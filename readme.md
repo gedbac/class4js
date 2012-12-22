@@ -17,7 +17,7 @@ __The Open/Close principle__
 
 ## API
 
-Private class members are decorated with __ and protected with _.
+Private class members are decorated with \_\_ and protected with \_.
 
 ### Create class
 
@@ -429,7 +429,7 @@ __Example__
 Extensions enables you to add methods to existing types without creating a new 
 derived type.
 
-    class4js.Class.addExtension(extension:Function): void
+    class4js.Class.addExtension(target:Object, name:String, value:Function): void
 
 __Example__
 
@@ -456,20 +456,13 @@ __Example__
     
     }, null, ICollection);
     
-    class4js.Class.addExtension(function () {
-      if ($is(this, ICollection)) {
-        Object.defineProperty(this, "forEach", {
-          value: function (callback) {
-            for (var i = 0; i < this.items().length; i++) {
-              callback(this.items()[i]);
-            }   
-          },
-          writable: false,
-          enumerable: true,
-          configurable: false
-        });
-      }
-    }); 
+    $extend(ICollection, "forEach", function (callback) {
+      if (callback) {
+        for (var i = 0; i < this.items().length; i++) {
+          callback(this.items()[i]);
+        } 
+      } 
+    });
     
     var collection = new Collection([1, 2, 3]);
     

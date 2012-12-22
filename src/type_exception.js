@@ -34,7 +34,17 @@ TypeException.prototype = Object.create(Object.prototype, {
     },
     enumerable: true,
     configurable: false
-  } 
+  },
+
+  /**
+   * @memberOf {class4js.TypeException}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: function () {
+    return this.name + ": " + this.message;
+  }
 
 });
 
