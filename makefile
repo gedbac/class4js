@@ -7,7 +7,8 @@ SOURCES_FILES = type_exception.js \
 								class.js \
 								interface.js \
 								object_factory.js \
-								module.js
+								module.js \
+								enum.js
 
 all: build-node build-browser
 
@@ -39,6 +40,7 @@ run-samples-node:
 	node ./samples/node/namespace.js
 	node ./samples/node/module.js
 	node ./samples/node/module_with_arguments.js
+	node ./samples/node/enum.js
 
 build-browser: class4js.min.js
 
@@ -76,3 +78,4 @@ run-samples-phantomjs:
 	phantomjs ./samples/node/namespace.js
 	phantomjs ./samples/node/module.js
 	phantomjs ./samples/node/module_with_arguments.js
+	phantomjs ./samples/node/enum.js

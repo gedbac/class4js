@@ -191,7 +191,7 @@ var TypeBuilder = Object.create(null, {
             configurable: false
           });
         } else {
-          throw new TypeException("Field's name is invalid: '" + name + "'"); 
+          throw new TypeException("Field's '" + name + "' name is invalid"); 
         }
       } else {
         throw new TypeException("Field's '" + name + "' owner can't be null");
@@ -298,6 +298,33 @@ var TypeBuilder = Object.create(null, {
   /**
    * @memberOf {class4js.TypeBuilder}
    * @static
+   * @private
+   * @method addStatic
+   * @param {Object} owner
+   * @param {Object} properties
+   */
+  addStatic: {
+    value: function (owner, properties) {
+      TypeBuilder.forEach(properties, function (name, value) {
+        if (TypeBuilder.isMethod(value)) {
+          TypeBuilder.addMethod(owner, name, value);
+        } else if (TypeBuilder.isProperty(value)) {
+          TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
+        } else if (TypeBuilder.isConstant(name)) {
+          TypeBuilder.addConstant(owner, name, value);
+        } else {
+          TypeBuilder.addField(owner, name, value); 
+        }
+      });
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
    * @public
    * @method isConstructor
    * @param {String} name
@@ -361,6 +388,42 @@ var TypeBuilder = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @private
+   * @method isStatic
+   * @param {String} name
+   * @returns {Boolean}
+   */
+  isStatic: {
+    value: function (name) {
+      return name == "__static__";
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method isField
+   * @param {String} name
+   * @param {Object} value
+   */
+  isField: {
+    value: function (name, value) {
+      return !TypeBuilder.isConstructor(name) && !TypeBuilder.isMethod(value) 
+        && !TypeBuilder.isProperty(value) && !TypeBuilder.isConstant(name) 
+        && !TypeBuilder.isStatic(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   },
 
   /**

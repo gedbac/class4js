@@ -43,50 +43,6 @@ var Class = Object.create(null, {
     configurable: false
   },
 
-   /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __isStatic
-   * @param {String} name
-   * @returns {Boolean}
-   */
-  __isStatic: {
-    value: function (name) {
-      return name == "__static__";
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false 
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __addStatic
-   * @param {Object} owner
-   * @param {Object} properties
-   */
-  __addStatic: {
-    value: function (owner, properties) {
-      TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isMethod(value)) {
-          TypeBuilder.addMethod(owner, name, value);
-        } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
-        } else if (TypeBuilder.isConstant(name)) {
-          TypeBuilder.addConstant(owner, name, value);
-        } else {
-          TypeBuilder.addField(owner, name, value); 
-        }
-      });
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false
-  },
-
   /**
    * @memberOf {class4js.Class}
    * @static
@@ -208,8 +164,8 @@ var Class = Object.create(null, {
             value["set"]);
         } else if (TypeBuilder.isConstant(name)) { 
           TypeBuilder.addConstant(constructor, name, value); 
-        } else if (Class.__isStatic(name)) {
-          Class.__addStatic(constructor, value); 
+        } else if (TypeBuilder.isStatic(name)) {
+          TypeBuilder.addStatic(constructor, value); 
         } else {
           TypeBuilder.addField(constructor.prototype, name, value);
         }
@@ -245,7 +201,9 @@ var Class = Object.create(null, {
         for (var i = 0; i < Class.__extensions.length; i++) {
           var extension = Class.__extensions[i];
           if (Interface.instanceOf(instance, extension.target)) {
-            TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            if (!(extension.name in instance)) {
+              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            }
           }
         }
       }

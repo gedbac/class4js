@@ -424,6 +424,32 @@ __Example__
     var reader = new util.Reader();
     reader.read();
 
+### Enum
+
+Creates an enum:
+
+    class4js.Enum.create(fields:Object): Object
+
+or
+
+  $enum(fields:Object): Object
+
+__Example__
+
+    "use strict";
+    
+    var class4js = require("../../lib/class4js.js");
+    
+    var Priority = $enum({
+      low: 0,
+      normal: 1,
+      high: 2
+    });
+    
+    for (var field in Priority) {
+      console.log(field);
+    }
+
 ### Extensions
 
 Extensions enables you to add methods to existing types without creating a new 

@@ -1,7 +1,7 @@
 { 
   "name" : "class4js",
   "description": "The class4j library is for class-driven development in JavaScript.",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "author": "Gediminas Backevicius <gediminas.backevicius@gmail.com>",
   "bugs": {
     "url": "https://github.com/gedbac/class4js/issues"

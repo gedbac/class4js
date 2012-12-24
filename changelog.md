@@ -85,3 +85,7 @@
 * Module can be created with arguments
 * Breaking change: extensions were re-designed
 
+## 2012.12.23, Version 1.7.1 (Stable)
+
+* Extension's method can not override existing method
+* Enums were introduced

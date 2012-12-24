@@ -291,7 +291,7 @@ var TypeBuilder = Object.create(null, {
             configurable: false
           });
         } else {
-          throw new TypeException("Field's name is invalid: '" + name + "'"); 
+          throw new TypeException("Field's '" + name + "' name is invalid"); 
         }
       } else {
         throw new TypeException("Field's '" + name + "' owner can't be null");
@@ -398,6 +398,33 @@ var TypeBuilder = Object.create(null, {
   /**
    * @memberOf {class4js.TypeBuilder}
    * @static
+   * @private
+   * @method addStatic
+   * @param {Object} owner
+   * @param {Object} properties
+   */
+  addStatic: {
+    value: function (owner, properties) {
+      TypeBuilder.forEach(properties, function (name, value) {
+        if (TypeBuilder.isMethod(value)) {
+          TypeBuilder.addMethod(owner, name, value);
+        } else if (TypeBuilder.isProperty(value)) {
+          TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
+        } else if (TypeBuilder.isConstant(name)) {
+          TypeBuilder.addConstant(owner, name, value);
+        } else {
+          TypeBuilder.addField(owner, name, value); 
+        }
+      });
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
    * @public
    * @method isConstructor
    * @param {String} name
@@ -461,6 +488,42 @@ var TypeBuilder = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @private
+   * @method isStatic
+   * @param {String} name
+   * @returns {Boolean}
+   */
+  isStatic: {
+    value: function (name) {
+      return name == "__static__";
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method isField
+   * @param {String} name
+   * @param {Object} value
+   */
+  isField: {
+    value: function (name, value) {
+      return !TypeBuilder.isConstructor(name) && !TypeBuilder.isMethod(value) 
+        && !TypeBuilder.isProperty(value) && !TypeBuilder.isConstant(name) 
+        && !TypeBuilder.isStatic(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   },
 
   /**
@@ -599,50 +662,6 @@ var Class = Object.create(null, {
     configurable: false
   },
 
-   /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __isStatic
-   * @param {String} name
-   * @returns {Boolean}
-   */
-  __isStatic: {
-    value: function (name) {
-      return name == "__static__";
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false 
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __addStatic
-   * @param {Object} owner
-   * @param {Object} properties
-   */
-  __addStatic: {
-    value: function (owner, properties) {
-      TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isMethod(value)) {
-          TypeBuilder.addMethod(owner, name, value);
-        } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
-        } else if (TypeBuilder.isConstant(name)) {
-          TypeBuilder.addConstant(owner, name, value);
-        } else {
-          TypeBuilder.addField(owner, name, value); 
-        }
-      });
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false
-  },
-
   /**
    * @memberOf {class4js.Class}
    * @static
@@ -764,8 +783,8 @@ var Class = Object.create(null, {
             value["set"]);
         } else if (TypeBuilder.isConstant(name)) { 
           TypeBuilder.addConstant(constructor, name, value); 
-        } else if (Class.__isStatic(name)) {
-          Class.__addStatic(constructor, value); 
+        } else if (TypeBuilder.isStatic(name)) {
+          TypeBuilder.addStatic(constructor, value); 
         } else {
           TypeBuilder.addField(constructor.prototype, name, value);
         }
@@ -801,7 +820,9 @@ var Class = Object.create(null, {
         for (var i = 0; i < Class.__extensions.length; i++) {
           var extension = Class.__extensions[i];
           if (Interface.instanceOf(instance, extension.target)) {
-            TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            if (!(extension.name in instance)) {
+              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            }
           }
         }
       }
@@ -1072,6 +1093,93 @@ Object.freeze(Module);
 global.$module = Module.create;
 
 exports.Module = Module;
+
+/**
+ * @static
+ * @class {class4js.Enum}
+ */
+var Enum = Object.create(null, {
+
+  /**
+   * @memberOf {class4js.Enum}
+   * @static
+   * @public
+   * @method create
+   * @param {Array} fields
+   * @returns {Object}
+   */
+  create: {
+    value: function (fields) {
+      var obj = {};
+      TypeBuilder.forEach(fields, function (name, value) {
+        Enum.__addField(obj, name, value);
+      });
+      Object.freeze(obj);
+      return obj;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Enum}
+   * @static
+   * @private
+   * @method __isValidName
+   * @returns {Boolean} 
+   */
+  __isValidName: {
+    value: function (name) {
+      return /^([a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Enum}
+   * @static
+   * @private
+   * @method __addField
+   * @param {Object} owner
+   * @param {String} name
+   * @param {Object} value
+   * @returns {Boolean}
+   */
+  __addField: {
+    value: function (owner, name, value) {
+      if (owner) {
+        if (Enum.__isValidName(name)) {
+          if (typeof value === "number") {
+            Object.defineProperty(owner, name, {
+              value: value,
+              writable: false,
+              enumerable: true,
+              configurable: false
+            });
+          } else {
+            throw new TypeException("Field's '" + name + "' value is invalid");
+          }
+        } else {
+          throw new TypeException("Field's '" + name +"' name is invalid"); 
+        }
+      } else {
+        throw new TypeException("Field's '" + name + "' owner can't be null");
+      }      
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  }
+
+});
+Object.freeze(Enum);
+
+global.$enum = Enum.create;
+
+exports.Enum = Enum;
 
 return exports;
 
