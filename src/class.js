@@ -7,6 +7,102 @@ var Class = Object.create(null, {
   /**
    * @memberOf {class4js.Class}
    * @static
+   * @public
+   * @method create
+   * @param {Object} properties
+   * @param {Object} parent
+   * @param {Array} interfaces
+   * @returns {Function}
+   */
+  create: {
+    value: function (properties, parent, interfaces) {
+      var constructor = function () {
+        Class.__extend(this);
+        if (parent) {
+          Class.__initialize.call(this, parent.prototype, arguments);
+        }
+        Class.__initialize.call(this, Object.getPrototypeOf(this), arguments);
+        Object.seal(this);
+      };
+      Class.__onCreateClass(constructor, properties, parent, interfaces);
+      return constructor;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method createAbstract
+   * @param {Object} properties
+   * @param {Object} parent
+   * @param {Array} interfaces
+   * @returns {Function}
+   */
+  createAbstract: {
+    value: function (properties, parent, interfaces) {
+      var constructor = function () {
+        throw new TypeException("Abstract class can't be initialized");
+      };
+      Class.__onCreateClass(constructor, properties, parent, interfaces);
+      return constructor;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   *
+   */
+  createStatic: {
+    value: function () {
+
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method addExtension
+   * @param {Object} target
+   * @param {String} name
+   * @param {Function} value
+   */
+  addExtension: {
+    value: function (target, name, value) {
+      if (!target) {
+        throw new TypeException("Target is not set");
+      } 
+      if (!name) {
+        throw new TypeException("Method name is not set");
+      }
+      if (!TypeBuilder.isPublic(name)) {
+        throw new TypeException("Only public methods can be added");
+      }
+      if (!value || !TypeBuilder.isMethod(value)) {
+        throw new TypeException("Method is not set");
+      }
+      if (!TypeBuilder.isMethod(value)) {
+        throw new TypeException("Method is invalid");
+      }
+      Class.__extensions.push(new TypeExtension(target, name, value));
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
    * @private
    * @field {TypeExtension[]} __extensions
    */
@@ -124,23 +220,40 @@ var Class = Object.create(null, {
   /**
    * @memberOf {class4js.Class}
    * @static
-   * @public
-   * @method create
+   * @private
+   * @method __extend
+   * @param {Object} instance
+   */
+  __extend: {
+    value: function (instance) {
+      if (Class.__extensions && Class.__extensions.length > 0) {
+        for (var i = 0; i < Class.__extensions.length; i++) {
+          var extension = Class.__extensions[i];
+          if (Interface.instanceOf(instance, extension.target)) {
+            if (!(extension.name in instance)) {
+              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            }
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __onCreateClass
+   * @param {Function} constructor
    * @param {Object} properties
    * @param {Object} parent
    * @param {Array} interfaces
-   * @returns {Object}
    */
-  create: {
-    value: function (properties, parent, interfaces) {
-      var constructor = function () {
-        Class.__extend(this);
-        if (parent) {
-          Class.__initialize.call(this, parent.prototype, arguments);
-        }
-        Class.__initialize.call(this, Object.getPrototypeOf(this), arguments);
-        Object.seal(this);
-      }
+  __onCreateClass: {
+    value: function (constructor, properties, parent, interfaces) {
       if (parent) {
         constructor.prototype = Object.create(parent.prototype);
         Object.defineProperty(constructor.prototype, "_super", {
@@ -181,68 +294,9 @@ var Class = Object.create(null, {
           Class.__instanceOf(constructor.prototype, interfaces);
         } 
       }
-      return constructor;
     },
     writable: false,
-    enumerable: true,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __extend
-   * @param {Object} instance
-   */
-  __extend: {
-    value: function (instance) {
-      if (Class.__extensions && Class.__extensions.length > 0) {
-        for (var i = 0; i < Class.__extensions.length; i++) {
-          var extension = Class.__extensions[i];
-          if (Interface.instanceOf(instance, extension.target)) {
-            if (!(extension.name in instance)) {
-              TypeBuilder.addMethod(instance, extension.name, extension.value); 
-            }
-          }
-        }
-      }
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method addExtension
-   * @param {Object} target
-   * @param {String} name
-   * @param {Function} value
-   */
-  addExtension: {
-    value: function (target, name, value) {
-      if (!target) {
-        throw new TypeException("Target is not set");
-      } 
-      if (!name) {
-        throw new TypeException("Method name is not set");
-      }
-      if (!TypeBuilder.isPublic(name)) {
-        throw new TypeException("Only public methods can be added");
-      }
-      if (!value || !TypeBuilder.isMethod(value)) {
-        throw new TypeException("Method is not set");
-      }
-      if (!TypeBuilder.isMethod(value)) {
-        throw new TypeException("Method is invalid");
-      }
-      Class.__extensions.push(new TypeExtension(target, name, value));
-    },
-    writable: false,
-    enumerable: true,
+    enumerable: false,
     configurable: false
   }
 
@@ -250,6 +304,7 @@ var Class = Object.create(null, {
 Object.freeze(Class);
 
 global.$class = Class.create;
+global.$abstract_class = Class.createAbstract;
 global.$extend = Class.addExtension;
 
 exports.Class = Class;
