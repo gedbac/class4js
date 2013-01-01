@@ -89,3 +89,7 @@
 
 * Extension's method can not override existing method
 * Enums were introduced
+
+## 2013.01.02, Version 1.7.2 
+
+* Abstract class was intriduced

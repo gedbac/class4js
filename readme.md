@@ -23,11 +23,11 @@ Private class members are decorated with \_\_ and protected with \_.
 
 Creates a class: 
 
-    class4js.Class.create(properties:Object, parent:Object, interfaces:Array): Object
+    class4js.Class.create(properties:Object, parent:Object, interfaces:Array): Function
 
 or
 
-    $class(properties:Object, parent:Object, interfaces:Array): Object
+    $class(properties:Object, parent:Object, interfaces:Array): Function
 
 __Example__
 
@@ -47,6 +47,47 @@ __Example__
     var person = new Person("John Smith");
 
     console.log(person.getName());    
+
+### Abstract Class
+
+Abstract class is intended only to be a base class of other classes. Abstract 
+class can't be  instantiated.
+
+    $abstract_class(properties:Object, parent:Object, interfaces:Array): Function
+
+__Example__
+
+    "use strict";
+    
+    require("class4js");
+    
+    var Component = $abstract_class({
+      __construct__: function () { 
+        this.__name = "Component";
+      },
+      name: { 
+        get: function () { 
+          return this.__name; 
+        },
+        set: function (value) { 
+          this.__name = value; 
+        }
+      }
+    }); 
+    
+    var Button = $class({
+      __construct__: function () {
+        this.name = "Button";
+      }
+    }, Component)
+    
+    try {
+      var component = new Component(); 
+    } catch (ex) {
+      console.log(ex.message);
+    } 
+    
+    var button = new Button();
 
 ### Fields
 

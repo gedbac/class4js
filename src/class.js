@@ -45,7 +45,7 @@ var Class = Object.create(null, {
   createAbstract: {
     value: function (properties, parent, interfaces) {
       var constructor = function () {
-        throw new TypeException("Abstract class can't be initialized");
+        throw new TypeException("Abstract class can't be instantiated");
       };
       Class.__onCreateClass(constructor, properties, parent, interfaces);
       return constructor;
