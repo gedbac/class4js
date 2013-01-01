@@ -306,14 +306,16 @@ var TypeBuilder = Object.create(null, {
   addStatic: {
     value: function (owner, properties) {
       TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isMethod(value)) {
+        if (TypeBuilder.isConstructor(name)) {
+          TypeBuilder.addConstructor(owner, name, value);
+        } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(owner, name, value);
         } else if (TypeBuilder.isProperty(value)) {
           TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
         } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(owner, name, value);
         } else {
-          TypeBuilder.addField(owner, name, value); 
+          TypeBuilder.addField(owner, name, value);
         }
       });
     },

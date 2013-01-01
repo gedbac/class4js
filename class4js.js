@@ -406,14 +406,16 @@ var TypeBuilder = Object.create(null, {
   addStatic: {
     value: function (owner, properties) {
       TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isMethod(value)) {
+        if (TypeBuilder.isConstructor(name)) {
+          TypeBuilder.addConstructor(owner, name, value);
+        } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(owner, name, value);
         } else if (TypeBuilder.isProperty(value)) {
           TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
         } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(owner, name, value);
         } else {
-          TypeBuilder.addField(owner, name, value); 
+          TypeBuilder.addField(owner, name, value);
         }
       });
     },
@@ -685,22 +687,7 @@ var Class = Object.create(null, {
   createStatic: {
     value: function (properties) {
       var obj = {};
-      TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isConstructor(name)) {
-          TypeBuilder.addConstructor(obj, name, value);
-        } else if (TypeBuilder.isMethod(value)) {
-          TypeBuilder.addMethod(obj, name, value);
-        } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(obj, name, value["get"], 
-            value["set"]);
-        } else if (TypeBuilder.isConstant(name)) { 
-          TypeBuilder.addConstant(obj, name, value); 
-        } else if (TypeBuilder.isStatic(name)) {
-          TypeBuilder.addStatic(obj, value); 
-        } else {
-          TypeBuilder.addField(obj, name, value);
-        }      
-      });
+      TypeBuilder.addStatic(obj, properties);
       Class.__initialize.call(obj, obj);
       Object.seal(obj);
       return obj; 
@@ -928,6 +915,7 @@ var Class = Object.create(null, {
           TypeBuilder.addField(constructor.prototype, name, value);
         }
       });
+      Class.__initialize.call(constructor.prototype, constructor.prototype);
       Object.seal(constructor);
       Object.seal(constructor.prototype);
       if (interfaces) {

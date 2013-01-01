@@ -94,3 +94,4 @@
 
 * Abstract class was introduced
 * Static class was introduced
+* Static constructor was added to ordinal class
