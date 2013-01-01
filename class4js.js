@@ -664,7 +664,7 @@ var Class = Object.create(null, {
   createAbstract: {
     value: function (properties, parent, interfaces) {
       var constructor = function () {
-        throw new TypeException("Abstract class can't be initialized");
+        throw new TypeException("Abstract class can't be instantiated");
       };
       Class.__onCreateClass(constructor, properties, parent, interfaces);
       return constructor;
@@ -675,11 +675,35 @@ var Class = Object.create(null, {
   },
 
   /**
-   *
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method createStatic
+   * @param {Object} properties
+   * @returns {Object}
    */
   createStatic: {
-    value: function () {
-
+    value: function (properties) {
+      var obj = {};
+      TypeBuilder.forEach(properties, function (name, value) {
+        if (TypeBuilder.isConstructor(name)) {
+          TypeBuilder.addConstructor(obj, name, value);
+        } else if (TypeBuilder.isMethod(value)) {
+          TypeBuilder.addMethod(obj, name, value);
+        } else if (TypeBuilder.isProperty(value)) {
+          TypeBuilder.addProperty(obj, name, value["get"], 
+            value["set"]);
+        } else if (TypeBuilder.isConstant(name)) { 
+          TypeBuilder.addConstant(obj, name, value); 
+        } else if (TypeBuilder.isStatic(name)) {
+          TypeBuilder.addStatic(obj, value); 
+        } else {
+          TypeBuilder.addField(obj, name, value);
+        }      
+      });
+      Class.__initialize.call(obj, obj);
+      Object.seal(obj);
+      return obj; 
     },
     writable: false,
     enumerable: true,
@@ -750,6 +774,8 @@ var Class = Object.create(null, {
           } else {
             prototype["__construct__"].apply(this, args);
           }
+        } else {
+          throw new TypeException("Class member's '__construct__' type is invalid");
         }
       }
     },
@@ -924,6 +950,7 @@ Object.freeze(Class);
 
 global.$class = Class.create;
 global.$abstract_class = Class.createAbstract;
+global.$static_class = Class.createStatic;
 global.$extend = Class.addExtension;
 
 exports.Class = Class;

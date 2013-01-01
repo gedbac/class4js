@@ -1,6 +1,6 @@
 The class4js library is for class-driven development in JavaScript.
 
-Copyright (C) 2012 Gediminas Backevicius
+Copyright (C) 2012 - 2013 Gediminas Backevicius
 
 This program is free software: you can redistribute it and/or modify it under 
 the terms of the GNU General Public License as published by the Free Software 

@@ -28,6 +28,7 @@ clean-node:
 run-samples-node:
 	node ./samples/node/class.js
 	node ./samples/node/abstract_class.js
+	node ./samples/node/static_class.js
 	node ./samples/node/constants.js
 	node ./samples/node/fields.js
 	node ./samples/node/inheritance.js
@@ -67,6 +68,7 @@ run-samples-browser:
 run-samples-phantomjs:
 	phantomjs ./samples/node/class.js
 	phantomjs ./samples/node/abstract_class.js
+	phantomjs ./samples/node/static_class.js
 	phantomjs ./samples/node/constants.js
 	phantomjs ./samples/node/fields.js
 	phantomjs ./samples/node/inheritance.js

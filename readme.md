@@ -89,6 +89,37 @@ __Example__
     
     var button = new Button();
 
+### Static Class
+
+Static class can't be initialized or inherited and contains only static members.
+
+    $static_class(properties:Object, parent:Object, interfaces:Array): Object
+
+__Example__
+
+    "use strict";
+    
+    console.log("=== Static class: ===");
+    
+    var class4js = require("../../lib/class4js.js");
+    
+    var Counter = $static_class({
+      __construct__: function () {
+        this.__value = 0;
+      },
+      increment: function () {
+        this.__value++;
+      },
+      current: {
+        get: function () {
+          return this.__value;
+        }
+      }
+    });
+    
+    Counter.increment();
+    console.log(Counter.current);
+
 ### Fields
 
 All class fields should be defined as class members or initialized in constructor, 
