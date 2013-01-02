@@ -915,7 +915,7 @@ var Class = Object.create(null, {
           TypeBuilder.addField(constructor.prototype, name, value);
         }
       });
-      Class.__initialize.call(constructor.prototype, constructor.prototype);
+      Class.__initialize.call(constructor, constructor);
       Object.seal(constructor);
       Object.seal(constructor.prototype);
       if (interfaces) {
