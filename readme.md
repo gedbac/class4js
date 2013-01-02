@@ -504,7 +504,7 @@ Creates an enum:
 
 or
 
-  $enum(fields:Object): Object
+    $enum(fields:Object): Object
 
 __Example__
 
