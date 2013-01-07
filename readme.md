@@ -1,7 +1,7 @@
 # class4js
 
-The __class4js__ library is for class-driven development in JavaScript. It 
-allows to emulate classes in JavaScript. Library based on ECMAScript 5 API and 
+The __class4js__ module is for class-driven development in JavaScript. It 
+allows to emulate classes in JavaScript. Module based on ECMAScript 5 API and 
 implements _open/close principle_. When class is created, class is closed for 
 modifications.
 

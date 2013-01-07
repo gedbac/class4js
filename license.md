@@ -1,4 +1,4 @@
-The class4js library is for class-driven development in JavaScript.
+The class4js module is for class-driven development in JavaScript.
 
 Copyright (C) 2012 - 2013 Gediminas Backevicius
 
