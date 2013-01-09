@@ -1,6 +1,6 @@
 "use strict";
 
-console.log("=== Module sample: ===");
+console.log("=== Module example: ===");
 
 var class4js = require("../../lib/class4js.js");
 

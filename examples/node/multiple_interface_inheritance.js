@@ -2,7 +2,7 @@
 
 var class4js = require("../../lib/class4js.js");
 
-console.log("=== Multiple interface inheritance usage sample: ===");
+console.log("=== Multiple interface inheritance usage example: ===");
 
 var IDisposable = $interface({
   dispose: function () {}

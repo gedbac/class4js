@@ -2,7 +2,7 @@
 
   "use strict";
 
-  console.log("=== Module sample: ===");
+  console.log("=== Module example: ===");
 
   var util = $module(function (exports) {
 

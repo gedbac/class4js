@@ -4,7 +4,7 @@ var class4js = require("../../lib/class4js.js");
 
 "use strict";
 
-console.log("=== Type checking sample: ===");
+console.log("=== Type checking example: ===");
 
 var IShape = $interface({
   x: {

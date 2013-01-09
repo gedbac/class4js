@@ -14,7 +14,7 @@ all: build-node build-browser
 
 clean: clean-node clean-browser
 
-run-samples: run-samples-node run-samples-browser
+run-examples: run-examples-node run-examples-browser
 
 build-node: lib/class4js.js
 
@@ -25,24 +25,24 @@ lib/class4js.js: clean-node
 clean-node:
 	rm -f ./lib/class4js.js
 
-run-samples-node:
-	node ./samples/node/class.js
-	node ./samples/node/abstract_class.js
-	node ./samples/node/static_class.js
-	node ./samples/node/constants.js
-	node ./samples/node/fields.js
-	node ./samples/node/inheritance.js
-	node ./samples/node/interface.js
-	node ./samples/node/object_factory.js
-	node ./samples/node/properties.js
-	node ./samples/node/static.js
-	node ./samples/node/extension.js
-	node ./samples/node/multiple_interface_inheritance.js
-	node ./samples/node/type_checking.js
-	node ./samples/node/namespace.js
-	node ./samples/node/module.js
-	node ./samples/node/module_with_arguments.js
-	node ./samples/node/enum.js
+run-examples-node:
+	node ./examples/node/class.js
+	node ./examples/node/abstract_class.js
+	node ./examples/node/static_class.js
+	node ./examples/node/constants.js
+	node ./examples/node/fields.js
+	node ./examples/node/inheritance.js
+	node ./examples/node/interface.js
+	node ./examples/node/object_factory.js
+	node ./examples/node/properties.js
+	node ./examples/node/static.js
+	node ./examples/node/extension.js
+	node ./examples/node/multiple_interface_inheritance.js
+	node ./examples/node/type_checking.js
+	node ./examples/node/namespace.js
+	node ./examples/node/module.js
+	node ./examples/node/module_with_arguments.js
+	node ./examples/node/enum.js
 
 build-browser: class4js.min.js
 
@@ -62,24 +62,24 @@ clean-browser:
 	rm -f class4js.js
 	rm -f class4js.min.js
 
-run-samples-browser:
-	xdg-open ./samples/browser/index.html
+run-examples-browser:
+	xdg-open ./examples/browser/index.html
 
-run-samples-phantomjs:
-	phantomjs ./samples/node/class.js
-	phantomjs ./samples/node/abstract_class.js
-	phantomjs ./samples/node/static_class.js
-	phantomjs ./samples/node/constants.js
-	phantomjs ./samples/node/fields.js
-	phantomjs ./samples/node/inheritance.js
-	phantomjs ./samples/node/interface.js
-	phantomjs ./samples/node/object_factory.js
-	phantomjs ./samples/node/properties.js
-	phantomjs ./samples/node/static.js
-	phantomjs ./samples/node/extension.js
-	phantomjs ./samples/node/multiple_interface_inheritance.js
-	phantomjs ./samples/node/type_checking.js
-	phantomjs ./samples/node/namespace.js
-	phantomjs ./samples/node/module.js
-	phantomjs ./samples/node/module_with_arguments.js
-	phantomjs ./samples/node/enum.js
+run-examples-phantomjs:
+	phantomjs ./examples/node/class.js
+	phantomjs ./examples/node/abstract_class.js
+	phantomjs ./examples/node/static_class.js
+	phantomjs ./examples/node/constants.js
+	phantomjs ./examples/node/fields.js
+	phantomjs ./examples/node/inheritance.js
+	phantomjs ./examples/node/interface.js
+	phantomjs ./examples/node/object_factory.js
+	phantomjs ./examples/node/properties.js
+	phantomjs ./examples/node/static.js
+	phantomjs ./examples/node/extension.js
+	phantomjs ./examples/node/multiple_interface_inheritance.js
+	phantomjs ./examples/node/type_checking.js
+	phantomjs ./examples/node/namespace.js
+	phantomjs ./examples/node/module.js
+	phantomjs ./examples/node/module_with_arguments.js
+	phantomjs ./examples/node/enum.js

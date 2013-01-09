@@ -2,7 +2,7 @@
 
   "use strict";
 
-  console.log("=== Multiple interface inheritance usage sample: ===");
+  console.log("=== Multiple interface inheritance usage example: ===");
 
   var IDisposable = $interface({
     dispose: function () {}

@@ -2,7 +2,7 @@
 
   "use strict";
 
-  console.log("=== Type checking sample: ===");
+  console.log("=== Type checking example: ===");
 
   var IShape = $interface({
     x: {
