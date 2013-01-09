@@ -1,15 +1,11 @@
 # class4js
 
 The __class4js__ module is for class-driven development in JavaScript. It 
-allows to emulate classes in JavaScript. Module based on ECMAScript 5 API and 
-implements _open/close principle_. When class is created, class is closed for 
-modifications.
-
-The library can be used with __Node.js__, __PhantomJS__ and in the __Web Browsers__.
-
-__The Open/Close principle__
-
-    A module should be open for extension but closed for modifications.
+allows to emulate classes in JavaScript. Module based on ECMAScript 5 standart and 
+implements open/close principle:  _"When class is created, class is closed for 
+modifications"_. __class4js__  is free software distributed under the terms of 
+the _GNU General Public License version 3_ and can be used with __node.js__, 
+__modern web browsers__ and even with __PhantomJS__.
 
 ## Installation
 
@@ -17,9 +13,9 @@ __The Open/Close principle__
 
 ## API
 
-Private class members are decorated with \_\_ and protected with \_.
-
 ### Create class
+
+Private class members are decorated with \_\_ and protected with \_.
 
 Creates a class: 
 
