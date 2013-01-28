@@ -87,12 +87,16 @@ var TestRunner = {
     if (message) {
       console.assert(condition, message);
     } else {
-      console.log(condition);
+      console.assert(condition);
     }
     if (!condition) {
       var textTag = document.createElement("div");
       textTag.setAttribute("style", "color:red;");
+      if (message) {
       textTag.innerHTML = message;
+      } else {
+        textTag.innerHTML = "Assertion failed";
+      }
       TestRunner.__currentTag.appendChild(textTag);
       TestRunner.__onComplete(TestRunner.__current);
       TestRunner.__next();

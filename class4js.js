@@ -1604,9 +1604,11 @@ var Module = Object.create(null, {
   configure: {
     value: function (configuration) {
       if (configuration) {
-        
+        for (var i = 0; i < configuration.length; i++) {
+          Module.__configuration.push(ObjectFactory.create(ModuleConfiguration, 
+            configuration[i]));
+        }  
       }
-      Module.__configuration = configuration;
     },
     writable: false,
     enumerable: true,
@@ -1646,7 +1648,7 @@ var Module = Object.create(null, {
    */
   __loadScript: {
     value: function (name) {
-      var url = "./scripts/" + name + ".js";
+      var url = Module.__getModuleUrl(name);
       var script = document.createElement("script");
       script.async = true;
       script.src = url; 
@@ -1698,10 +1700,62 @@ var Module = Object.create(null, {
     writable: false,
     enumerable: false,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method __getDefaultModuleUrl
+   * @param {String} name
+   * @returns {String}
+   */
+  __getDefaultModuleUrl: {
+    value: function (name) {
+      var url = "./scripts/" + name + ".js";
+      if (Module.__configuration) {
+        for (var i = 0; i < Module.__configuration.length; i++) {
+          if (Module.__configuration[i].name == "*") {
+            url = Module.__configuration[i].path + name + ".js";
+            break;
+          }
+        }
+      }
+      return url;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method __getModuleUrl
+   * @param {String} name
+   * @returns {String}
+   */
+  __getModuleUrl: {
+    value: function (name) {
+      var url = Module.__getDefaultModuleUrl(name);
+      if (Module.__configuration) {
+        for (var i = 0; i < Module.__configuration.length; i++) {
+          if (Module.__configuration[i].name == name) {
+            url = Module.__configuration[i].path;
+            break;
+          }
+        };
+      }
+      return url;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
   }
 
 });
-Object.freeze(Module);
+Object.seal(Module);
 
 global.$module = Module.create;
 
