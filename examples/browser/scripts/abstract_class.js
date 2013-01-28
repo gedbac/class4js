@@ -1,8 +1,6 @@
-(function () {
+$run("Abstract Class", function () {
 
   "use strict";
-
-  console.log("=== Abstract class: ===");
 
   var Component = $abstract_class({
     __construct__: function () { 
@@ -24,13 +22,18 @@
     }
   }, Component)
 
+  var errorRaised = false;
   try {
     var component = new Component(); 
   } catch (ex) {
-    console.log(ex.message);
-  } 
+    errorRaised = true;
+  }
+  $assert(errorRaised);
 
   var button = new Button();
-  console.log(button.name);
 
-}());
+  $assert(button.name == "Button");
+
+  $complete("Abstract Class");
+
+});

@@ -1,27 +1,20 @@
- (function () { 
+$run("Module", function () {
 
   "use strict";
 
-  console.log("=== Module example: ===");
+  $module(function (module2, module3, exports) {
 
-  var util = $module(function (exports) {
+    $print("Anonymous module was loaded");
+  
+    $assert(exports);
+    $assert(module2);
+    $assert(module2.version === "module2");
+    $assert(module3); 
+    $assert(module3.version === "module3");
 
-    var Reader = $class({
-     
-      __construct__: function () {
-      },
+    $complete("Module");
 
-      read: function () {
-        console.log("Reading...");  
-      } 
-    
-    }); 
+  }, ["module2", "module3"]);
 
-    exports.Reader = Reader;
+});
 
-  });
-
-  var reader = new util.Reader();
-  reader.read();
-
-}());

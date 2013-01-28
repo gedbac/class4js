@@ -1,27 +1,29 @@
-(function () {
+$run("Inheritance", function () {
 
   "use strict";
 
   var Shape = $class({
     __construct__: function () {
-      console.log("Shape constructor was invoked...");
+      $print("Shape constructor was invoked...");
     },
     draw: function () {
-      console.log("Shape is drawn...");
+      $print("Shape is drawn...");
     }
   });
 
   var Rectangle = $class({
     __construct__: function () {
-      console.log("Rectangle constructor was invoked...");
+      $print("Rectangle constructor was invoked...");
     },
     draw: function () {
       this._super.draw();
-      console.log("Rectangle is drawn...");
+      $print("Rectangle is drawn...");
     }
   }, Shape); 
 
   var rec = new Rectangle();
   rec.draw();
 
-}());
+  $complete("Inheritance");
+
+});

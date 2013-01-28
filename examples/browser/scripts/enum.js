@@ -1,4 +1,4 @@
-(function () {
+$run("Enum", function () {
 
   "use strict";
 
@@ -8,8 +8,22 @@
     high: 2
   });
 
+  var index = 0;
   for (var field in Priority) {
-    console.log(field);
+    switch(index) {
+      case 0:
+        $assert(field == "low");
+        break;
+      case 1:
+        $assert(field == "normal");
+        break;
+      case 2:
+        $assert(field == "high");
+        break;
+    }
+    index++;
   }
 
-}());
+  $complete("Enum");
+
+});

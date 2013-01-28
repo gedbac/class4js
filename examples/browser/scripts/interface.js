@@ -1,4 +1,4 @@
- (function () { 
+ $run("Interface", function () { 
 
   "use strict";
 
@@ -44,13 +44,15 @@
     },
 
     draw: function (context) {
-      console.log("Rectangle is drawn...");
+      $print("Rectangle is drawn...");
     }
 
   }, null, IDrawable);
 
   var rec = new Rectangle(true, 10);
 
-  console.log($is(rec, IDrawable));
+  $assert($is(rec, IDrawable));
 
-}());
+  $complete("Interface");
+
+});

@@ -1,8 +1,6 @@
-(function () {
+$run("Static Class", function () {
 
   "use strict";
-
-  console.log("=== Static class: ===");
 
   var Counter = $static_class({
     __construct__: function () {
@@ -19,6 +17,8 @@
   });
 
   Counter.increment();
-  console.log(Counter.current);
+  $assert(Counter.current == 1);
 
-}());
+  $complete("Static Class");
+
+});

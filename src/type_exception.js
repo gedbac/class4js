@@ -6,6 +6,7 @@
 var TypeException = function (message) {
   this.__name = "TypeException";
   this.__message = message;
+  Object.seal(this);
 };
 
 TypeException.prototype = Object.create(Object.prototype, {
@@ -42,8 +43,13 @@ TypeException.prototype = Object.create(Object.prototype, {
    * @method toString
    * @returns {String}
    */
-  toString: function () {
-    return this.name + ": " + this.message;
+  toString: {
+    value: function () {
+      return this.name + ": " + this.message;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });

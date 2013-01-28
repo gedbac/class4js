@@ -1,4 +1,4 @@
-(function () { 
+$run("Object Factory", function () { 
 
   "use strict";
 
@@ -51,7 +51,9 @@
     name: "John Smith",
     age: 30
   });
-  console.log(person);
+  $assert(person.id === 10);
+  $assert(person.name === "John Smith");
+  $assert(person.age === 30);
 
   var Organisation = $class({
 
@@ -61,6 +63,10 @@
 
     add: function (person) {
       this.__persons.push($create(Person, person));
+    },
+
+    count: function () {
+      return this.__persons.length;
     }
 
   });
@@ -74,6 +80,8 @@
     age: 42
   });
 
-  console.log(organisation);
+  $assert(organisation.count() === 2);
 
-}());
+  $complete("Object Factory");
+
+});

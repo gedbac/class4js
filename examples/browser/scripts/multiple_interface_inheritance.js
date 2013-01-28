@@ -1,8 +1,6 @@
-(function () {
+$run("Multiple interface inheritance", function () {
 
   "use strict";
-
-  console.log("=== Multiple interface inheritance usage example: ===");
 
   var IDisposable = $interface({
     dispose: function () {}
@@ -22,9 +20,11 @@
     }
   }, [IDisposable, IComponent]);
 
-  console.log("Interface 'IElement' members:");
+  $print("Interface 'IElement' members:");
   for (var property in IElement) {
-    console.log(property);
+    $print(property);
   }
 
-}());
+  $complete("Multiple interface inheritance");
+
+});

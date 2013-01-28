@@ -1,7 +1,7 @@
-(function () {
+$run("Extension", function () {
 
-  "use strict";
- 
+ "use strict";
+
   var ICollection = $interface({
   
     items: function() {
@@ -29,10 +29,24 @@
     } 
   });
   
-  var collection = new Collection([1, 2, 3]);
+  var collection = new Collection(["1", "2", "3"]);
 
+  var index = 0;
   collection.forEach(function (item) {
-    console.log(item);
+    switch (index) {
+      case 0:
+        $assert(item == "1");
+        break;
+      case 1:
+        $assert(item == "2");
+        break;
+      case 2:
+        $assert(item == "3");
+        break;
+    }
+    index++;
   });
 
-}());
+  $complete("Extension");
+
+});

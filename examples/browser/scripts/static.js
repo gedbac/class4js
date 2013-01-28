@@ -1,4 +1,4 @@
-(function () {  
+$run("Static", function () {  
 
   "use strict";
 
@@ -13,7 +13,9 @@
     }
   }); 
 
-  console.log(Calculator.sum(2, 2));
-  console.log(Calculator.subtract(8, 4));
+  $assert(Calculator.sum(2, 2) == 4);
+  $assert(Calculator.subtract(8, 4) == 4);
 
-}());
+  $complete("Static");
+
+});

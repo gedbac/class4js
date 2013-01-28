@@ -1,15 +1,13 @@
- (function () { 
+ $run("Module with Arguments", function () { 
 
   "use strict";
 
-  console.log("=== Module with arguments example: ===");
+  $module(function (global, exports) {
 
-  var util = $module(function (exports, global) {
-
-    global.myVariable = 42; 
+    $assert(global === window); 
 
   }, [window]);
 
-  console.log(myVariable);
+  $complete("Module with Arguments");
 
-}());
+});

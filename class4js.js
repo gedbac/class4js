@@ -3,6 +3,9 @@ var class4js = (function (global) {
 "use strict";
 
 var exports = {};
+
+exports.version = "1.8.0";
+
 /**
  * @class {class4js.TypeException}
  * @constructor {class4js.TypeException}
@@ -11,6 +14,7 @@ var exports = {};
 var TypeException = function (message) {
   this.__name = "TypeException";
   this.__message = message;
+  Object.seal(this);
 };
 
 TypeException.prototype = Object.create(Object.prototype, {
@@ -47,8 +51,13 @@ TypeException.prototype = Object.create(Object.prototype, {
    * @method toString
    * @returns {String}
    */
-  toString: function () {
-    return this.name + ": " + this.message;
+  toString: {
+    value: function () {
+      return this.name + ": " + this.message;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -561,6 +570,7 @@ Object.seal(TypeBuilder);
 exports.TypeBuilder = TypeBuilder;
 
 /**
+ * @internal
  * @class {class4js.TypeExtension}
  * @constructor {class4js.TypeExtension}
  * @param {Object} target
@@ -571,6 +581,7 @@ var TypeExtension = function (target, name, value) {
   this.__target = target;
   this.__name = name;
   this.__value = value;
+  Object.seal(this);
 };
 
 TypeExtension.prototype = Object.create(Object.prototype, {
@@ -612,6 +623,16 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     },
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeExtension}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: function () {
+    return "class4js.TypeExtension";
   }
 
 });
@@ -1122,50 +1143,6 @@ exports.ObjectFactory = ObjectFactory;
 
 /**
  * @static
- * @class {class4js.Module}
- */
-var Module = Object.create(null, {
-
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method create
-   * @param {Function} arguments
-   * @param {Function} scope
-   * @param {Array} args
-   * @returns {Object}
-   */
-  create: {
-    value: function (scope, args) {
-      var module = {};
-      if (scope) {
-        if (args) {
-          if (!(args instanceof Array)) {
-            throw new TypeException("Type of parameter 'args' is invalid");
-          }
-          args.splice(0, 0, module);
-          scope.apply(this, args); 
-        } else {
-          scope(module);
-        }
-      }
-      return module;
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-      
-});
-Object.freeze(Module);
-
-global.$module = Module.create;
-
-exports.Module = Module;
-
-/**
- * @static
  * @class {class4js.Enum}
  */
 var Enum = Object.create(null, {
@@ -1250,6 +1227,485 @@ Object.freeze(Enum);
 global.$enum = Enum.create;
 
 exports.Enum = Enum;
+
+/**
+ * @internal
+ * @class {class4js.ModuleHandler}
+ * @constructor {class4js.ModuleHandler}
+ * @param {String} name
+ * @param {Object} value
+ * @param {Function} callback
+ */
+var ModuleHandler = function (name, value, callback) {
+  this.__loaded = false;
+  this.__name = name;
+  this.__value = value;
+  this.__listeners = [];
+  if (callback) {
+    this.onLoaded(callback);
+  }
+  Object.seal(this); 
+};
+
+ModuleHandler.prototype = Object.create(Object.prototype, {
+
+  /**
+   * @memebtOf {class4js.ModuleHandler}
+   * @public
+   * @property {String} isLoaded
+   */
+  isLoaded: {
+    get: function () {
+      return this.__loaded;
+    },
+    set: function (value) {
+      this.__loaded = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memebtOf {class4js.ModuleHandler}
+   * @public
+   * @property {String} name
+   */
+  name: {
+    get: function () {
+      return this.__name;
+    },
+    set: function (value) {
+      this.__name = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memebtOf {class4js.ModuleHandler{
+   * @public
+   * @property {Object} value
+   */
+  value: {
+    get: function () {
+      return this.__value;
+    },
+    set: function (value) {
+      this.__value = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.ModuleHandler}
+   * @public
+   * @method onLoaded
+   * @param {Function} callback
+   */
+  onLoaded: {
+    value: function (callback) {
+      if (callback && typeof callback === "function") {
+        this.__listeners.push(callback);
+      } else {
+        throw new TypeException("Callback is not set or it's type invalid");
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memebtOf {class4js.ModuleHandler}
+   * @public
+   * @method fireLoaded
+   */
+  fireLoaded: {
+    value: function () {
+      this.__loaded = true;
+      for (var i = 0; i < this.__listeners.length; i++) {
+        this.__listeners[i].call(this, this.value);
+      };
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memebtOf {class4js.ModuleHandler}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return "class4js.ModuleHandler";
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.seal(ModuleHandler);
+Object.seal(ModuleHandler.prototype);
+
+/**
+ * @internal
+ * @class {class4js.ModuleConfiguration}
+ * @constructor {class4js.ModuleConfiguration}
+ */
+var ModuleConfiguration = function () {
+  this.__name = null;
+  this.__path = null;
+  Object.seal(this);
+};
+
+ModuleConfiguration.prototype = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.ModuleConfiguration}
+   * @public
+   * @property {String} name
+   */
+  name: {
+    get: function () {
+      return this.__name;
+    },
+    set: function (value) {
+      this.__name = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.ModuleConfiguration}
+   * @public
+   * @property {String} path
+   */
+  path: {
+    get: function () {
+      return this.__path;
+    },
+    set: function (value) {
+      this.__path = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.ModuleConfiguration}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return "class4js.ModuleConfiguration";
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.seal(ModuleConfiguration);
+Object.seal(ModuleConfiguration.prototype);
+
+exports.ModuleConfiguration = ModuleConfiguration;
+
+/**
+ * @static
+ * @class {class4js.Module}
+ */
+var Module = Object.create(null, {
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @private
+   * @field {ModuleConfiguration[]} __configuration
+   */
+  __configuration: {
+    value: [],
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @private
+   * @field {ModuleHandler[]} __modules
+   */
+  __modules: {
+    value: [],
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method create
+   * @param {Function} arguments
+   * @param {Function} scope
+   * @param {Array} args
+   * @returns {Object}
+   */
+  create: {
+    value: function (name, callback, dependencies) {
+      if (arguments.length == 1) {
+        callback = name;
+        name = null;
+      } else if (arguments.length == 2 && typeof name === "function") {
+        dependencies = callback;
+        callback = name;
+        name = null;
+      }
+      if (name && (typeof name !== "string" || !Module.isValidModuleName(name))) {
+        throw new TypeException("Module's name is invalid: '" + name + "'");
+      }
+      var instance = {};
+      if (name) {
+        var handler = Module.__find(name);
+        if (handler) {
+          if (!handler.isLoaded) {
+            instance = handler.value;
+          } else {
+            throw new TypeException("Module with name '" + name + "' already defined"); 
+          } 
+        } else {
+          handler = new ModuleHandler(name, instance);
+          Module.__modules.push(handler);
+        }
+      }
+      if (dependencies) {
+        if (dependencies instanceof Array) {
+          for (var i = 0; i < dependencies.length; i++) {
+            if (typeof dependencies[i] === "string") {
+              Module.load(dependencies[i], function (module) {
+                for (var j = 0; j < dependencies.length; j++) {
+                  if (typeof dependencies[j] === "string") {
+                    if (Module.isLoaded(dependencies[j])) {
+                      if (j == dependencies.length - 1) {
+                        Module.__onCreate(name, callback, dependencies, instance);
+                      }
+                    } else {
+                      break;
+                    }
+                  }
+                };
+              });
+            }
+          }
+        } else {
+          throw new TypeException("Type of parameter 'dependencies' is invalid");
+        }
+      } else {
+        Module.__onCreate(name, callback, dependencies, instance); 
+      }
+      return instance;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method isLoaded
+   * @param {String} name
+   */
+  isLoaded: {
+    value: function (name) {
+      if (name && typeof name === "string") {
+        var handler = Module.__find(name);
+        if (handler) {
+          return handler.isLoaded;
+        }
+      } else {
+        throw new TypeException("Type of parameter 'name' is invalid");
+      }
+      return false;
+    },
+    writable: true,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method load
+   * @param {String} name
+   * @param {Function} callback
+   */
+  load: {
+    value: function (name, callback) {
+      if (name) {
+        if (typeof name !== "string" || !Module.isValidModuleName(name)) {
+          throw new TypeException("Module's name is invalid: '" + name + "'");
+        }
+        var handler = Module.__find(name);
+        if (handler && handler.isLoaded) {
+          callback.call(null, handler.value);
+        } else {
+          if (handler) {
+            handler.onLoaded(callback);
+          } else {
+            handler = new ModuleHandler(name, {}, callback);
+            Module.__modules.push(handler);
+            Module.__loadScript(name);
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method isValidModuleName
+   * @param {String} name
+   */
+  isValidModuleName: {
+    value: function (name) {
+      return /^(_|[a-z]|[A-Z]|[0-9]|)*$/g.test(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method configure
+   * @param {ModuleConfiguration[]} configuration
+   */
+  configure: {
+    value: function (configuration) {
+      if (configuration) {
+        
+      }
+      Module.__configuration = configuration;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @private
+   * @method __find
+   * @param {String} name
+   * @returns {Object}
+   */
+  __find: {
+    value: function (name) {
+      if (name && typeof name === "string") {
+        for (var i = 0; i < Module.__modules.length; i++) {
+          if (Module.__modules[i].name === name) {
+            return Module.__modules[i];     
+          }
+        }
+      }
+      return null; 
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @private
+   * @method
+   * @param {String} name
+   */
+  __loadScript: {
+    value: function (name) {
+      var url = "./scripts/" + name + ".js";
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = url; 
+      script.setAttribute("data-module-name", name);
+      script.addEventListener("error", function (e) {
+        throw new TypeException("Failed to load module '" + e.target.getAttribute('data-module-name') + "'");
+      });
+      var head = document.getElementsByTagName("head")[0];
+      head.appendChild(script);
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method __onCreate
+   * @param {String} name
+   * @param {Function} callback
+   * @param {Array} dependencies
+   * @param {Object} instance
+   */
+  __onCreate: { 
+    value: function (name, callback, dependencies, instance) {
+      if (callback) {
+        var args = [];
+        if (dependencies) {
+          for (var i = 0; i < dependencies.length; i++) {
+            if (typeof dependencies[i] === "string") {
+              args.push(Module.__find(dependencies[i]).value);
+            } else {
+              args.push(dependencies[i]); 
+            }
+          }  
+        }
+        args.push(instance);
+        callback.apply(instance, args); 
+        Object.seal(instance);
+        if (name) { 
+          Module.__find(name).fireLoaded();
+        }
+      } else {
+        throw new TypeException("Callback is not set"); 
+      }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  }
+
+});
+Object.freeze(Module);
+
+global.$module = Module.create;
+
+exports.Module = Module;
 
 return exports;
 

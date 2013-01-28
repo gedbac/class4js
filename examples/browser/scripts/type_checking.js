@@ -1,8 +1,6 @@
-(function () {  
+$run("Type Checking", function () {  
 
   "use strict";
-
-  console.log("=== Type checking example: ===");
 
   var IShape = $interface({
     x: {
@@ -74,7 +72,9 @@
 
   var rec = new Rectangle(10, 10, 50, 50); 
 
-  console.log($is(rec, Rectangle));
-  console.log($is(rec, IRectangle));
+  $assert($is(rec, Rectangle));
+  $assert($is(rec, IRectangle));
 
-}());
+  $complete("Type Checking");
+
+});

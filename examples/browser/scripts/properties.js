@@ -1,4 +1,4 @@
-(function () {
+$run("Properties", function () {
 
   "use strict";
 
@@ -25,7 +25,9 @@
   var person = new Person();
   person.name = "John Smith";
 
-  console.log(person.name);
-  console.log(person.created);
+  $assert(person.name == "John Smith");
+  $assert(person.created);
 
-}());
+  $complete("Properties");
+
+});

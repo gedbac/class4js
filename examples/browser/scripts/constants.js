@@ -1,13 +1,15 @@
-(function () {
+$run("Constant", function () {
 
   "use strict";
-
+  
   var Person = $class({
     MAX_AGE: 99,
     __construct__: function () {
     }
   });
 
-  console.log(Person.MAX_AGE);
+  $assert(Person.MAX_AGE == 99);
+ 
+  $complete("Constant");
 
-}());
+});

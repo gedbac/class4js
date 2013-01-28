@@ -1,4 +1,4 @@
-(function () {
+$run("Fields", function () {
 
   "use strict";
 
@@ -14,17 +14,23 @@
       return this.__age;
     },
     setGender: function (gender) {
-      // It's to late to initialize a class field:
       this.__gender = gender;
     }
   });
 
   var person = new Person("John Smith");
 
-  console.log(person.getName());
-  console.log(person.getAge());
+  $assert(person.getName() == "John Smith");
+  $assert(person.getAge() == 30);
 
-  // Error will be raised here:
-  // person.setGender("male");
+  var errorRaised = false;
+  try {
+    person.setGender("male");
+  } catch (e) {
+    errorRaised = true;
+  }
+  $assert(errorRaised);
 
-}());
+  $complete("Fields");
+
+});

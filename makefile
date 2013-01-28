@@ -1,14 +1,17 @@
 CC = java -jar ./build/yuicompressor-2.4.8.jar
 CFlAGS = WHITESPACE_ONLY
-SOURCES_FILES = type_exception.js \
+SOURCES_FILES =	class4js.js \
+								type_exception.js \
 								namespace.js \
 								type_builder.js \
 								type_extension.js \
 								class.js \
 								interface.js \
 								object_factory.js \
-								module.js \
-								enum.js
+								enum.js \
+								module_handler.js \
+								module_configuration.js \
+								module.js
 
 all: build-node build-browser
 
@@ -49,7 +52,7 @@ build-browser: class4js.min.js
 class4js.js: clean-browser
 	echo "var class4js = (function (global) {\n" >> $@
 	echo "\"use strict\";\n" >> $@
-	echo "var exports = {};" >> $@
+	echo "var exports = {};\n" >> $@
 	cat $(addprefix src/,$(SOURCES_FILES)) >> $@
 	echo "return exports;" >> $@
 	echo "\n}(window));" >> $@

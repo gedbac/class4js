@@ -1,13 +1,19 @@
-"use strict";
+$run("Namespace", function () {
 
-$namespace("org.myapp.util");
+  "use strict";
 
-org.myapp.util = (function () {
+  $namespace("org.myapp.util");
 
-  var util = {};
+  org.myapp.util = (function () {
 
-  return util;
+    var util = {};
 
-}());
+    return util;
 
-console.log(org);
+  }());
+
+  $assert(org);
+
+  $complete("Namespace");
+
+});

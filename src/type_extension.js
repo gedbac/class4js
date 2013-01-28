@@ -1,4 +1,5 @@
 /**
+ * @internal
  * @class {class4js.TypeExtension}
  * @constructor {class4js.TypeExtension}
  * @param {Object} target
@@ -9,6 +10,7 @@ var TypeExtension = function (target, name, value) {
   this.__target = target;
   this.__name = name;
   this.__value = value;
+  Object.seal(this);
 };
 
 TypeExtension.prototype = Object.create(Object.prototype, {
@@ -50,6 +52,16 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     },
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeExtension}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: function () {
+    return "class4js.TypeExtension";
   }
 
 });
