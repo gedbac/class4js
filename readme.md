@@ -458,6 +458,10 @@ __Example__
 
 ### Modules
 
+Modules were included to class4js for better compatability with browsers, because
+in browsers were no build in module system like in nodejs. In nodejs module wrapps 
+nodejs module systems loading.
+
 Creates an module:
 
     class4js.Module.create(scope:Function): Object

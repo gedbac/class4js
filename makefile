@@ -43,8 +43,8 @@ run-examples-node:
 	node ./examples/node/multiple_interface_inheritance.js
 	node ./examples/node/type_checking.js
 	node ./examples/node/namespace.js
-	node ./examples/node/module.js
-	node ./examples/node/module_with_arguments.js
+	node ./examples/node/module_inline.js
+	#node ./examples/node/module_with_arguments.js
 	node ./examples/node/enum.js
 
 build-browser: class4js.min.js
@@ -83,6 +83,6 @@ run-examples-phantomjs:
 	phantomjs ./examples/node/multiple_interface_inheritance.js
 	phantomjs ./examples/node/type_checking.js
 	phantomjs ./examples/node/namespace.js
-	phantomjs ./examples/node/module.js
-	phantomjs ./examples/node/module_with_arguments.js
+	phantomjs ./examples/node/module_inline.js
+	#phantomjs ./examples/node/module_with_arguments.js
 	phantomjs ./examples/node/enum.js
