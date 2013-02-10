@@ -1,18 +1,17 @@
 /**
- * @class {class4js.TypeException}
- * @constructor {class4js.TypeException}
- * @param {String} message
+ * @class {class4js.ModuleException}
+ * @constructor {class4js
  */
-var TypeException = function (message) {
-  this.__name = 'TypeException';
+var ModuleException = function (message) {
+  this.__name = 'ModuleException';
   this.__message = message;
   Object.seal(this);
 };
 
-TypeException.prototype = Object.create(Object.prototype, {
+ModuleException.prototype = Object.create(Object.prototype, {
 
   /**
-   * @memberOf {class4js.TypeException}
+   * @memberOf {class4js.ModuleException}
    * @public
    * @property {String} name
    */
@@ -25,7 +24,7 @@ TypeException.prototype = Object.create(Object.prototype, {
   },
 
   /**
-   * @memberOf {class4js.TypeException}
+   * @memberOf {class4js.ModuleException}
    * @public
    * @property {String} message
    */
@@ -38,7 +37,7 @@ TypeException.prototype = Object.create(Object.prototype, {
   },
 
   /**
-   * @memberOf {class4js.TypeException}
+   * @memberOf {class4js.ModuleException}
    * @public
    * @method toString
    * @returns {String}
@@ -54,8 +53,8 @@ TypeException.prototype = Object.create(Object.prototype, {
 
 });
 
-Object.seal(TypeException);
-Object.seal(TypeException.prototype);
+Object.seal(ModuleException);
+Object.seal(ModuleException.prototype);
 
-exports.TypeException = TypeException;
+exports.ModuleException = ModuleException;
 

@@ -9,7 +9,20 @@ __modern web browsers__ and even with __PhantomJS__.
 
 ## Installation
 
+### node.js
+
+To install __class4js__ module for node.js, such command should be used:
+
     npm install class4js
+
+Ir reikia ideti i entry point require('class4js'):
+
+[sample]
+'use strict';
+
+require('class4js');
+
+// Yours code here...
 
 ## API
 

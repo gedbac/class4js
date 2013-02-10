@@ -9,8 +9,9 @@ SOURCES_FILES =	class4js.js \
 								interface.js \
 								object_factory.js \
 								enum.js \
-								module_handler.js \
+								module_exception.js \
 								module_configuration.js \
+								configuration.js \
 								module.js
 
 all: build-node build-browser

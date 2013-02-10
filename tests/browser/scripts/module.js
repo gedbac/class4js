@@ -2,6 +2,10 @@ $run("Module", function () {
 
   "use strict";
 
+  $configure({
+    debug: true
+  });
+
   $module(function (module2, module3, exports) {
 
     $print("Anonymous module was loaded");

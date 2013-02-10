@@ -4,7 +4,7 @@ console.log("=== Module Inline ===");
 
 var class4js = require("../../lib/class4js.js");
 
-var util = $module(function (exports) {
+var util = $module(function (/*exports*/) {
 
   var Reader = $class({
    

@@ -57,8 +57,10 @@ var TestRunner = {
    * @param {String} name
    */
   complete: function (name) {
-    TestRunner.__onComplete(name); 
-    TestRunner.__next();
+    setTimeout(function () {
+      TestRunner.__onComplete(name); 
+      TestRunner.__next();
+    }, 50);
   },
 
   /**
@@ -70,9 +72,11 @@ var TestRunner = {
    */
   print: function (message) {
     console.info(message); 
-    var textTag = document.createElement("div");
-    textTag.innerHTML = message;
-    TestRunner.__currentTag.appendChild(textTag);
+    if (TestRunner.__currentTag) {
+      var textTag = document.createElement("div");
+      textTag.innerHTML = message;
+      TestRunner.__currentTag.appendChild(textTag);
+    }
   },
 
   /**
@@ -93,13 +97,13 @@ var TestRunner = {
       var textTag = document.createElement("div");
       textTag.setAttribute("style", "color:red;");
       if (message) {
-      textTag.innerHTML = message;
+        textTag.innerHTML = message;
       } else {
         textTag.innerHTML = "Assertion failed";
       }
       TestRunner.__currentTag.appendChild(textTag);
-      TestRunner.__onComplete(TestRunner.__current);
-      TestRunner.__next();
+      //TestRunner.__onComplete(TestRunner.__current);
+      //TestRunner.__next();
     }
   },
 

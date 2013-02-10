@@ -1,5 +1,4 @@
 /**
- * @internal
  * @class {class4js.ModuleConfiguration}
  * @constructor {class4js.ModuleConfiguration}
  */
@@ -51,7 +50,7 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return "class4js.ModuleConfiguration";
+      return 'class4js.ModuleConfiguration';
     },
     writable: false,
     enumerable: true,
