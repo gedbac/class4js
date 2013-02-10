@@ -6,16 +6,16 @@ $configure({
   debug: true,
   modules: [{
     name: 'a',
-    path: '/home/gediminas/Dev/class4js/tests/node/circular_modules/a.js'
+    path: './a.js'
   }, {
     name: 'b',
-    path: '/home/gediminas/Dev/class4js/tests/node/circular_modules/b.js'
+    path: './b.js'
   }, {
     name: 'c',
-    path: '/home/gediminas/Dev/class4js/tests/node/circular_modules/c.js'
+    path: './c.js'
   }, {
     name: 'd',
-    path: './d.js'
+    path: '../circular_modules/d.js'
   }]
 });
 

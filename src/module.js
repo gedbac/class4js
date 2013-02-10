@@ -388,13 +388,19 @@ Object.defineProperties(Module, {
       var path = name;
       if (!Module.__hasRequire()) {
         path = './scripts/' + name + '.js';
-      } else {
-        // TODO: Fix path for node.js... 
       }
       if (Configuration.modules) {
         for (var i = 0; i < Configuration.modules.length; i++) {
           if (Configuration.modules[i].name === name) {
             path = Configuration.modules[i].path;
+            if (Module.__hasRequire()) {
+              var dir = require('path').dirname(process.mainModule.filename);
+              if (path.substring(0, 2) === './') {  
+                path = dir + path.substring(1, path.length);
+              } else if (path.substring(0, 3) === '../') {
+                path = dir + '/' + path;
+              }
+            }
             break;
           }
         }
