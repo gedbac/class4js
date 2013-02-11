@@ -1,6 +1,6 @@
-$run("Constant", function () {
+$run('Constant', function () {
 
-  "use strict";
+  'use strict';
   
   var Person = $class({
     MAX_AGE: 99,
@@ -10,6 +10,6 @@ $run("Constant", function () {
 
   $assert(Person.MAX_AGE == 99);
  
-  $complete("Constant");
+  $complete('Constant');
 
 });

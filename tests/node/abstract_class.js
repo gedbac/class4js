@@ -2,7 +2,7 @@
 
 console.log("=== Abstract class: ===");
 
-var class4js = require("../../lib/class4js.js");
+require("../../lib/class4js.js");
 
 var Component = $abstract_class({
   __construct__: function () { 

@@ -4,7 +4,7 @@ var class4js = (function (global) {
 
 var exports = {};
 
-exports.version = "1.9.0";
+exports.version = '1.9.0';
 
 /**
  * @class {class4js.TypeException}
@@ -83,7 +83,7 @@ var Namespace = Object.create(null, {
   create: {
     value: function (name) {
       if (name) {
-        var fragments = name.split("."),
+        var fragments = name.split('.'),
             parent = global;
         for (var i = 0; i < fragments.length; i++) {
           if (!(fragments[i] in parent)) {
@@ -191,7 +191,7 @@ var TypeBuilder = Object.create(null, {
    */
   isValidConstructorName: {
     value: function (name) {
-      return name == "__construct__";
+      return name == '__construct__';
     },
     writable: false,
     enumerable: true,
@@ -242,7 +242,7 @@ var TypeBuilder = Object.create(null, {
    */
   isObjectInitializer: {
     value: function (param) {
-      if (typeof param === "object" && Object.getPrototypeOf(param) === Object.prototype) {
+      if (typeof param === 'object' && Object.getPrototypeOf(param) === Object.prototype) {
         return true;
       }
       return false;
@@ -420,7 +420,7 @@ var TypeBuilder = Object.create(null, {
         } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(owner, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
+          TypeBuilder.addProperty(owner, name, value['get'], value['set']);
         } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(owner, name, value);
         } else {
@@ -443,7 +443,7 @@ var TypeBuilder = Object.create(null, {
    */
   isConstructor: {
     value: function (name) {
-      return name == "__construct__";
+      return name == '__construct__';
     },
     writable: false,
     enumerable: true,
@@ -460,7 +460,7 @@ var TypeBuilder = Object.create(null, {
    */
   isMethod: {
     value: function (value) {
-      return typeof value === "function"; 
+      return typeof value === 'function'; 
     },
     writable: false,
     enumerable: true,
@@ -477,7 +477,7 @@ var TypeBuilder = Object.create(null, {
    */
   isProperty: {
     value: function (value) {
-      return (value["get"] != null || value["set"] != null);
+      return (value['get'] != null || value['set'] != null);
     },
     writable: false,
     enumerable: true,
@@ -511,7 +511,7 @@ var TypeBuilder = Object.create(null, {
    */
   isStatic: {
     value: function (name) {
-      return name == "__static__";
+      return name == '__static__';
     },
     writable: false,
     enumerable: false,
@@ -548,7 +548,7 @@ var TypeBuilder = Object.create(null, {
   forEach: {
     value: function (properties, callback) {
       if (properties) {
-        if (typeof callback === "function") {
+        if (typeof callback === 'function') {
           var names = Object.keys(properties);
           for (var i = 0; i < names.length; i++) {
             callback(names[i], properties[names[i]]);
@@ -632,7 +632,7 @@ TypeExtension.prototype = Object.create(Object.prototype, {
    * @returns {String}
    */
   toString: function () {
-    return "class4js.TypeExtension";
+    return 'class4js.TypeExtension';
   }
 
 });
@@ -774,13 +774,13 @@ var Class = Object.create(null, {
    */
   __initialize: {
     value: function (prototype, args) {
-      if (prototype && prototype.hasOwnProperty("__construct__")) {
-        if (typeof prototype["__construct__"] === "function") {
+      if (prototype && prototype.hasOwnProperty('__construct__')) {
+        if (typeof prototype['__construct__'] === 'function') {
           if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-            prototype["__construct__"].apply(this);
+            prototype['__construct__'].apply(this);
             ObjectFactory.initialize(this, args[0]);
           } else {
-            prototype["__construct__"].apply(this, args);
+            prototype['__construct__'].apply(this, args);
           }
         } else {
           throw new TypeException("Class member's '__construct__' type is invalid");
@@ -804,8 +804,8 @@ var Class = Object.create(null, {
   __descriptorsAreEqual: { 
     value: function (property, source, target) {
       for (var propertyName in target) {
-        if (propertyName != "writable" && propertyName != "enumerable" 
-            && propertyName != "configurable") {
+        if (propertyName != 'writable' && propertyName != 'enumerable' 
+            && propertyName != 'configurable') {
           if (!(propertyName in source) || typeof target[propertyName] !== typeof source[propertyName]) {
             throw new TypeException("Implementation of the property '" + propertyName + "' is invalid");
           }
@@ -909,7 +909,7 @@ var Class = Object.create(null, {
     value: function (constructor, properties, parent, interfaces) {
       if (parent) {
         constructor.prototype = Object.create(parent.prototype);
-        Object.defineProperty(constructor.prototype, "_super", {
+        Object.defineProperty(constructor.prototype, '_super', {
           get: function () {
             var prototype = Object.getPrototypeOf(this);
             return Object.getPrototypeOf(prototype);
@@ -926,8 +926,8 @@ var Class = Object.create(null, {
         } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(constructor.prototype, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(constructor.prototype, name, value["get"], 
-            value["set"]);
+          TypeBuilder.addProperty(constructor.prototype, name, value['get'], 
+            value['set']);
         } else if (TypeBuilder.isConstant(name)) { 
           TypeBuilder.addConstant(constructor, name, value); 
         } else if (TypeBuilder.isStatic(name)) {
@@ -983,7 +983,7 @@ var Interface = Object.create(null, {
       if (source) {
         for (var propertyName in source) {
           var property = Object.getOwnPropertyDescriptor(source, propertyName); 
-          if (property["value"] && TypeBuilder.isMethod(property["value"])) {
+          if (property['value'] && TypeBuilder.isMethod(property['value'])) {
             TypeBuilder.addMethod(target, propertyName, property.value);
           } else if (TypeBuilder.isProperty(property)) {
             TypeBuilder.addProperty(target, propertyName, property.get, property.set);
@@ -1023,7 +1023,7 @@ var Interface = Object.create(null, {
         if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(obj, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(obj, name, value["get"], value["set"]);
+          TypeBuilder.addProperty(obj, name, value['get'], value['set']);
         } else {
           throw new TypeException("Member '" + name + "' is invalid"); 
         }
@@ -1049,7 +1049,7 @@ var Interface = Object.create(null, {
   instanceOf: {
     value: function (source, target) {
       if (source && target) {
-        if (typeof target === "object") {
+        if (typeof target === 'object') {
           for (var propertyName in target) {
             if (!(propertyName in source)) {
               return false;
@@ -1199,7 +1199,7 @@ var Enum = Object.create(null, {
     value: function (owner, name, value) {
       if (owner) {
         if (Enum.__isValidName(name)) {
-          if (typeof value === "number") {
+          if (typeof value === 'number') {
             Object.defineProperty(owner, name, {
               value: value,
               writable: false,

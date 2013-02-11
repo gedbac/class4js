@@ -1,10 +1,10 @@
-$run("Abstract Class", function () {
+$run('Abstract Class', function () {
 
-  "use strict";
+  'use strict';
 
   var Component = $abstract_class({
     __construct__: function () { 
-      this.__name = "Component";
+      this.__name = 'Component';
     },
     name: { 
       get: function () { 
@@ -18,7 +18,7 @@ $run("Abstract Class", function () {
 
   var Button = $class({
     __construct__: function () {
-      this.name = "Button";
+      this.name = 'Button';
     }
   }, Component)
 
@@ -32,8 +32,8 @@ $run("Abstract Class", function () {
 
   var button = new Button();
 
-  $assert(button.name == "Button");
+  $assert(button.name == 'Button');
 
-  $complete("Abstract Class");
+  $complete('Abstract Class');
 
 });

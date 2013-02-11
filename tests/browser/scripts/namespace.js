@@ -1,8 +1,8 @@
-$run("Namespace", function () {
+$run('Namespace', function () {
 
-  "use strict";
+  'use strict';
 
-  $namespace("org.myapp.util");
+  $namespace('org.myapp.util');
 
   org.myapp.util = (function () {
 
@@ -14,6 +14,6 @@ $run("Namespace", function () {
 
   $assert(org);
 
-  $complete("Namespace");
+  $complete('Namespace');
 
 });

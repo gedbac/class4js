@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @static
@@ -73,7 +73,7 @@ var TestRunner = {
   print: function (message) {
     console.info(message); 
     if (TestRunner.__currentTag) {
-      var textTag = document.createElement("div");
+      var textTag = document.createElement('div');
       textTag.innerHTML = message;
       TestRunner.__currentTag.appendChild(textTag);
     }
@@ -94,16 +94,14 @@ var TestRunner = {
       console.assert(condition);
     }
     if (!condition) {
-      var textTag = document.createElement("div");
-      textTag.setAttribute("style", "color:red;");
+      var textTag = document.createElement('div');
+      textTag.setAttribute('style', 'color:red;');
       if (message) {
         textTag.innerHTML = message;
       } else {
         textTag.innerHTML = "Assertion failed";
       }
       TestRunner.__currentTag.appendChild(textTag);
-      //TestRunner.__onComplete(TestRunner.__current);
-      //TestRunner.__next();
     }
   },
 
@@ -125,11 +123,11 @@ var TestRunner = {
     }, 5000);
     console.group(name);
     console.time("Execution time");
-    var testTag = document.createElement("div");
-    var titleTag = document.createElement("h2");
+    var testTag = document.createElement('div');
+    var titleTag = document.createElement('h2');
     titleTag.innerHTML = name;
     testTag.appendChild(titleTag); 
-    document.getElementById("container").appendChild(testTag);
+    document.getElementById('container').appendChild(testTag);
     TestRunner.__currentTag = testTag;
     callback.apply(window);
   },

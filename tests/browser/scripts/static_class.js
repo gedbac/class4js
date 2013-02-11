@@ -1,6 +1,6 @@
-$run("Static Class", function () {
+$run('Static Class', function () {
 
-  "use strict";
+  'use strict';
 
   var Counter = $static_class({
     __construct__: function () {
@@ -19,6 +19,6 @@ $run("Static Class", function () {
   Counter.increment();
   $assert(Counter.current == 1);
 
-  $complete("Static Class");
+  $complete('Static Class');
 
 });

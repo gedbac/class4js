@@ -1,6 +1,6 @@
-$run("Class", function () {
+$run('Class', function () {
 
-  "use strict";
+  'use strict';
 
   var constructorInvoked = false;
 
@@ -14,12 +14,12 @@ $run("Class", function () {
     }
   });
 
-  var person = new Person("John Smith");
+  var person = new Person('John Smith');
 
   $assert(constructorInvoked);
-  $assert(person.getName() == "John Smith");
+  $assert(person.getName() == 'John Smith');
 
-  $complete("Class");
+  $complete('Class');
 
 });
 

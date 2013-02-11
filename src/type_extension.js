@@ -61,7 +61,7 @@ TypeExtension.prototype = Object.create(Object.prototype, {
    * @returns {String}
    */
   toString: function () {
-    return "class4js.TypeExtension";
+    return 'class4js.TypeExtension';
   }
 
 });

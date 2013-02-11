@@ -17,7 +17,7 @@ var Interface = Object.create(null, {
       if (source) {
         for (var propertyName in source) {
           var property = Object.getOwnPropertyDescriptor(source, propertyName); 
-          if (property["value"] && TypeBuilder.isMethod(property["value"])) {
+          if (property['value'] && TypeBuilder.isMethod(property['value'])) {
             TypeBuilder.addMethod(target, propertyName, property.value);
           } else if (TypeBuilder.isProperty(property)) {
             TypeBuilder.addProperty(target, propertyName, property.get, property.set);
@@ -57,7 +57,7 @@ var Interface = Object.create(null, {
         if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(obj, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(obj, name, value["get"], value["set"]);
+          TypeBuilder.addProperty(obj, name, value['get'], value['set']);
         } else {
           throw new TypeException("Member '" + name + "' is invalid"); 
         }
@@ -83,7 +83,7 @@ var Interface = Object.create(null, {
   instanceOf: {
     value: function (source, target) {
       if (source && target) {
-        if (typeof target === "object") {
+        if (typeof target === 'object') {
           for (var propertyName in target) {
             if (!(propertyName in source)) {
               return false;

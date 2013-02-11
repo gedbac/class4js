@@ -82,7 +82,7 @@ var TypeBuilder = Object.create(null, {
    */
   isValidConstructorName: {
     value: function (name) {
-      return name == "__construct__";
+      return name == '__construct__';
     },
     writable: false,
     enumerable: true,
@@ -133,7 +133,7 @@ var TypeBuilder = Object.create(null, {
    */
   isObjectInitializer: {
     value: function (param) {
-      if (typeof param === "object" && Object.getPrototypeOf(param) === Object.prototype) {
+      if (typeof param === 'object' && Object.getPrototypeOf(param) === Object.prototype) {
         return true;
       }
       return false;
@@ -311,7 +311,7 @@ var TypeBuilder = Object.create(null, {
         } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(owner, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(owner, name, value["get"], value["set"]);
+          TypeBuilder.addProperty(owner, name, value['get'], value['set']);
         } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(owner, name, value);
         } else {
@@ -334,7 +334,7 @@ var TypeBuilder = Object.create(null, {
    */
   isConstructor: {
     value: function (name) {
-      return name == "__construct__";
+      return name == '__construct__';
     },
     writable: false,
     enumerable: true,
@@ -351,7 +351,7 @@ var TypeBuilder = Object.create(null, {
    */
   isMethod: {
     value: function (value) {
-      return typeof value === "function"; 
+      return typeof value === 'function'; 
     },
     writable: false,
     enumerable: true,
@@ -368,7 +368,7 @@ var TypeBuilder = Object.create(null, {
    */
   isProperty: {
     value: function (value) {
-      return (value["get"] != null || value["set"] != null);
+      return (value['get'] != null || value['set'] != null);
     },
     writable: false,
     enumerable: true,
@@ -402,7 +402,7 @@ var TypeBuilder = Object.create(null, {
    */
   isStatic: {
     value: function (name) {
-      return name == "__static__";
+      return name == '__static__';
     },
     writable: false,
     enumerable: false,
@@ -439,7 +439,7 @@ var TypeBuilder = Object.create(null, {
   forEach: {
     value: function (properties, callback) {
       if (properties) {
-        if (typeof callback === "function") {
+        if (typeof callback === 'function') {
           var names = Object.keys(properties);
           for (var i = 0; i < names.length; i++) {
             callback(names[i], properties[names[i]]);

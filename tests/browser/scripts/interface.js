@@ -1,6 +1,6 @@
- $run("Interface", function () { 
+ $run('Interface', function () { 
 
-  "use strict";
+  'use strict';
 
   var IComponent = $interface({ 
     id: {
@@ -53,6 +53,6 @@
 
   $assert($is(rec, IDrawable));
 
-  $complete("Interface");
+  $complete('Interface');
 
 });

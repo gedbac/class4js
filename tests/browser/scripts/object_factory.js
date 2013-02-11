@@ -1,6 +1,6 @@
-$run("Object Factory", function () { 
+$run('Object Factory', function () { 
 
-  "use strict";
+  'use strict';
 
   var Entity = $class({
   
@@ -48,11 +48,11 @@ $run("Object Factory", function () {
 
   var person = new Person({
     id: 10,
-    name: "John Smith",
+    name: 'John Smith',
     age: 30
   });
   $assert(person.id === 10);
-  $assert(person.name === "John Smith");
+  $assert(person.name === 'John Smith');
   $assert(person.age === 30);
 
   var Organisation = $class({
@@ -76,12 +76,12 @@ $run("Object Factory", function () {
   organisation.add(person);
   organisation.add({
     id: 24,
-    name: "Peter Joe",
+    name: 'Peter Joe',
     age: 42
   });
 
   $assert(organisation.count() === 2);
 
-  $complete("Object Factory");
+  $complete('Object Factory');
 
 });

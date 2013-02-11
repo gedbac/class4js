@@ -1,6 +1,6 @@
-$run("Static", function () {  
+$run('Static', function () {  
 
-  "use strict";
+  'use strict';
 
   var Calculator = $class({
     __static__: {
@@ -16,6 +16,6 @@ $run("Static", function () {
   $assert(Calculator.sum(2, 2) == 4);
   $assert(Calculator.subtract(8, 4) == 4);
 
-  $complete("Static");
+  $complete('Static');
 
 });

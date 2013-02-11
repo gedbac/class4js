@@ -1,6 +1,6 @@
-$run("Multiple interface inheritance", function () {
+$run('Multiple interface inheritance', function () {
 
-  "use strict";
+  'use strict';
 
   var IDisposable = $interface({
     dispose: function () {}
@@ -25,6 +25,6 @@ $run("Multiple interface inheritance", function () {
     $print(property);
   }
 
-  $complete("Multiple interface inheritance");
+  $complete('Multiple interface inheritance');
 
 });

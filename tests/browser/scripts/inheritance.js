@@ -1,6 +1,6 @@
-$run("Inheritance", function () {
+$run('Inheritance', function () {
 
-  "use strict";
+  'use strict';
 
   var Shape = $class({
     __construct__: function () {
@@ -24,6 +24,6 @@ $run("Inheritance", function () {
   var rec = new Rectangle();
   rec.draw();
 
-  $complete("Inheritance");
+  $complete('Inheritance');
 
 });

@@ -1,6 +1,6 @@
-$run("Type Checking", function () {  
+$run('Type Checking', function () {  
 
-  "use strict";
+  'use strict';
 
   var IShape = $interface({
     x: {
@@ -75,6 +75,6 @@ $run("Type Checking", function () {
   $assert($is(rec, Rectangle));
   $assert($is(rec, IRectangle));
 
-  $complete("Type Checking");
+  $complete('Type Checking');
 
 });

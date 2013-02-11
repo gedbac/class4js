@@ -1,6 +1,6 @@
- $run("Module with Arguments", function () { 
+ $run('Module with Arguments', function () { 
 
-  "use strict";
+  'use strict';
 
   $module(function (global, exports) {
 
@@ -8,6 +8,6 @@
 
   }, [window]);
 
-  $complete("Module with Arguments");
+  $complete('Module with Arguments');
 
 });

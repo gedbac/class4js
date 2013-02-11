@@ -1,6 +1,6 @@
-$run("Enum", function () {
+$run('Enum', function () {
 
-  "use strict";
+  'use strict';
 
   var Priority = $enum({
     low: 0,
@@ -12,18 +12,18 @@ $run("Enum", function () {
   for (var field in Priority) {
     switch(index) {
       case 0:
-        $assert(field == "low");
+        $assert(field == 'low');
         break;
       case 1:
-        $assert(field == "normal");
+        $assert(field == 'normal');
         break;
       case 2:
-        $assert(field == "high");
+        $assert(field == 'high');
         break;
     }
     index++;
   }
 
-  $complete("Enum");
+  $complete('Enum');
 
 });

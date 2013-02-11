@@ -1,6 +1,6 @@
-$run("Properties", function () {
+$run('Properties', function () {
 
-  "use strict";
+  'use strict';
 
   var Person = $class({
     __construct__: function (name) {
@@ -23,11 +23,11 @@ $run("Properties", function () {
   });
 
   var person = new Person();
-  person.name = "John Smith";
+  person.name = 'John Smith';
 
-  $assert(person.name == "John Smith");
+  $assert(person.name == 'John Smith');
   $assert(person.created);
 
-  $complete("Properties");
+  $complete('Properties');
 
 });

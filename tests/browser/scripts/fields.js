@@ -1,6 +1,6 @@
-$run("Fields", function () {
+$run('Fields', function () {
 
-  "use strict";
+  'use strict';
 
   var Person = $class({
     __age: 30,
@@ -18,19 +18,19 @@ $run("Fields", function () {
     }
   });
 
-  var person = new Person("John Smith");
+  var person = new Person('John Smith');
 
-  $assert(person.getName() == "John Smith");
+  $assert(person.getName() == 'John Smith');
   $assert(person.getAge() == 30);
 
   var errorRaised = false;
   try {
-    person.setGender("male");
+    person.setGender('male');
   } catch (e) {
     errorRaised = true;
   }
   $assert(errorRaised);
 
-  $complete("Fields");
+  $complete('Fields');
 
 });

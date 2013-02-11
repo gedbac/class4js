@@ -14,7 +14,7 @@ var Namespace = Object.create(null, {
   create: {
     value: function (name) {
       if (name) {
-        var fragments = name.split("."),
+        var fragments = name.split('.'),
             parent = global;
         for (var i = 0; i < fragments.length; i++) {
           if (!(fragments[i] in parent)) {

@@ -132,13 +132,13 @@ var Class = Object.create(null, {
    */
   __initialize: {
     value: function (prototype, args) {
-      if (prototype && prototype.hasOwnProperty("__construct__")) {
-        if (typeof prototype["__construct__"] === "function") {
+      if (prototype && prototype.hasOwnProperty('__construct__')) {
+        if (typeof prototype['__construct__'] === 'function') {
           if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-            prototype["__construct__"].apply(this);
+            prototype['__construct__'].apply(this);
             ObjectFactory.initialize(this, args[0]);
           } else {
-            prototype["__construct__"].apply(this, args);
+            prototype['__construct__'].apply(this, args);
           }
         } else {
           throw new TypeException("Class member's '__construct__' type is invalid");
@@ -162,8 +162,8 @@ var Class = Object.create(null, {
   __descriptorsAreEqual: { 
     value: function (property, source, target) {
       for (var propertyName in target) {
-        if (propertyName != "writable" && propertyName != "enumerable" 
-            && propertyName != "configurable") {
+        if (propertyName != 'writable' && propertyName != 'enumerable' 
+            && propertyName != 'configurable') {
           if (!(propertyName in source) || typeof target[propertyName] !== typeof source[propertyName]) {
             throw new TypeException("Implementation of the property '" + propertyName + "' is invalid");
           }
@@ -267,7 +267,7 @@ var Class = Object.create(null, {
     value: function (constructor, properties, parent, interfaces) {
       if (parent) {
         constructor.prototype = Object.create(parent.prototype);
-        Object.defineProperty(constructor.prototype, "_super", {
+        Object.defineProperty(constructor.prototype, '_super', {
           get: function () {
             var prototype = Object.getPrototypeOf(this);
             return Object.getPrototypeOf(prototype);
@@ -284,8 +284,8 @@ var Class = Object.create(null, {
         } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(constructor.prototype, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(constructor.prototype, name, value["get"], 
-            value["set"]);
+          TypeBuilder.addProperty(constructor.prototype, name, value['get'], 
+            value['set']);
         } else if (TypeBuilder.isConstant(name)) { 
           TypeBuilder.addConstant(constructor, name, value); 
         } else if (TypeBuilder.isStatic(name)) {

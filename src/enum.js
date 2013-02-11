@@ -56,7 +56,7 @@ var Enum = Object.create(null, {
     value: function (owner, name, value) {
       if (owner) {
         if (Enum.__isValidName(name)) {
-          if (typeof value === "number") {
+          if (typeof value === 'number') {
             Object.defineProperty(owner, name, {
               value: value,
               writable: false,
