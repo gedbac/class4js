@@ -47,7 +47,7 @@
       $print("Rectangle is drawn...");
     }
 
-  }, null, IDrawable);
+  }, IDrawable);
 
   var rec = new Rectangle(true, 10);
 

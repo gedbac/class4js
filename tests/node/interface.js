@@ -48,7 +48,7 @@ var Rectangle = $class({
     console.log("Rectangle is drawn...");
   }
 
-}, null, IDrawable);
+}, IDrawable);
 
 var rec = new Rectangle(true, 10);
 

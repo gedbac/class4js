@@ -658,6 +658,12 @@ var Class = Object.create(null, {
    */
   create: {
     value: function (properties, parent, interfaces) {
+      if (arguments.length === 2) {
+        if (typeof parent === 'object' || parent instanceof Array) {
+          interfaces = parent;
+          parent = null;
+        }  
+      }
       var constructor = function () {
         Class.__extend(this);
         if (parent) {
