@@ -70,20 +70,20 @@ test-browser:
 	xdg-open ./examples/browser/index.html
 
 test-phantomjs:
-	phantomjs ./examples/node/class.js
-	phantomjs ./examples/node/abstract_class.js
-	phantomjs ./examples/node/static_class.js
-	phantomjs ./examples/node/constants.js
-	phantomjs ./examples/node/fields.js
-	phantomjs ./examples/node/inheritance.js
-	phantomjs ./examples/node/interface.js
-	phantomjs ./examples/node/object_factory.js
-	phantomjs ./examples/node/properties.js
-	phantomjs ./examples/node/static.js
-	phantomjs ./examples/node/extension.js
-	phantomjs ./examples/node/multiple_interface_inheritance.js
-	phantomjs ./examples/node/type_checking.js
-	phantomjs ./examples/node/namespace.js
-	phantomjs ./examples/node/module_inline.js
-	#phantomjs ./examples/node/module_with_arguments.js
-	phantomjs ./examples/node/enum.js
+	phantomjs ./tests/node/class.js
+	phantomjs ./tests/node/abstract_class.js
+	phantomjs ./tests/node/static_class.js
+	phantomjs ./tests/node/constants.js
+	phantomjs ./tests/node/fields.js
+	phantomjs ./tests/node/inheritance.js
+	phantomjs ./tests/node/interface.js
+	phantomjs ./tests/node/object_factory.js
+	phantomjs ./tests/node/properties.js
+	phantomjs ./tests/node/static.js
+	phantomjs ./tests/node/extension.js
+	phantomjs ./tests/node/multiple_interface_inheritance.js
+	phantomjs ./tests/node/type_checking.js
+	phantomjs ./tests/node/namespace.js
+	phantomjs ./tests/node/module_inline.js
+	phantomjs ./tests/node/module_with_arguments.js
+	phantomjs ./tests/node/enum.js
