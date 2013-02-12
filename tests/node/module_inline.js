@@ -1,10 +1,8 @@
-"use strict";
+'use strict';
 
-console.log("=== Module Inline ===");
+require('../../lib/class4js.js');
 
-var class4js = require("../../lib/class4js.js");
-
-var util = $module(function (/*exports*/) {
+var util = $module(function (exports) {
 
   var Reader = $class({
    
@@ -27,6 +25,6 @@ var result = reader.read();
 console.assert(result === "#TEXT");
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

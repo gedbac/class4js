@@ -1,8 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
-
-console.log(class4js);
+require('../../lib/class4js.js');
 
 var ICollection = $interface({
 
@@ -23,7 +21,7 @@ var Collection = $class({
 
 });
 
-$extend(ICollection, "forEach", function (callback) {
+$extend(ICollection, 'forEach', function (callback) {
   if (callback) {
     for (var i = 0; i < this.items().length; i++) {
       callback(this.items()[i]);
@@ -31,10 +29,22 @@ $extend(ICollection, "forEach", function (callback) {
   } 
 });
 
-var collection = new Collection([1, 2, 3]);
+var collection = new Collection(['1', '2', '3']);
 
+var index = 0;
 collection.forEach(function (item) {
-  console.log(item);
+  switch (index) {
+    case 0:
+      console.assert(item == '1');
+      break;
+    case 1:
+      console.assert(item == '2');
+      break;
+    case 2:
+      console.assert(item == '3');
+      break;
+  }
+  index++;
 });
 
 // It's required for PhantomJS

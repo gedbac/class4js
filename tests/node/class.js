@@ -1,11 +1,13 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
+
+var constructorInvoked = false;
 
 var Person = $class({
   __construct__: function (name) {
     this.__name = name;
-    console.log("ctor");
+    constructorInvoked = true;
   },
   getName: function () {
     return this.__name;
@@ -14,7 +16,8 @@ var Person = $class({
 
 var person = new Person("John Smith");
 
-console.log(person.getName());
+console.assert(constructorInvoked);
+console.assert(person.getName() == 'John Smith');
 
 // It's required for PhantomJS
 if (typeof phantom !== "undefined") {

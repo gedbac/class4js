@@ -1,10 +1,8 @@
 "use strict";
 
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
-"use strict";
-
-console.log("=== Type checking example: ===");
+'use strict';
 
 var IShape = $interface({
   x: {
@@ -76,10 +74,10 @@ var Rectangle = $class({
 
 var rec = new Rectangle(10, 10, 50, 50); 
 
-console.log($is(rec, Rectangle));
-console.log($is(rec, IRectangle));
+console.assert($is(rec, Rectangle));
+console.assert($is(rec, IRectangle));
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

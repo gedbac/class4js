@@ -1,8 +1,6 @@
-"use strict";
+'use strict';
 
-console.log("=== Static class: ===");
-
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
 var Counter = $static_class({
   __construct__: function () {
@@ -19,9 +17,9 @@ var Counter = $static_class({
 });
 
 Counter.increment();
-console.log(Counter.current);
+console.assert(Counter.current == 1);
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

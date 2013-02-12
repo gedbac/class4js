@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
 var Shape = $class({
   __construct__: function () {
@@ -25,6 +25,6 @@ var rec = new Rectangle();
 rec.draw();
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require("../../lib/class4js.js");
 
 var Entity = $class({
 
@@ -48,10 +48,12 @@ var Person = $class({
 
 var person = new Person({
   id: 10,
-  name: "John Smith",
+  name: 'John Smith',
   age: 30
 });
-console.log(person);
+console.assert(person.id === 10);
+console.assert(person.name === 'John Smith');
+console.assert(person.age === 30);
 
 var Organisation = $class({
 
@@ -61,6 +63,10 @@ var Organisation = $class({
 
   add: function (person) {
     this.__persons.push($create(Person, person));
+  },
+
+  count: function () {
+    return this.__persons.length;
   }
 
 });
@@ -70,13 +76,13 @@ var organisation = new Organisation();
 organisation.add(person);
 organisation.add({
   id: 24,
-  name: "Peter Joe",
+  name: 'Peter Joe',
   age: 42
 });
 
-console.log(organisation);
+console.assert(organisation.count() === 2);
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

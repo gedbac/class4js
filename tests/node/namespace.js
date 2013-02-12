@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
-$namespace("org.myapp.util");
+$namespace('org.myapp.util');
 
 org.myapp.util = (function () {
 
@@ -12,9 +12,9 @@ org.myapp.util = (function () {
 
 }());
 
-console.log(org);
+console.assert(org);
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
 var Calculator = $class({
   __static__: {
@@ -13,10 +13,10 @@ var Calculator = $class({
   }
 }); 
 
-console.log(Calculator.sum(2, 2));
-console.log(Calculator.subtract(8, 4));
+console.assert(Calculator.sum(2, 2) == 4);
+console.assert(Calculator.subtract(8, 4) == 4);
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

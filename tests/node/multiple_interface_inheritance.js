@@ -1,8 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
-
-console.log("=== Multiple interface inheritance usage example: ===");
+require('../../lib/class4js.js');
 
 var IDisposable = $interface({
   dispose: function () {}
@@ -28,6 +26,6 @@ for (var property in IElement) {
 }
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

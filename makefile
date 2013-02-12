@@ -18,7 +18,7 @@ all: build-node build-browser
 
 clean: clean-node clean-browser
 
-run-examples: run-examples-node run-examples-browser
+test: test-node test-phantomjs test-browser
 
 build-node: lib/class4js.js
 
@@ -29,24 +29,24 @@ lib/class4js.js: clean-node
 clean-node:
 	rm -f ./lib/class4js.js
 
-run-examples-node:
-	node ./examples/node/class.js
-	node ./examples/node/abstract_class.js
-	node ./examples/node/static_class.js
-	node ./examples/node/constants.js
-	node ./examples/node/fields.js
-	node ./examples/node/inheritance.js
-	node ./examples/node/interface.js
-	node ./examples/node/object_factory.js
-	node ./examples/node/properties.js
-	node ./examples/node/static.js
-	node ./examples/node/extension.js
-	node ./examples/node/multiple_interface_inheritance.js
-	node ./examples/node/type_checking.js
-	node ./examples/node/namespace.js
-	node ./examples/node/module_inline.js
-	#node ./examples/node/module_with_arguments.js
-	node ./examples/node/enum.js
+test-node:
+	node ./tests/node/class.js
+	node ./tests/node/abstract_class.js
+	node ./tests/node/static_class.js
+	node ./tests/node/constants.js
+	node ./tests/node/fields.js
+	node ./tests/node/inheritance.js
+	node ./tests/node/interface.js
+	node ./tests/node/object_factory.js
+	node ./tests/node/properties.js
+	node ./tests/node/static.js
+	node ./tests/node/extension.js
+	node ./tests/node/multiple_interface_inheritance.js
+	node ./tests/node/type_checking.js
+	node ./tests/node/namespace.js
+	node ./tests/node/module_inline.js
+	node ./tests/node/module_with_arguments.js
+	node ./tests/node/enum.js
 
 build-browser: class4js.min.js
 
@@ -66,10 +66,10 @@ clean-browser:
 	rm -f class4js.js
 	rm -f class4js.min.js
 
-run-examples-browser:
+test-browser:
 	xdg-open ./examples/browser/index.html
 
-run-examples-phantomjs:
+test-phantomjs:
 	phantomjs ./examples/node/class.js
 	phantomjs ./examples/node/abstract_class.js
 	phantomjs ./examples/node/static_class.js

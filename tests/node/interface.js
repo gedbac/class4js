@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require("../../lib/class4js.js");
 
 var IComponent = $interface({ 
   id: {
@@ -52,9 +52,9 @@ var Rectangle = $class({
 
 var rec = new Rectangle(true, 10);
 
-console.log($is(rec, IDrawable));
+console.assert($is(rec, IDrawable));
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

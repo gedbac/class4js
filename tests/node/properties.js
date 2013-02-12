@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
 var Person = $class({
   __construct__: function (name) {
@@ -23,12 +23,12 @@ var Person = $class({
 });
 
 var person = new Person();
-person.name = "John Smith";
+person.name = 'John Smith';
 
-console.log(person.name);
-console.log(person.created);
+console.assert(person.name == 'John Smith');
+console.assert(person.created);
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

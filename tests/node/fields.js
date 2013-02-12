@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var class4js = require("../../lib/class4js.js");
+require('../../lib/class4js.js');
 
 var Person = $class({
   __age: 30,
@@ -19,13 +19,18 @@ var Person = $class({
   }
 });
 
-var person = new Person("John Smith");
+var person = new Person('John Smith');
 
-console.log(person.getName());
-console.log(person.getAge());
+console.assert(person.getName() == 'John Smith');
+console.assert(person.getAge() == 30);
 
-// Error will be raised here:
-// person.setGender("male");
+var errorRaised = false;
+try {
+  person.setGender('male');
+} catch (e) {
+  errorRaised = true;
+}
+console.assert(errorRaised);
 
 // It's required for PhantomJS
 if (typeof phantom !== "undefined") {
