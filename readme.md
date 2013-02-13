@@ -7,6 +7,11 @@ modifications"_. __class4js__  is free software distributed under the terms of
 the _GNU General Public License version 3_ and can be used with __node.js__, 
 __modern web browsers__ and even with __PhantomJS__.
 
+* Installation
+  * nodejs
+* API
+* License
+
 ## Installation
 
 ### node.js
