@@ -7,8 +7,48 @@ modifications"_. __class4js__  is free software distributed under the terms of
 the _GNU General Public License version 3_ and can be used with __node.js__, 
 __modern web browsers__ and even with __PhantomJS__.
 
+    // Simple class example:
+    
+    var Shape = $class({
+      __construct__: function () {
+        this.__x = 0;
+        this.__y = 0;
+      },
+      x: {
+        get: function () {
+          return this.__x;
+        },
+        set: function (value) {
+          this.__x = value;
+        }
+      },
+      y: {
+        get: function () {
+          return this.__y;
+        },
+        set: function (value) {
+          this.__y = value;
+        }
+      },
+      draw: function () {
+        console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
+      }, 
+      moveTo: function (x, y) {
+        this.x = x;
+        this.y = y;
+      }
+    });
+    
+    var shape = new Shape({ x: 100, y: 100 });
+    shape.moveTo(120, 85);
+    
+    // Output:
+    // Drawing shape at: (120, 85)
+
+## Overview
+
 * Installation
-  * nodejs
+  * node.js
 * API
 * License
 
@@ -30,7 +70,7 @@ Also __class4js__ module's loading statement should be added to main module:
 
 ## API
 
-### Create class
+### Class
 
 Private class members are decorated with \_\_ and protected with \_.
 
