@@ -294,6 +294,36 @@ Object.defineProperties(Module, {
   /**
    * @memberOf {class4js.Module}
    * @static
+   * @public
+   * @method __loadMainModule
+   */
+  __loadMainModule: {
+    value: function () {
+      if (!Module.__hasRequire()) {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0;i < scripts.length; i++) {
+          var mainScript = scripts[i].getAttribute('data-main');
+          if (mainScript) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = mainScript; 
+            script.addEventListener('error', function (e) {
+              throw new ModuleException("Failed to load module '" + mainScript + "'");
+            });
+            scripts[i].parentNode.appendChild(script);
+            break;
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
    * @private
    * @method __loadDependency
    * @param {String} name
@@ -367,7 +397,12 @@ Object.defineProperties(Module, {
           callback();
         });
         var head = document.getElementsByTagName('head')[0];
-        head.appendChild(script);
+        if (head) {
+          head.appendChild(script);
+        } else {
+          var body = document.getElementsByTagName('body')[0];
+          body.appendChild(script);
+        }
       }
     },
     writable: false,
@@ -431,6 +466,8 @@ Object.defineProperties(Module, {
 });
 Object.seal(Module);
 Object.seal(Module.prototype);
+
+Module.__loadMainModule();
 
 global.$module = Module.create;
 

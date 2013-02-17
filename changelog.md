@@ -100,3 +100,7 @@
 
 * Dynamic module loading was implemented
 * Class creating was improved
+
+## 2013.02.17, Version 1.9.1
+
+* Attribute 'data-main' was added to script tag wich allows to load main module
