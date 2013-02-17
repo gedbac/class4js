@@ -55,15 +55,15 @@ __modern web browsers__ and even with __PhantomJS__.
   * Class
       * Constructor
       * Static Constructor
+      * Constant
       * Fields
-      * Constants
       * Properties
-      * Inheritance
       * Static Members
+      * Inheritance
   * Abstract Class
   * Static Class
-  * Interface 
   * Enum
+  * Interface 
   * Object Factory
   * Modules
   * Namespace
@@ -179,6 +179,8 @@ Static constructor is a static data initializer. Static constructors are called
 when the class is defined. Name for a static constructor is the same as ordinal 
 constructor name, but must be surrounded with *\_\_static\_\_* statement.
 
+__Example__:
+
     var Shape = $class({
       __static__: {
         __construct__: function () {
@@ -187,6 +189,144 @@ constructor name, but must be surrounded with *\_\_static\_\_* statement.
       }
     });
 
+#### Constant
+
+A constant is a class member which value can't be changed. Constant names should 
+be in uppercasing.
+
+__Example:__
+
+    var Calendar = $class({
+      MONTHS: 12,
+      WEEKS: 52,
+      DAYS: 365,
+    });
+
+#### Fields
+
+All class fields should be defined as class members or initialized in constructor, 
+because when class is created, class is closed for modifications.
+
+__Example:__
+
+    var Shape = $class({
+      __x: 0,
+      __y: 0
+    });
+
+#### Properties
+
+A property is a member that provides a flexible mechanism to read, write, or 
+compute the value of a private field.
+
+__Example__:
+
+    var Shape = $class({
+      __construct__: function () {
+        this.__x = 0;
+        this.__y = 0;
+      },
+      x: {
+        get: function () {
+          return this.__x;
+        },
+        set: function (value) {
+          this.__x = value;
+        }
+      },
+      y: {
+        get: function () {
+          return this.__y;
+        },
+        set: function (value) {
+          this.__y = value;
+        }
+      }
+    });
+
+#### Inheritance
+
+Inheritance is a way to reuse code and to establish a subtype from an existing 
+object. Constructor inheritance is also supported. To access parent's methods 
+property *\_super* should be used.
+
+__Example:__
+
+    var Shape = $class({
+      __construct__: function () {
+        this.__x = 0;
+        this.__y = 0;
+      },
+      x: {
+        get: function () {
+          return this.__x;
+        },
+        set: function (value) {
+          this.__x = value;
+        }
+      },
+      y: {
+        get: function () {
+          return this.__y;
+        },
+        set: function (value) {
+          this.__y = value;
+        }
+      },
+      draw: function () {
+        console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
+      }
+    });
+    
+    var Rectangle = $class({
+      __construct__: function () {
+        this.__width = 0;
+        this.__height = 0;
+      },
+      width: {
+        get: function () {
+          return this.__width;
+        },
+        set: function (value) {
+          this.__width = value;
+        }
+      },
+      height: {
+        get: function () {
+          return this.__height;
+        },
+        set: function (value) {
+          this.__height = value;
+        }
+      },
+      draw: function () {
+        this.__super.draw();
+        console.log("Drawing rectangle (" + this.width + ", " + this.height 
+          + ") at: (" + this.x + ", " + this.y + ")");
+      }
+    }, Shape);
+    
+    var shape = new Shape({ x: 100, y: 100, with: 50, height: 50 });
+    shape.draw();
+
+#### Static members
+
+Static class members are used to create data and functions that can be accessed 
+without creating an instance of the class. All static class members should be 
+must be surrounded with *\_\_static\_\_* statement.
+
+__Example:__
+
+    var Calculator = $class({
+      __static__: {
+        sum: function (a, b) {
+          return a + b;
+        },
+        subtract: function (a, b) {
+          return a - b;
+        }
+      }
+    }); 
 
 ### Abstract Class
 
@@ -233,7 +373,7 @@ Abstract classes are declared using the keyword __$static_class__:
 
     $static_class(properties:Object): Object
 
-__Example__
+__Example:__
 
     var Counter = $static_class({
       __construct__: function () {
@@ -251,150 +391,19 @@ __Example__
     
     Counter.increment();
 
-### Fields
+### Enum
 
-All class fields should be defined as class members or initialized in constructor, 
-because when class is created, class is closed for modifications.
+__enum__ keyword acan be used to set up collections of named integer constants.
 
-__Example__
+    $enum(fields:Object): Object
 
-    "use strict";
-    
-    require("class4js");
-    
-    var Person = $class({
-        __age: 30,
-        __construct__: function (name) {
-        this.__name = name;
-      },
-      getName: function () {
-        return this.__name;
-      },
-      getAge: function () {
-        return this.__age;
-      },
-      setGender: function (gender) {
-        // It's to late to initialize a class field:
-        this.__gender = gender;
-      }
+__Example:__
+
+    var Priority = $enum({
+      low: 0,
+      normal: 1,
+      high: 2
     });
-    
-    var person = new Person("John Smith");
-    
-    console.log(person.getName());
-    console.log(person.getAge());
-    
-    // Error will be raised here:
-    person.setGender("male");
-
-### Constants
-
-Use NAMES_LIKE_THIS for constants.
-
-__Example__
-
-    "use strict";
-    
-    require("class4js");
-    
-    var Person = $class({
-      MAX_AGE: 99,
-      __construct__: function () {
-      }
-    });
-    
-    console.log(Person.MAX_AGE);
-
-### Properties
-
-A property is a member that provides a flexible mechanism to read, write, or 
-compute the value of a private field:
-
-__Example__
-
-    "use strict";
-    
-    require("class4js");
-    
-    var Person = $class({
-      __construct__: function (name) {
-        this.__name = name;
-        this.__created = new Date();
-      },
-      name: {
-        get: function () {
-          return this.__name;
-        },
-        set: function (value) {
-          this.__name = value;
-        }
-      },
-      created: {
-        get: function () {
-          return this.__created;
-        }
-      }
-    });
-    
-    var person = new Person();
-    person.name = "John Smith";
-    
-    console.log(person.name);
-    console.log(person.created); 
-
-### Static members
-
-class4js library allows to define static class members:
-
-__Example__
-
-    "use strict";
-    
-    require("class4js");
-    
-    var Calculator = $class({
-      __static__: {
-        sum: function (a, b) {
-          return a + b;
-        },
-        subtract: function (a, b) {
-          return a - b;
-        }
-      }
-    }); 
-    
-    console.log(Calculator.sum(2, 2));
-    console.log(Calculator.subtract(8, 4));
-
-### Inheritance
-
-Creates a class with the specified parent:
-
-__Example__
-
-    "use strict";
-    
-    require("class4js");
-    
-    var Shape = $class({
-      __construct__: function () {
-      },
-      draw: function () {
-        console.log("Shape is drawn...");
-      }
-    });
-    
-    var Rectangle = $class({
-      __construct__: function () {
-      },
-      draw: function () {
-        this._super.draw();
-        console.log("Rectangle is drawn...");
-      }
-    }, Shape); 
-    
-    var rec = new Rectangle();
-    rec.draw();
 
 ### Namespaces
 
@@ -593,7 +602,7 @@ __Example__
 
 ### Modules
 
-Modules were included to class4js for better compatability with browsers, because
+Modules were included to __class4js__ for better compatability with browsers, because
 in browsers were no build in module system like in nodejs. In nodejs module wrapps 
 nodejs module systems loading.
 
@@ -630,32 +639,6 @@ __Example__
     
     var reader = new util.Reader();
     reader.read();
-
-### Enum
-
-Creates an enum:
-
-    class4js.Enum.create(fields:Object): Object
-
-or
-
-    $enum(fields:Object): Object
-
-__Example__
-
-    "use strict";
-    
-    var class4js = require("../../lib/class4js.js");
-    
-    var Priority = $enum({
-      low: 0,
-      normal: 1,
-      high: 2
-    });
-    
-    for (var field in Priority) {
-      console.log(field);
-    }
 
 ### Extensions
 
