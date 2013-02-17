@@ -54,11 +54,12 @@ __modern web browsers__ and even with __PhantomJS__.
 * API
   * Class
       * Constructor
+      * Static Constructor
       * Fields
       * Constants
       * Properties
-      * Static members
       * Inheritance
+      * Static Members
   * Abstract Class
   * Static Class
   * Interface 
@@ -158,6 +159,34 @@ __Example:__
     
     var shape = new Shape({ x: 100, y: 100 });
     shape.moveTo(120, 85);   
+
+#### Constructor
+
+Whenever a class is created, its constructor is called. Name for a constructor 
+is _\_\_construct\_\__.
+
+__Example:__
+
+    var Shape = $class({
+      __construct__: function () {
+        // Your code goes here...
+      }
+    });
+
+#### Static Constructor
+
+Static constructor is a static data initializer. Static constructors are called 
+when the class is defined. Name for a static constructor is the same as ordinal 
+constructor name, but must be surrounded with _\_\_static\_\__ statement.
+
+    var Shape = $class({
+      __static__: {
+        __construct__: function () {
+          // Your code goes here...
+        }
+      }
+    });
+
 
 ### Abstract Class
 
