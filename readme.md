@@ -53,12 +53,12 @@ __modern web browsers__ and even with __PhantomJS__.
   * PhantomJS
 * API
   * Class
-    * Constructor
-    * Fields
-    * Constants
-    * Properties
-    * Static members
-    * Inheritance
+      * Constructor
+      * Fields
+      * Constants
+      * Properties
+      * Static members
+      * Inheritance
   * Abstract Class
   * Static Class
   * Interface 
