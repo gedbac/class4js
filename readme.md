@@ -53,18 +53,19 @@ __modern web browsers__ and even with __PhantomJS__.
   * PhantomJS
 * API
   * Class
+    * Constructor
+    * Fields
+    * Constants
+    * Properties
+    * Static members
+    * Inheritance
   * Abstract Class
   * Static Class
-  * Fields
-  * Constants
-  * Properties
-  * Static members
-  * Namespace
-  * Inheritance
   * Interface 
+  * Enum
   * Object Factory
   * Modules
-  * Enum
+  * Namespace
   * Extensions
 * License
 
@@ -84,11 +85,33 @@ Also __class4js__ module's loading statement should be added to main module:
     
     // Your code goes here...
 
-### Node.js
-
 ### Web Browser
 
+To use __class4js__ module in web browser, simply donwload newest minified 
+__class4js__ module file and include it to your browsers. You can also define 
+main module of application:
+
+    <!DOCTYPE HTML>
+    <html>
+    <head>
+      <script src="./scripts/class4js.min.js" data-main="./scripts/main.js"></script>
+    </head>
+    <body>
+      <!-- Your code goes here... -->
+    </body>
+    </html>
+
 ### PhantomJS
+
+To use __class4js__ in with PhantomJS, simply copy __class4js__ module near 
+PhantomJS executor and include __class4js__ module's loading statement to main 
+module:
+
+    'use strict';
+    
+    require('./class4js.js');
+    
+    // Your code goes here...
 
 ## API
 
@@ -139,19 +162,16 @@ __Example:__
 ### Abstract Class
 
 Abstract class is intended only to be a base class of other classes. Abstract 
-class can't be  instantiated.
+class can't be  instantiated. Abstract classes are declared using the keyword 
+__$abstract_class__:
 
     $abstract_class(properties:Object, parent:Object, interfaces:Array): Function
 
-__Example__
+__Example:__
 
-    "use strict";
-    
-    require("class4js");
-    
     var Component = $abstract_class({
       __construct__: function () { 
-        this.__name = "Component";
+        this.__name = 'Component';
       },
       name: { 
         get: function () { 
@@ -165,7 +185,7 @@ __Example__
     
     var Button = $class({
       __construct__: function () {
-        this.name = "Button";
+        this.name = 'Button1';
       }
     }, Component)
     
@@ -179,18 +199,13 @@ __Example__
 
 ### Static Class
 
-Static class can't be initialized or inherited and contains only static members.
+Static class can't be initialized or inherited and contains only static members. 
+Abstract classes are declared using the keyword __$static_class__:
 
-    $static_class(properties:Object, parent:Object, interfaces:Array): Object
+    $static_class(properties:Object): Object
 
 __Example__
 
-    "use strict";
-    
-    console.log("=== Static class: ===");
-    
-    var class4js = require("../../lib/class4js.js");
-    
     var Counter = $static_class({
       __construct__: function () {
         this.__value = 0;
@@ -206,7 +221,6 @@ __Example__
     });
     
     Counter.increment();
-    console.log(Counter.current);
 
 ### Fields
 
