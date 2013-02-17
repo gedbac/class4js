@@ -48,13 +48,29 @@ __modern web browsers__ and even with __PhantomJS__.
 ## Overview
 
 * Installation
-  * node.js
+  * Node.js
+  * Web Browser
+  * PhantomJS
 * API
+  * Class
+  * Abstract Class
+  * Static Class
+  * Fields
+  * Constants
+  * Properties
+  * Static members
+  * Namespace
+  * Inheritance
+  * Interface 
+  * Object Factory
+  * Modules
+  * Enum
+  * Extensions
 * License
 
 ## Installation
 
-### node.js
+### Node.js
 
 To install __class4js__ module for node.js, this command should be used:
 
@@ -68,38 +84,57 @@ Also __class4js__ module's loading statement should be added to main module:
     
     // Your code goes here...
 
+### Node.js
+
+### Web Browser
+
+### PhantomJS
+
 ## API
 
 ### Class
 
-Private class members are decorated with \_\_ and protected with \_.
-
-Creates a class: 
-
-    class4js.Class.create(properties:Object, parent:Object, interfaces:Array): Function
-
-or
+A class is a construct that is used to create instances of itself. A class defines 
+constituent members which enable its instances to have state and behavior. 
+Private class members are decorated with \_\_ and protected with \_. Classes are 
+declared using the keyword __$class__:
 
     $class(properties:Object, parent:Object, interfaces:Array): Function
 
-__Example__
+__Example:__
 
-    "use strict";
-
-    require("class4js");
-
-    var Person = $class({
-      __construct__: function (name) {
-        this.__name = name;
+    var Shape = $class({
+      __construct__: function () {
+        this.__x = 0;
+        this.__y = 0;
       },
-      getName: function () {
-        return this.__name;
+      x: {
+        get: function () {
+          return this.__x;
+        },
+        set: function (value) {
+          this.__x = value;
+        }
+      },
+      y: {
+        get: function () {
+          return this.__y;
+        },
+        set: function (value) {
+          this.__y = value;
+        }
+      },
+      draw: function () {
+        console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
+      }, 
+      moveTo: function (x, y) {
+        this.x = x;
+        this.y = y;
       }
     });
-
-    var person = new Person("John Smith");
-
-    console.log(person.getName());    
+    
+    var shape = new Shape({ x: 100, y: 100 });
+    shape.moveTo(120, 85);   
 
 ### Abstract Class
 
