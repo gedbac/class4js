@@ -163,7 +163,7 @@ __Example:__
 #### Constructor
 
 Whenever a class is created, its constructor is called. Name for a constructor 
-is _\_\_construct\_\__.
+is *\_\_construct\_\_*.
 
 __Example:__
 
@@ -177,7 +177,7 @@ __Example:__
 
 Static constructor is a static data initializer. Static constructors are called 
 when the class is defined. Name for a static constructor is the same as ordinal 
-constructor name, but must be surrounded with _\_\_static\_\__ statement.
+constructor name, but must be surrounded with *\_\_static\_\_* statement.
 
     var Shape = $class({
       __static__: {
