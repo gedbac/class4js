@@ -55,6 +55,7 @@ __modern web browsers__ and even with __PhantomJS__.
   * Class
       * Constructor
       * Static Constructor
+      * Object initializer
       * Constant
       * Fields
       * Properties
@@ -189,6 +190,37 @@ __Example__:
       }
     });
 
+#### Object Initializer
+
+Object can be initialized with anonymous object.
+
+__Example:__
+
+    var Shape = $class({
+      __construct__: function () {
+        this.__x = 0;
+        this.__y = 0;
+      },
+      x: {
+        get: function () {
+          return this.__x;
+        },
+        set: function (value) {
+          this.__x = value;
+        }
+      },
+      y: {
+        get: function () {
+          return this.__y;
+        },
+        set: function (value) {
+          this.__y = value;
+        }
+      }
+    });
+    
+    var shape = new Shape({ x: 100, y: 100 });
+
 #### Constant
 
 A constant is a class member which value can't be changed. Constant names should 
@@ -243,6 +275,25 @@ __Example__:
         }
       }
     });
+
+#### Static members
+
+Static class members are used to create data and functions that can be accessed 
+without creating an instance of the class. All static class members should be 
+must be surrounded with *\_\_static\_\_* statement.
+
+__Example:__
+
+    var Calculator = $class({
+      __static__: {
+        sum: function (a, b) {
+          return a + b;
+        },
+        subtract: function (a, b) {
+          return a - b;
+        }
+      }
+    }); 
 
 #### Inheritance
 
@@ -309,25 +360,6 @@ __Example:__
     var shape = new Shape({ x: 100, y: 100, with: 50, height: 50 });
     shape.draw();
 
-#### Static members
-
-Static class members are used to create data and functions that can be accessed 
-without creating an instance of the class. All static class members should be 
-must be surrounded with *\_\_static\_\_* statement.
-
-__Example:__
-
-    var Calculator = $class({
-      __static__: {
-        sum: function (a, b) {
-          return a + b;
-        },
-        subtract: function (a, b) {
-          return a - b;
-        }
-      }
-    }); 
-
 ### Abstract Class
 
 Abstract class is intended only to be a base class of other classes. Abstract 
@@ -393,7 +425,7 @@ __Example:__
 
 ### Enum
 
-__enum__ keyword acan be used to set up collections of named integer constants.
+__enum__ keyword can be used to set up collections of named integer constants.
 
     $enum(fields:Object): Object
 
@@ -685,73 +717,6 @@ __Example__
     collection.forEach(function (item) {
       console.log(item);
     });
-
-### Web browsers
-
-If you want to use __class4js__ in the web browser, simply include __class4js.min.js__
-file to your page.
-
-__index.html__
-
-    <!DOCTYPE HTML>
-    <html>
-    <head>
-      <title>Samples</title>
-    </head>
-    <body>
-      <div>Sample...</div>
-      <script src="class4js.min.js"></script>
-      <script src="sample.js"></script>
-    </body>
-    </html>
-
-__sample.js__
-
-    (function () {
-    
-      "use strict";
-    
-      var Person = $class({
-        __construct__: function (name) {
-          this.__name = name;
-          console.log("ctor");
-        },
-        getName: function () {
-          return this.__name;
-        }
-      });
-    
-      var person = new Person("John Smith");
-    
-      console.log(person.getName());
-    
-    }());
-
-### PhantomJS
-
-__PhantomJS__ is very similar to the __Node.js__. __class4js__ package dedicated for 
-__Node.js__ can be taken and used in __PhantomJS__ without any modifications.
-
-__Example__
-
-    "use strict";
-    
-    require("./class4js.js");
-    
-    var Person = $class({
-      __construct__: function (name) {
-        this.__name = name;
-      },
-      getName: function () {
-        return this.__name;
-      }
-    });
-    
-    var person = new Person("John Smith");
-    
-    console.log(person.getName());
-    
-    phantom.exit();
 
 ## License
 
