@@ -89,7 +89,7 @@ Also __class4js__ module's loading statement should be added to main module:
 
 ### Web Browser
 
-To use __class4js__ module in web browser, simply donwload newest minified 
+To use __class4js__ module in web browser, simply download newest minified 
 __class4js__ module file and include it to your browsers. You can also define 
 main module of application:
 
@@ -425,7 +425,7 @@ __Example:__
 
 ### Enum
 
-__enum__ keyword can be used to set up collections of named integer constants.
+__$enum__ keyword can be used to set up collections of named integer constants.
 
     $enum(fields:Object): Object
 
@@ -625,7 +625,7 @@ __Example:__
 
 ### Namespaces
 
-Namespace are declared using the keyword __$namespace__.
+Namespaces are declared using the keyword __$namespace__.
 
     $namespace(name:String): void
 
