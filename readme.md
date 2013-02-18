@@ -364,7 +364,7 @@ __Example:__
 
 Abstract class is intended only to be a base class of other classes. Abstract 
 class can't be  instantiated. Abstract classes are declared using the keyword 
-__$abstract_class__:
+__$abstract_class__.
 
     $abstract_class(properties:Object, parent:Object, interfaces:Array): Function
 
@@ -401,7 +401,7 @@ __Example:__
 ### Static Class
 
 Static class can't be initialized or inherited and contains only static members. 
-Abstract classes are declared using the keyword __$static_class__:
+Abstract classes are declared using the keyword __$static_class__.
 
     $static_class(properties:Object): Object
 
@@ -436,34 +436,6 @@ __Example:__
       normal: 1,
       high: 2
     });
-
-### Namespaces
-
-Creates a namespace:
-
-    class4js.Namespace.create(name:String): void
-
-or
-
-    $namespace(name:String): void
-
-__Example__
-
-    "use strict";
-    
-    require("../../lib/class4js.js");
-    
-    $namespace("org.myapp.util");
-    
-    org.myapp.util = (function () {
-    
-      var util = {};
-    
-      return util;
-    
-    }());
-    
-    console.log(org);
 
 ### Interfaces
 
@@ -544,165 +516,152 @@ __Example__
 
 ### Object factory
 
-Creates new object by given type and copies properties values to created object:
-
-    class4js.ObjectFactory.create(type:Function, options:Object): Object
-
-or
+Object can be created by given type and initialized from anonymous object. To 
+accomplish such task keyword __$create__ is used.
 
     $create(type:Function, options:Object): Object
 
-__Example__
+__Example:__
 
-    "use strict";
-    
-    require("class4js.js");
-    
-    var Entity = $class({
-    
+    var Shape = $class({
       __construct__: function () {
-        this.__id = 0;
+        this.__x = 0;
+        this.__y = 0;
       },
-    
-      id: {
+      x: {
         get: function () {
-          return this.__id;
+          return this.__x;
         },
         set: function (value) {
-          this.__id = value;
+          this.__x = value;
         }
-      }
-    
-    });
-    
-    var Person = $class({
-      
-      __construct__: function () {
-        this.__name = null;
-        this.__age = 0;
       },
-    
-      name: {
+      y: {
         get: function () {
-          return this.__name;
+          return this.__y;
         },
         set: function (value) {
-          this.__name = value;
+          this.__y = value;
         }
-      },
+      }
+    });
     
-      age: {
+    var Layer = $class({
+      __construct__: function () {
+        this.__shapes = [];
+      },
+      add: function (options) {
+        this.__shapes.push($create(Shape, options));
+      }
+    });
+    
+    var layer = new Layer();
+    layer.add({ x: 10, y: 10 });
+
+All properties from anonymous object can be copied to existing object. To 
+accomplish such task keyword __$init__ is used.
+
+__Example:__
+
+    var Shape = $class({
+      __construct__: function () {
+        this.__x = 0;
+        this.__y = 0;
+      },
+      x: {
         get: function () {
-          return this.__age;
+          return this.__x;
         },
         set: function (value) {
-          this.__age = value;
+          this.__x = value;
+        }
+      },
+      y: {
+        get: function () {
+          return this.__y;
+        },
+        set: function (value) {
+          this.__y = value;
         }
       }
-    
-    }, Entity);
-    
-    var person = new Person({
-      id: 10,
-      name: "John Smith",
-      age: 30
-    });
-    console.log(person);
-        
-    var Organisation = $class({
-    
-      __construct__: function () {
-        this.__persons = [];
-      },
-    
-      add: function (person) {
-        this.__persons.push($create(Person, person));
-      }
-    
     });
     
-    var organisation = new Organisation();
-    
-    organisation.add(person);
-    organisation.add({
-      id: 24,
-      name: "Peter Joe",
-      age: 42
-    });
-    
-    console.log(organisation);
+    var shape = new Shape();
+    $init(shape, { x: 10, y: 10 });
 
 ### Modules
 
 Modules were included to __class4js__ for better compatability with browsers, because
-in browsers were no build in module system like in nodejs. In nodejs module wrapps 
-nodejs module systems loading.
+in browsers were no build in module system like in nodejs. In nodejs modules are based
+on internal module loading. Modules are declared using the keyword __$module__.
 
-Creates an module:
+    $module(scope:Function, dependencies:Array): Object
 
-    class4js.Module.create(scope:Function): Object
+__Example:__
 
-or
+    $config({
+      debug: true,
+      modules: [{
+        name: 'a',
+        path: './a.js'
+      }]
+    });
 
-    $module(scope:Function): Object
-
-__Example__
-
-    "use strict";
+    var external_module = {};
     
-    require("class4js.js");
-    
-    var util = $module(function (exports) {
-    
+    var util = $module(function (fs, a, em, exports, global) {
       var Reader = $class({
-       
         __construct__: function () {
-        },
-    
+        },  
         read: function () {
           console.log("Reading...");  
-        } 
-      
+        }  
       }); 
-    
       exports.Reader = Reader;
-    
-    });
+    }, ['fs', 'a', external_module]);
     
     var reader = new util.Reader();
     reader.read();
+
+### Namespaces
+
+Namespace are declared using the keyword __$namespace__.
+
+    $namespace(name:String): void
+
+__Example:__
+
+    $namespace("org.myapp.util");
+    
+    org.myapp.util = (function () {
+      var util = {};
+      return util;
+    }());
+    
+    console.log(org);
 
 ### Extensions
 
 Extensions enables you to add methods to existing types without creating a new 
 derived type.
 
-    class4js.Class.addExtension(target:Object, name:String, value:Function): void
+    $extend(target:Object, name:String, value:Function): void
 
-__Example__
+__Example:__
 
-    "use strict";
-    
-    var class4js = require("../../lib/class4js.js");
-    
     var ICollection = $interface({
-    
       items: function() {
       }
-    
     });
     
     var Collection = $class({
-      
       __construct__: function (items) {
         this.__items = items;
       },
-    
       items: function () {
         return this.__items;
       }
-    
-    }, null, ICollection);
+    }, ICollection);
     
     $extend(ICollection, "forEach", function (callback) {
       if (callback) {
@@ -713,7 +672,6 @@ __Example__
     });
     
     var collection = new Collection([1, 2, 3]);
-    
     collection.forEach(function (item) {
       console.log(item);
     });
