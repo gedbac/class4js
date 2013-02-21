@@ -363,7 +363,7 @@ __Example:__
 ### Abstract Class
 
 Abstract class is intended only to be a base class of other classes. Abstract 
-class can't be  instantiated. Abstract classes are declared using the keyword 
+class can't be  instantiated. Abstract classes are declared by using the keyword 
 __$abstract_class__.
 
     $abstract_class(properties:Object, parent:Object, interfaces:Array): Function
@@ -401,7 +401,7 @@ __Example:__
 ### Static Class
 
 Static class can't be initialized or inherited and contains only static members. 
-Abstract classes are declared using the keyword __$static_class__.
+Abstract classes are declared by using the keyword __$static_class__.
 
     $static_class(properties:Object): Object
 
@@ -439,80 +439,39 @@ __Example:__
 
 ### Interfaces
 
-Creates an interfaces: 
-
-    class4js.Interface.create(properties:Object, parents:Array): Object
-
-or
+Interfaces form a contract between the class and the outside world. If your class 
+claims to implement an interface, all methods defined by that interface must 
+appear in its source code. Interfaces are declared by using the keyword __$interface__.
 
     $interface(properties:Object, parent:Object): Object
 
-You can check if object is compatable with given interface
-
-    class4js.Interface.instanceOf(source:Object, target:Object): Boolean
-
-or
+You can check if object is compatible with given interface or inherit give class.
 
     $is(source:Object, target:Object): Boolean 
 
-An interface can inherit or more other interfaces.
+An class can inherit one or more interfaces.
 
-__Example__
+__Example:__
 
-    "use strict";
-    
-    require("class4js.js");
-    
     var IComponent = $interface({ 
-      id: {
+      name: {
         get: function () {}
       }
     });
     
     var IDrawable = $interface({
-      visible: {
-        get: function () {}
-      },
-      drawOrder: {
-        get: function () {}
-      },
       draw: function (context) {} 
     }, IComponent);
     
-    var Rectangle = $class({
+    var Shape = $class({
+      draw: function () {
+        console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
+      }
+    }, IDrawable);
     
-      __construct__: function (visible, drawOrder) {
-        this.__visible = visible;
-        this.__drawOrder = drawOrder;
-      },
+    var shape = new Shape();
     
-      id: {
-        get: function () {
-          return this.__id;
-        }
-      },
-    
-      visible: {
-        get: function () {
-          return this.__visible;
-        }
-      },
-    
-      drawOrder: {
-        get: function () {
-          return this.__drawOrder;
-        }
-      },
-    
-      draw: function (context) {
-        console.log("Rectangle is drawn...");
-      } 
-    
-    }, null, IDrawable);
-    
-    var rec = new Rectangle(true, 10);
-    
-    console.log($is(rec, IDrawable));
+    console.log($is(shape, IDrawable));
 
 ### Object factory
 
@@ -591,9 +550,9 @@ __Example:__
 
 ### Modules
 
-Modules were included to __class4js__ for better compatability with browsers, because
-in browsers were no build in module system like in nodejs. In nodejs modules are based
-on internal module loading. Modules are declared using the keyword __$module__.
+Modules were included to __class4js__ for better compatability with browsers.
+Browsers don't have a built in module system. In Node.js modules are based
+on internal module loading. Modules are declared by using the keyword __$module__.
 
     $module(scope:Function, dependencies:Array): Object
 
