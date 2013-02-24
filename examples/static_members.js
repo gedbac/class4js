@@ -8,3 +8,5 @@ var Calculator = $class({
     }
   }
 });
+
+var result = Calculator.sum(2, 2);

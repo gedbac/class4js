@@ -122,7 +122,7 @@ module:
 A class is a construct that is used to create instances of itself. A class defines 
 constituent members which enable its instances to have state and behavior. 
 Private class members are decorated with \_\_ and protected with \_. Classes are 
-declared using the keyword __$class__:
+declared by using the keyword __$class__:
 
     $class(properties:Object, parent:Object, interfaces:Array): Function
 
@@ -178,7 +178,7 @@ __Example:__
 
 Static constructor is a static data initializer. Static constructors are called 
 when the class is defined. Name for a static constructor is the same as ordinal 
-constructor name, but must be surrounded with *\_\_static\_\_* statement.
+constructor name, but must be surrounded by *\_\_static\_\_* statement.
 
 __Example__:
 
@@ -192,7 +192,8 @@ __Example__:
 
 #### Object Initializer
 
-Object can be initialized with anonymous object.
+Object can be initialized with anonymous object. All properties from anonymous 
+object are copied to the target object.
 
 __Example:__
 
@@ -280,7 +281,7 @@ __Example__:
 
 Static class members are used to create data and functions that can be accessed 
 without creating an instance of the class. All static class members should be 
-must be surrounded with *\_\_static\_\_* statement.
+must be surrounded by *\_\_static\_\_* statement.
 
 __Example:__
 
@@ -293,7 +294,9 @@ __Example:__
           return a - b;
         }
       }
-    }); 
+    });
+    
+    var result = Calculator.sum(2, 2);
 
 #### Inheritance
 
