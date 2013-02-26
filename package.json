@@ -6,7 +6,7 @@
   "bugs": {
     "url": "https://github.com/gedbac/class4js/issues"
   },
-  "keywords": ["class", "abstract", "interface", "inheritance", "super", "constant", "static", "browser", "prototype", "extensions", "namespace", "phantomjs", "module"], 
+  "keywords": ["class", "abstract", "interface", "inheritance", "super", "constant", "static", "browser", "prototype", "extensions", "namespace", "phantomjs", "module", "javascript", "enum", "property", "field", "constructor", "static class", "abstract class", "object initializer"], 
   "repository": {
     "type": "git",
     "url": "https://github.com/gedbac/class4js.git"
