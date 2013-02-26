@@ -41,6 +41,7 @@ __modern web browsers__ and even with __PhantomJS__.
     
     var shape = new Shape({ x: 100, y: 100 });
     shape.moveTo(120, 85);
+    shape.draw();
     
     // Output:
     // Drawing shape at: (120, 85)
@@ -159,7 +160,8 @@ __Example:__
     });
     
     var shape = new Shape({ x: 100, y: 100 });
-    shape.moveTo(120, 85);   
+    shape.moveTo(120, 85);
+    shape.draw();   
 
 #### Constructor
 
