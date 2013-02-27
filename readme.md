@@ -442,7 +442,7 @@ __Example:__
       high: 2
     });
 
-### Interfaces
+### Interface
 
 Interfaces form a contract between the class and the outside world. If your class 
 claims to implement an interface, all methods defined by that interface must 
@@ -553,7 +553,7 @@ __Example:__
     var shape = new Shape();
     $init(shape, { x: 10, y: 10 });
 
-### Modules
+### Module
 
 Modules were included to __class4js__ for better compatability with browsers.
 Browsers don't have a built in module system. In Node.js modules are based
@@ -587,7 +587,7 @@ __Example:__
     var reader = new util.Reader();
     reader.read();
 
-### Namespaces
+### Namespace
 
 Namespaces are declared using the keyword __$namespace__.
 
@@ -604,7 +604,7 @@ __Example:__
     
     console.log(org);
 
-### Extensions
+### Extension
 
 Extensions enables you to add methods to existing types without creating a new 
 derived type.
@@ -627,7 +627,7 @@ __Example:__
       }
     }, ICollection);
     
-    $extend(ICollection, "forEach", function (callback) {
+    $extend(ICollection, 'forEach', function (callback) {
       if (callback) {
         for (var i = 0; i < this.items().length; i++) {
           callback(this.items()[i]);

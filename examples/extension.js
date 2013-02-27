@@ -12,7 +12,7 @@ var Collection = $class({
   }
 }, ICollection);
 
-$extend(ICollection, "forEach", function (callback) {
+$extend(ICollection, 'forEach', function (callback) {
   if (callback) {
     for (var i = 0; i < this.items().length; i++) {
       callback(this.items()[i]);

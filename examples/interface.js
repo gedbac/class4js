@@ -10,7 +10,7 @@ var IDrawable = $interface({
 
 var Shape = $class({
   draw: function () {
-    console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
+    // Your code goes here... 
   }
 }, IDrawable);
 
