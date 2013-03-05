@@ -450,11 +450,11 @@ appear in its source code. Interfaces are declared by using the keyword __$inter
 
     $interface(properties:Object, parent:Object): Object
 
-You can check if object is compatible with given interface or inherit give class.
+You can check if object is compatible with given interface or inherits give class.
 
     $is(source:Object, target:Object): Boolean 
 
-An class can inherit one or more interfaces.
+A class can inherit one or more interfaces.
 
 __Example:__
 
