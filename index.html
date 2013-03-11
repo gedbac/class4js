@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>class4js</title>
+    <meta charset="utf-8">
+    <meta name="author" content="gediminas backevicius">
+    <meta name="description" content="The class4js module is for class-driven development in JavaScript">
+    <meta name="keywords" content="class, abstract, interface, inheritance, super, constant, static, browser, prototype, extensions, namespace, phantomjs, module, javascript, enum, property, field, constructor, static class, abstract class, object initializer">
+    <link href="./content/style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <header>
+      <div class="site">
+        <hgroup>
+          <h1>
+            <span>class</span><span>4js</span>
+          </h1>
+          <h2>
+            js-modules
+          </h2>
+        </hgroup>
+        <nav>
+          <a href="./index.html" class="active">home</a>
+          <a href="./about.html">about</a>
+          <a href="./download.html">download</a>
+          <a href="./documentation.html">documentation</a>
+          <a href="https://github.com/gedbac/class4js/tree/master/examples" target="_blank">examples</a>
+          <a href="https://github.com/gedbac/class4js" target="_blank">source code</a>
+          <!--<a href="#">blog</a>-->
+          <a href="./contacts.html">contacts</a>
+        </nav>
+      </div>
+    </header>
+    <section class="explanation">
+      <div class="site">
+        <h3>Build Scalable JavaScript Application</h3>
+        <p>
+          The <strong>class4js</strong> module is for class-driven development in JavaScript. It 
+          allows to emulate classes in JavaScript. Module is based on ECMAScript 5 standart and 
+          implements open/close principle: <cite>"A module should be open for extension but closed for modifications"</cite>.
+          <strong>class4js</strong> is free software distributed under the terms of the <em>GNU General Public License version 3</em>
+          and can be used with <strong>node.js</strong>, <strong>modern web browsers</strong> and even with <strong>PhantomJS</strong>.
+        </p>
+        <p class="version">
+          Current version: <strong>1.9.1</strong>
+        </p>
+        <a class="red-button" href="./download.html">Download</a>
+        <a class="grey-button" href="./documentation.html">Documentation</a>
+      </div>
+    </section>
+     <section class="page">
+      <div class="site">
+       <nav>
+        <h4>Explore</h4> 
+        <ul class="explore">
+          <li class="home">
+            <a href="./index.html">Home</a>
+            <span>Explore class4js</pan>
+          </li>
+          <li class="about">
+            <a href="./about.html">About</a>
+            <span>Technical overview</span>
+          </li>
+          <li class="download">
+            <a href="./download.html">Download</a>
+            <span>Modules, resources and more</span>
+          </li>
+          <li class="documentation">
+            <a href="./documentation.html">Documentation</a>
+            <span>API specification</span>
+          </li>
+          <li class="examples">
+            <a href="https://github.com/gedbac/class4js/tree/master/examples" target="_blank">Examples</a>
+            <span>Javascript examples</span>
+          </li>
+          <li class="source-code">
+            <a href="https://github.com/gedbac/class4js" target="_blank">Source code</a>
+            <span>Source code, changes, issues</span>
+          </li>
+          <!--<li class="blog">
+            <a href="#">Blog</a>
+            <span>Related blog posts</span>
+          </li>-->
+          <li data-id="10" class="contacts">
+            <a href="./contacts.html">Contacts</a>
+            <span>Contacts</span>
+          </li>
+        </ul>
+       </nav>
+       <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/class.js" target="_blank">Plain</a><code><strong>Simple class example</strong>
+
+<span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () { 
+      <span class="return">return</span> <span class="this">this</span>.__x; 
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  },
+  draw: <span class="function">function</span> () {
+    console.log(<span class="string">"Drawing shape at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+  }, 
+  moveTo: <span class="function">function</span> (x, y) {
+    <span class="this">this</span>.x = x;
+    <span class="this">this</span>.y = y;
+  }
+});
+
+<span class="var">var</span> shape = <span class="var">new</span> Shape({ x: 100, y: 100 });
+shape.moveTo(120, 85);
+shape.draw();
+
+<strong>Output</strong>
+
+Drawing shape at: (120, 85)</code></pre>
+       </section>
+      </div>
+    </section>
+    <footer>
+      <div class="site">
+        <span>Copyright (C) 2012 - 2013 Gediminas Backevicius</span>
+        <span>Icons provided by <a href="http://www.icons8.com" target="_blank">icons8.com</a></span>
+      </div>
+    </footer>
+    <a href="https://github.com/gedbac/class4js" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

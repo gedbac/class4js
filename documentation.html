@@ -1,0 +1,655 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>class4js</title>
+    <meta charset="utf-8">
+    <meta name="author" content="gediminas backevicius">
+    <meta name="description" content="The class4js module is for class-driven development in JavaScript">
+    <meta name="keywords" content="class, abstract, interface, inheritance, super, constant, static, browser, prototype, extensions, namespace, phantomjs, module, javascript, enum, property, field, constructor, static class, abstract class, object initializer">
+    <link href="./content/style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>  
+    <header>
+      <div class="site">
+        <hgroup>
+          <h1>
+            <span>class</span><span>4js</span>
+          </h1>
+          <h2>
+            js-modules
+          </h2>
+        </hgroup>
+        <nav>
+          <a href="./index.html">home</a>
+          <a href="./about.html">about</a>
+          <a href="./download.html">download</a>
+          <a href="./documentation.html" class="active">documentation</a>
+          <a href="https://github.com/gedbac/class4js/tree/master/examples" target="_blank">examples</a>
+          <a href="https://github.com/gedbac/class4js" target="_blank">source code</a>
+          <!--<a href="#">blog</a>-->
+          <a href="./contacts.html">contacts</a>
+        </nav>
+      </div>
+    </header>
+    <section class="page">
+      <div class="site">
+        <header>
+          <h3>Documentation</h3>
+          <hr>
+          <div></div>
+        </header>
+        <nav>
+          <h4>Explore</h4> 
+          <ul class="explore">
+            <li class="home">
+              <a href="./index.html">Home</a>
+              <span>Explore class4js</pan>
+            </li>
+            <li class="about">
+              <a href="./about.html">About</a>
+              <span>Technical overview</span>
+            </li>
+            <li class="download">
+              <a href="./download.html">Download</a>
+              <span>Modules, resources and more</span>
+            </li>
+            <li class="documentation">
+              <a href="./documentation.html">Documentation</a>
+              <span>API specification</span>
+            </li>
+            <li class="examples">
+              <a href="https://github.com/gedbac/class4js/tree/master/examples" target="_blank">Examples</a>
+              <span>Javascript examples</span>
+            </li>
+            <li class="source-code">
+              <a href="https://github.com/gedbac/class4js" target="_blank">Source code</a>
+              <span>Source code, changes, issues</span>
+            </li>
+            <!--<li class="blog">
+              <a href="#">Blog</a>
+              <span>Related blog posts</span>
+            </li>-->
+            <li data-id="10" class="contacts">
+              <a href="./contacts.html">Contacts</a>
+              <span>Contacts</span>
+            </li>
+          </ul>
+        </nav>
+        <section>
+          <h4>Table of Contents</h4>
+          <h5>class4js</h5>
+          <ul>
+            <li><a href="#class">Class</a>
+              <ul>
+                <li><a href="#constructor">Constructor</a></li>
+                <li><a href="#static-constructor">Static Constructor</a></li>
+                <li><a href="#object-initializer">Object Initializer</a></li>
+                <li><a href="#constant">Constant</a></li>
+                <li><a href="#fields">Fields</a></li>
+                <li><a href="#properties">Properties</a></li>
+                <li><a href="#static-members">Static Members</a></li>
+                <li><a href="#inheritance">Inheritance</a></li>
+              </ul>
+            </li>
+            <li><a href="#abstract-class">Abstract Class</a></li>
+            <li><a href="#static-class">Static Class</a></li>
+            <li><a href="#enum">Enum</a></li>
+            <li><a href="#interface">Interface</a></li>
+            <li><a href="#object-factory">Object Factory</a></li>
+            <li><a href="#module">Module</a></li>
+            <li><a href="#namespace">Namespace</a></li>
+            <li><a href="#extension">Extension</a></li>
+          </ul>
+          <h4 id="class">Class</h4>
+          <p>
+            A class is a construct that is used to create instances of itself. 
+            A class defines constituent members which enable its instances to 
+            have state and behavior. Private class members are decorated with 
+            __ and protected with _. Classes are declared by using the keyword 
+            <strong>$class</strong>:
+          </p>
+          <section class="example">
+<pre><code>$class(properties:Object, parent:Object, interfaces:Array): Function</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/class.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () { 
+      <span class="return">return</span> <span class="this">this</span>.__x; 
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  },
+  draw: <span class="function">function</span> () {
+    console.log(<span class="string">"Drawing shape at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+  }, 
+  moveTo: <span class="function">function</span> (x, y) {
+    <span class="this">this</span>.x = x;
+    <span class="this">this</span>.y = y;
+  }
+});
+
+<span class="var">var</span> shape = <span class="var">new</span> Shape({ x: 100, y: 100 });
+shape.moveTo(120, 85);
+shape.draw();</code></pre>
+          </section>
+          <h4 id="constructor">Constructor</h4>
+          <p>
+            Whenever a class is created, its constructor is called. Name for a constructor is <strong>__construct__</strong>.    
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/constructor.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: function () {
+    <span class="comment">// Your code goes here...</span>
+  }
+});</code></pre>
+          </section>
+          <h4 id="static-constructor">Static Constructor</h4>
+          <p>
+            Static constructor is a static data initializer. Static constructors 
+            are called when the class is defined. Name for a static constructor 
+            is the same as ordinal constructor name, but must be surrounded with 
+            <strong>__static__</strong> statement.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/static_constructor.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __static__: {
+    __construct__: function () {
+      <span class="comment">// Your code goes here...</span>
+    }
+  }
+});</code></pre> 
+          </section>
+          <h4 id="object-initializer">Object Initializer</h4>
+          <p>
+            Object can be initialized with anonymous object. All properties from 
+            anonymous object are copied to the target object.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/object_initializer.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  }
+});
+
+<span class="var">var</span> shape = <span class="new">new</span> Shape({ x: 100, y: 100 });</code></pre>
+          </section>
+          <h4 id="constant">Constant</h4>
+          <p>
+            A constant is a class member which value can't be changed. Constant 
+            names should be in uppercasing.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/object_initializer.js" target="_blank">Plain</a><code><span class="var">var</span> Calendar = $class({
+  MONTHS: 12,
+  WEEKS: 52,
+  DAYS: 365,
+});</code></pre>          
+          </section>
+          <h4 id="fields">Fields</h4>
+          <p>
+            All class fields should be defined as class members or initialized 
+            in constructor, because when class is created, class is closed for
+            modifications.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/fields.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __x: 0,
+  __y: 0
+});</code></pre>        
+          </section>
+          <h4 id="properties">Properties</h4>
+          <p>
+            A property is a member that provides a flexible mechanism to read, 
+            write, or compute the value of a private field.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/properties.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  }
+});</code></pre>
+          </section>
+          <h4 id="static-members">Static members</h4>
+          <p>
+            Static class members are used to create data and functions that can 
+            be accessed without creating an instance of the class. All static 
+            class members should be surrounded by <strong>__static__</strong> statement.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/static_members.js" target="_blank">Plain</a><code><span class="var">var</span> Calculator = $class({
+  __static__: {
+    sum: <span class="function">function</span> (a, b) {
+      <span class="return">return</span> a + b;
+    },
+    subtract: <span class="function">function</span> (a, b) {
+      <span class="return">return</span> a - b;
+    }
+  }
+});
+
+<span class="var">var</span> result = Calculator.sum(2, 2);</code></pre>
+          </section>
+          <h4 id="inheritance">Inheritance</h4>
+          <p>
+            Inheritance is a way to reuse code and to establish a subtype from an existing 
+            object. Constructor inheritance is also supported. To access parent's methods 
+            property <strong>_super</strong> should be used.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/inheritance.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  },
+  draw: <span class="function">function</span> () {
+    console.log(<span class="string">"Drawing shape at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+  }
+});
+
+<span class="var">var</span> Rectangle = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__width = 0;
+    <span class="this">this</span>.__height = 0;
+  },
+  width: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__width;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__width = value;
+    }
+  },
+  height: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__height;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__height = value;
+    }
+  },
+  draw: <span class="function">function</span> () {
+    <span class="this">this</span>.__super.draw();
+    console.log(<span class="string">"Drawing rectangle ("</span> + <span class="this">this</span>.width + <span class="string">", "</span> + <span class="this">this</span>.height 
+      + <span class="string">") at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+  }
+}, Shape);
+
+<span class="var">var</span> shape = <span class="new">new</span> Shape({ x: 100, y: 100, with: 50, height: 50 });
+shape.draw();</code></pre>
+          </section>
+          <h4 id="abstract-class">Abstract Class</h4>
+          <p>
+            Abstract class is intended only to be a base class of other classes. 
+            Abstract class can't be  instantiated. Abstract classes are declared 
+            by using the keyword <strong>$abstract_class</strong>.
+          </p>
+          <section class="example">
+<pre><code>$abstract_class(properties:Object, parent:Object, interfaces:Array): Function</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/abstract_class.js" target="_blank">Plain</a><code><span class="var">var</span> Component = $abstract_class({
+  __construct__: <span class="function">function</span> () { 
+    <span class="this">this</span>.__name = <span class="string">'Component'</span>;
+  },
+  name: { 
+    get: <span class="function">function</span> () { 
+      <span class="return">return</span> <span class="this">this</span>.__name; 
+    },
+    set: <span class="function">function</span> (value) { 
+      <span class="this">this</span>.__name = value; 
+    }
+  }
+}); 
+
+<span class="var">var</span> Button = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.name = <span class="string">'Button1'</span>;
+  }
+}, Component)
+
+<span class="try">try</span> {
+  <span class="var">var</span> component = <span class="new">new</span> Component(); 
+} <span class="catch">catch</span> (ex) {
+  console.log(ex.message);
+} 
+
+<span class="var">var</span> button = <span class="new">new</span> Button();</code></pre>
+          </section>
+          <h4 id="static-class">Static Class</h4>
+          <p>
+            Static class can't be initialized or inherited and contains only 
+            static members. Abstract classes are declared by using the keyword 
+            <strong>$static_class</strong>.
+          </p> 
+          <section class="example">
+<pre><code>$static_class(properties:Object): Object</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/static_class.js" target="_blank">Plain</a><code><span class="var">var</span> Counter = $static_class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__value = 0;
+  },
+  increment: <span class="function">function</span> () {
+    <span class="this">this</span>.__value++;
+  },
+  current: {
+    get: <span class="function">function</span> () {
+      return <span class="this">this</span>.__value;
+    }
+  }
+});
+
+Counter.increment();</code></pre>
+          </section>
+          <h4 id="enum">Enum</h4>
+          <p>
+            <strong>$enum</strong> keyword can be used to set up collections of
+            named integer constants.
+          </p>
+          <section class="example">
+<pre><code>$enum(fields:Object): Object</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/enum.js" target="_blank">Plain</a><code><span class="var">var</span> Priority = $enum({
+  LOW: 0,
+  NORMAL: 1,
+  HIGH: 2
+});</code></pre>
+          </section>
+          <h4 id="interface">Interface</h4>
+          <p>
+            Interfaces form a contract between the class and the outside world. 
+            If your class claims to implement an interface, all methods defined 
+            by that interface must appear in its source code. Interfaces are 
+            declared by using the keyword <strong>$interface</strong>.
+          </p>
+          <section class="example">
+<pre><code>$interface(properties:Object, parent:Object): Object</code></pre>
+          </section>
+          <p>
+            You can check if object is compatible with given interface or 
+            inherits given class.
+          </p>
+          <section class="example">
+<pre><code>$is(source:Object, target:Object): Boolean</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/interface.js" target="_blank">Plain</a><code><span class="var">var</span> IComponent = $interface({ 
+  name: {
+    get: <span class="function">function</span> () {}
+  }
+});
+  
+<span class="var">var</span> IDrawable = $interface({
+  draw: <span class="function">function</span> (context) {} 
+}, IComponent);
+  
+<span class="var">var</span> Shape = $class({
+  draw: <span class="function">function</span> () {
+    <span class="comment">// Your code goes here</span>
+  }
+}, IDrawable);
+  
+<span class="var">var</span> shape = <span class="new">new</span> Shape();
+  
+console.log($is(shape, IDrawable));</code></pre>
+      </section>
+      <h4 id="object-factory">Object Factory</h4>
+      <p>
+        Object can be created by given type and initialized from anonymous 
+        object. To accomplish such task keyword <strong>$create</strong> is used.          
+      </p>
+      <section class="example">
+<pre><code>$create(type:Function, options:Object): Object</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/object_factory.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  }
+});
+
+<span class="var">var</span> Layer = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__shapes = [];
+  },
+  add: <span class="function">function</span> (options) {
+    <span class="this">this</span>.__shapes.push($create(Shape, options));
+  }
+});
+
+<span class="var">var</span> layer = <span class="new">new</span> Layer();
+layer.add({ x: 10, y: 10 });</code></pre>
+          </section>
+          <h4 id="module">Module</h4>
+          <p>
+            Modules were included to <strong>class4js</strong> for better compatability with browsers.
+            Browsers don't have a built in module system. In Node.js modules are based
+            on internal module loading. Modules are declared by using the keyword <strong>$module</strong>.
+          </p>
+          <section class="example">
+<pre><code>$module(scope:Function, dependencies:Array): Object</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/module.js" target="_blank">Plain</a><code>$config({
+  debug: <span class="true">true</span>,
+  modules: [{
+    name: <span class="string">'a'</span>,
+    path: <span class="string">'./a.js'</span>
+  }]
+});
+
+<span class="var">var</span> external_module = {};
+
+<span class="var">var</span> util = $module(<span class="function">function</span> (fs, a, em, exports, global) {
+  <span class="var">var</span> Reader = $class({
+    __construct__: <span class="function">function</span> () {
+    },  
+    read: <span class="function">function</span> () {
+      console.log(<span class="string">"Reading..."</span>);  
+    }  
+  }); 
+  exports.Reader = Reader;
+}, [<span class="string">'fs'</span>, <span class="string">'a'</span>, external_module]);
+
+<span class="var">var</span> reader = <span class="new">new</span> util.Reader();
+reader.read();</code></pre>
+          </section>
+          <h4 id="namespace">Namespace</h4>
+          <p>
+            Namespaces are declared using the keyword <strong>$namespace</strong>.
+          </p>
+          <section class="example">
+<pre><code>$namespace(name:String): void</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/namespace.js" target="_blank">Plain</a><code>$namespace(<span class="string">"org.myapp.util"</span>);
+    
+org.myapp.util = (<span class="function">function</span> () {
+  <span class="var">var</span> util = {};
+  <span class="return">return</span> util;
+}());
+    
+console.log(org);</code></pre>
+          </section>
+          <h4 id="extension">Extension</h4>
+          <p>
+            Extensions enables you to add methods to existing types without 
+            creating a new derived type.
+          </p>
+          <section class="example">
+<pre><code>$extend(target:Object, name:String, value:Function): void</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/extension.js" target="_blank">Plain</a><code><span class="var">var</span> ICollection = $interface({
+  items: <span class="function">function</span>() {
+  }
+});
+
+<span class="var">var</span> Collection = $class({
+  __construct__: <span class="function">function</span> (items) {
+    <span class="this">this</span>.__items = items;
+  },
+  items: <span class="function">function</span> () {
+    <span class="return">return</span> <span class="this">this</span>.__items;
+  }
+}, ICollection);
+
+$extend(ICollection, <span class="string">'forEach'</span>, <span class="function">function</span> (callback) {
+  <span class="if">if</span> (callback) {
+    <span class="for">for</span> (<span class="var">var</span> i = 0; i &lt; <span class="this">this</span>.items().length; i++) {
+      callback(<span class="this">this</span>.items()[i]);
+    } 
+  } 
+});
+
+<span class="var">var</span> collection = <span class="new">new</span> Collection([1, 2, 3]);
+collection.forEach(<span class="function">function</span> (item) {
+  console.log(item);
+});
+</code></pre>
+          </section>
+        </section>
+      </div>
+    </section>
+    <footer>
+      <div class="site">
+        <span>Copyright (C) 2012 - 2013 Gediminas Backevicius</span>
+        <span>Icons provided by <a href="http://www.icons8.com" target="_blank">icons8.com</a></span>
+      </div>
+    </footer>
+    <a href="https://github.com/gedbac/class4js" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>class4js</title>
+    <meta charset="utf-8">
+    <meta name="author" content="gediminas backevicius">
+    <meta name="description" content="The class4js module is for class-driven development in JavaScript">
+    <meta name="keywords" content="class, abstract, interface, inheritance, super, constant, static, browser, prototype, extensions, namespace, phantomjs, module, javascript, enum, property, field, constructor, static class, abstract class, object initializer">
+    <link href="./content/style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>  
+    <header>
+      <div class="site">
+        <hgroup>
+          <h1>
+            <span>class</span><span>4js</span>
+          </h1>
+          <h2>
+            js-modules
+          </h2>
+        </hgroup>
+        <nav>
+          <a href="./index.html">home</a>
+          <a href="./about.html" class="active">about</a>
+          <a href="./download.html">download</a>
+          <a href="./documentation.html">documentation</a>
+          <a href="https://github.com/gedbac/class4js/tree/master/examples" target="_blank">examples</a>
+          <a href="https://github.com/gedbac/class4js" target="_blank">source code</a>
+          <!--<a href="#">blog</a>-->
+          <a href="./contacts.html">contacts</a>
+        </nav>
+      </div>
+    </header>
+    <section class="page">
+      <div class="site">
+        <header>
+          <h3>About</h3>
+          <hr>
+          <div></div>
+        </header>
+        <nav>
+          <h4>Explore</h4> 
+          <ul class="explore">
+            <li class="home">
+              <a href="./index.html">Home</a>
+              <span>Explore class4js</pan>
+            </li>
+            <li class="about">
+              <a href="./about.html">About</a>
+              <span>Technical overview</span>
+            </li>
+            <li class="download">
+              <a href="./download.html">Download</a>
+              <span>Modules, resources and more</span>
+            </li>
+            <li class="documentation">
+              <a href="./documentation.html">Documentation</a>
+              <span>API specification</span>
+            </li>
+            <li class="examples">
+              <a href="https://github.com/gedbac/class4js/tree/master/examples" target="_blank">Examples</a>
+              <span>Javascript examples</span>
+            </li>
+            <li class="source-code">
+              <a href="https://github.com/gedbac/class4js" target="_blank">Source code</a>
+              <span>Source code, changes, issues</span>
+            </li>
+            <!--<li class="blog">
+              <a href="#">Blog</a>
+              <span>Related blog posts</span>
+            </li>-->
+            <li data-id="10" class="contacts">
+              <a href="./contacts.html">Contacts</a>
+              <span>Contacts</span>
+            </li>
+          </ul>
+        </nav>
+        <section>
+          <h4>Introduction</h4>
+          <p>
+            <strong>JavaScript (JS)</strong> is a prototype-based scripting 
+            language that is dynamic, weakly typed and has first-class functions. 
+            At present JavaScript is becoming a more and more popular language. 
+            It was originally implemented as part of web browsers so that 
+            client-side scripts may interact with the user, control the browser, 
+            but now it can be used to write code for server side (Node.Js) or
+            even can be used in databases to write queries (NoSQL).
+          </p>
+          <p>
+            JavaScript is a very flexible programming language. It can be easily 
+            extended with new features which are used in other programming languages.
+          </p>
+          <p>
+            As it was mentioned before, JavaScript is a prototype based scripting 
+            language. A prototype is an object and every created function 
+            automatically gets a prototype property that points to a new blank 
+            object. In earlier versions of JavaScript created objects were 
+            vulnerable, because they could be modified at any time accidentally 
+            or on purpose. In some cases it’s an advantage, but when it comes 
+            to writing libraries it is a hude disadvantage.
+          </p>
+          <p>
+            Situation changed when ECMAScript 5 version was released. It included 
+            many cool features, which allow to have flexibilty and create more 
+            reliable and steady libraries. It allows to implement open/close 
+            principle: <em>“A module should be open for extension but closed for
+            modifications”.</em> It means that if client programmer wants to 
+            extend an existing object he must create his own derived object.
+          </p>
+          <h4>How to define a class in JavaScript?</h4>
+          <p>
+            There are no classes in JavaScript, because JavaScript is not a type 
+            based language like java or C#. Classes can be emulated in JavaScript. 
+            They are useful when you need to write complex applications. 
+          </p>
+          <p>
+            First of all let’s create a class using JavaScript basic features 
+            and then optimize the same code with <strong>class4js</strong> library.
+          </p>
+          <p>
+            One of most important ECMAScript  5 addition was <em>‘strict mode’</em>, 
+            which actually removes features from the language, making the program 
+            simpler and less error-prone. If you want to exploit the full 
+            potential of JavaScript, all written code should work in strict mode.
+          </p>
+          <section class="example">
+<pre><code><span class="string">‘use strict’</span>;
+
+<span class="comment">// You codes goes here...</span></code></pre>
+          </section>
+          <p>
+            In order to create a class, function which will represent a type and 
+            will act as constructor of that type should be declared. 
+          </p>
+          <section class="example">
+<pre><code><span class="var">var</span> Shape = <span class="function">function</span> () {
+  <span class="this">this</span>.__x = 0;
+  <span class="this">this</span>.__y = 0;
+};</code></pre>
+          </section>
+          <p>
+            Now let’s create a prototype for the function. Then the function is 
+            instantiated and all properties from prototype are copied to new a 
+            instance.
+          </p>
+          <section class="example">
+<pre><code>Shape.prototype = Object.create(Object.prototype, {
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    },
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    },
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  },
+  moveTo: {
+    value: <span class="function">function</span> (x, y) {
+      <span class="this">this</span>.x = x;
+      <span class="this">this</span>.y = y;
+    },
+    writable: <span class="false">false</span>,
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  },
+  draw: {
+    value: <span class="function">function</span> () {
+      console.log(<span class="string">"Drawing shape at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+    },
+    writable: <span class="false">false</span>,
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  }
+});</code></pre>
+          </section>
+          <p>
+            Object property descriptor has these optional keys:
+          </p>
+          <ul>
+            <li>
+              <em>writable</em> - true if and only if the value associated 
+              with the property may be changed with an assignment operator
+            </li>
+            <li>
+              <em>enumerable</em> - true if and only if this property shows up 
+              during enumeration of the properties on the corresponding object
+            </li>
+            <li>
+              <em>configurable</em> - true if and only if the type of this 
+              property descriptor may be changed and if the property may be 
+              deleted from the corresponding object
+            </li>
+          </ul>
+          <p>
+            When the new type is defined it’s can be locked.
+          </p>
+          <section class="example">
+<pre><code>Object.seal(Shape);
+Object.seal(Shape.prototype);</code></pre>
+          </section>
+          <p>
+            When the object is locked, it can not be modified. In case of trying 
+            to do so, an error will be raised.
+          </p>
+          <section class="example">
+<pre><code>Object.defineProperty(obj, <span class="string">"prop"</span>, { value: 17 }); 
+<span class="comment">// throws an error</span></code></pre>
+          </section>
+          <p>
+            After all defined function can be instantiated.
+          </p>
+          <section class="example">
+<pre><code><span class="var">var</span> shape = <span class="new">new</span> Shape();
+Object.seal(shape);
+
+shape.x = 50;
+shape.y = 50;
+shape.moveTo(120, 85);
+shape.draw();
+<span class="comment">// Drawing shape at: (120, 85)</span>
+
+console.log(shape <span class="instanceof">instanceof</span> Shape);
+<span class="comment">// true</span></code></pre>
+          </section>
+          <p>
+            Here is the final result.
+          </p>
+          <section class="example">
+<pre><code><span class="string">‘use strict’</span>;
+
+<span class="var">var</span> Shape = <span class="function">function</span> () {
+  <span class="this">this</span>.__x = 0;
+  <span class="this">this</span>.__y = 0;
+};
+
+Shape.prototype = Object.create(Object.prototype, {
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    },
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    },
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  },
+  moveTo: {
+    value: <span class="function">function</span> (x, y) {
+      <span class="this">this</span>.x = x;
+      <span class="this">this</span>.y = y;
+    },
+    writable: <span class="false">false</span>,
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  },
+  draw: {
+    value: <span class="function">function</span> () {
+      console.log(<span class="string">"Drawing shape at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+    },
+    writable: <span class="false">false</span>,
+    enumerable: <span class="true">true</span>,
+    configurable: <span class="false">false</span>
+  }
+});
+
+Object.seal(Shape);
+Object.seal(Shape.prototype);
+
+<span class="var">var</span> shape = <span class="new">new</span> Shape();
+Object.seal(shape);
+
+shape.x = 50;
+shape.y = 50;
+shape.moveTo(120, 85);
+shape.draw();
+<span class="comment">// Drawing shape at: (120, 85)</span>
+
+console.log(shape <span class="instanceof">instanceof</span> Shape);
+<span class="comment">// true</span></code></pre>
+          </section>
+          <p>
+            This code can be easily optimized with <strong>class4js</strong> library.
+          </p>
+          <section class="example">
+<pre><code><span class="string">‘use strict’</span>;
+
+<span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  },
+  moveTo: <span class="function">function</span> (x, y) {
+    <span class="this">this</span>.__x = x;
+    <span class="this">this</span>.__y = y;
+  },
+  draw: <span class="function">function</span> () {
+    console.log(<span class="string">"Drawing shape at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
+  }
+});
+
+<span class="var">var</span> shape = <span class="new">new</span> Shape({ x: 50, y: 50});
+
+shape.moveTo(120, 85);
+shape.draw();
+<span class="comment">// Drawing shape at: (120, 85)</span>
+
+console.log($is(shape, Shape));
+<span class="comment">// true</span>
+</code></pre>
+          </section>
+          <h4>Features</h4>
+          <p>
+            Here you can get main keywords of <strong>class4js</strong>. To get 
+            more details, documentation should be visited.
+          </p>
+          <table>
+            <tbody>
+              <tr>
+                <td><a href="./documentation.html#class">$class</a></td>
+                <td>It is used to define class</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#abstract-class">$abstract_class</a></td>
+                <td>It is used to define abstract class</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#static-class">$static_class</a></td>
+                <td>It is used to define static class</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#enum">$enum</a></td>
+                <td>It is used to define enum</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#interface">$interface</a></td>
+                <td>It is used to define interface</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#interface">$is</a></td>
+                <td>It is used to check type</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#object-factory">$create</a></td>
+                <td>It is used to create object</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#module">$module</a></td>
+                <td>It is used todefine module</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#namespace">$namespace</a></td>
+                <td>It is used to define namespace</td>
+              </tr>
+              <tr>
+                <td><a href="./documentation.html#extension">$extend</a></td>
+                <td>It is used to define method to exiting type</td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>Conclusion</h4>
+          <p>
+            <strong>class4js</strong> module emulates classes and their related 
+            features introducing new sugar syntax. This syntax allows to write 
+            less code, to have better code reuse and allows to protect your 
+            library from undesirable modifications which can break your code. 
+            Another <strong>class4js</strong> advantage is that the library is 
+            written in JavaScript and doesn’t have any dependencies, and doesn’t 
+            need any extra tools to maintain it. Just include to your project 
+            and use it.
+          </p>
+          <h4>References</h4>
+          <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/JavaScript" target="_blank">MDN - JavaScript</a></li>
+            <li><a href="http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752" target="_blank">JavaScript Patterns - Stoyan Stefanov</a></li>
+            <li><a href="http://www.youtube.com/watch?v=Kq4FpMe6cRs&playnext=1&list=PLF22AB751E6D89CFE&feature=results_main" target="_blank">Changes to JavaScript, Part 1: EcmaScript 5</a></li>
+          </ul>
+        <section>
+      </div>
+    </section>
+    <footer>
+      <div class="site">
+        <span>Copyright (C) 2012 - 2013 Gediminas Backevicius</span>
+        <span>Icons provided by <a href="http://www.icons8.com" target="_blank">icons8.com</a></span>
+      </div>
+    </footer>
+    <a href="https://github.com/gedbac/class4js" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+  </body>
+</html>
