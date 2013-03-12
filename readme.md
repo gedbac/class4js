@@ -597,7 +597,7 @@ Namespaces are declared using the keyword __$namespace__.
 
 __Example:__
 
-    $namespace("org.myapp.util");
+    $namespace('org.myapp.util');
     
     org.myapp.util = (function () {
       var util = {};
