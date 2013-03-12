@@ -12,10 +12,6 @@ html, body {
   background-color: rgb(255, 255, 255);
 }
 
-body {
-  overflow-y: scroll;
-}
-
 ::selection { 
   background-color: rgb(199, 38, 41);
   color: rgb(255, 255, 255);
