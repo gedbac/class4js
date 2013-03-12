@@ -1,5 +1,7 @@
 # class4js
 
+[http://www.class4js.com](http://www.class4js.com)
+
 The __class4js__ module is for class-driven development in JavaScript. It 
 allows to emulate classes in JavaScript. Module based on ECMAScript 5 standart and 
 implements open/close principle:  _"When class is created, class is closed for 
