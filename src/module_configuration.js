@@ -63,4 +63,3 @@ Object.seal(ModuleConfiguration);
 Object.seal(ModuleConfiguration.prototype);
 
 exports.ModuleConfiguration = ModuleConfiguration;
-

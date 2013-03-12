@@ -84,4 +84,3 @@ Object.freeze(Enum);
 global.$enum = Enum.create;
 
 exports.Enum = Enum;
-

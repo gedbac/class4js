@@ -459,4 +459,3 @@ var TypeBuilder = Object.create(null, {
 Object.seal(TypeBuilder);
 
 exports.TypeBuilder = TypeBuilder;
-

@@ -62,4 +62,3 @@ global.$create = ObjectFactory.create;
 global.$init = ObjectFactory.initialize;
 
 exports.ObjectFactory = ObjectFactory;
-

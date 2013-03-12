@@ -37,4 +37,3 @@ Object.freeze(Namespace);
 global.$namespace = Namespace.create;
 
 exports.Namespace = Namespace;
-

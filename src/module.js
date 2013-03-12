@@ -472,4 +472,3 @@ Module.__loadMainModule();
 global.$module = Module.create;
 
 exports.Module = Module;
-

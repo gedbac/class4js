@@ -68,4 +68,3 @@ TypeExtension.prototype = Object.create(Object.prototype, {
 
 Object.seal(TypeExtension);
 Object.seal(TypeExtension.prototype);
-

@@ -57,4 +57,3 @@ Object.seal(ModuleException);
 Object.seal(ModuleException.prototype);
 
 exports.ModuleException = ModuleException;
-

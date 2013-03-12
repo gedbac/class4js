@@ -109,4 +109,3 @@ global.$interface = Interface.create;
 global.$is = Interface.instanceOf;
 
 exports.Interface = Interface;
-

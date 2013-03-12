@@ -327,4 +327,3 @@ global.$static_class = Class.createStatic;
 global.$extend = Class.addExtension;
 
 exports.Class = Class;
-

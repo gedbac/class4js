@@ -58,4 +58,3 @@ Object.seal(TypeException);
 Object.seal(TypeException.prototype);
 
 exports.TypeException = TypeException;
-

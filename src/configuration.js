@@ -172,4 +172,3 @@ Object.seal(Configuration.prototype);
 global.$configure = Configuration.configure;
 
 exports.Configuration = Configuration;
-
