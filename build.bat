@@ -35,26 +35,8 @@ call :test-browser
 call :test-phantomjs
 goto :exit
 
-:build
-echo var class4js = (function (global) { >> .\class4js.js
-echo. >> .\class4js.js
-echo var exports = {}; >> .\class4js.js
-echo. >> .\class4js.js
-%NODE% .\build\cat.js %SOURCES_FILES% >> .\class4js.js
-echo. >> .\class4js.js
-echo return exports; >> .\class4js.js
-echo. >> .\class4js.js
-echo }(window)); >> .\class4js.js
-echo. >> .\class4js.js
-echo if (typeof module !== 'undefined' ^&^& module !== null) { >> .\class4js.js
-echo   module.exports.class4js = class4js; >> .\class4js.js
-echo } >> .\class4js.js
-goto :exit
-
 :build-node
 call :clean-node
-call :build
-copy .\class4js.js .\lib\class4js.js
 %NODE% .\build\cat.js %SOURCES_FILES% > .\lib\class4js.js
 %NODE% .\build\include_strict_mode.js .\lib\class4js.js
 goto :exit
@@ -85,7 +67,15 @@ goto :exit
 
 :build-browser
 call :clean-browser
-call :build
+echo var class4js = (function (global) { >> .\class4js.js
+echo. >> .\class4js.js
+echo var exports = {}; >> .\class4js.js
+echo. >> .\class4js.js
+%NODE% .\build\cat.js %SOURCES_FILES% >> .\class4js.js
+echo. >> .\class4js.js
+echo return exports; >> .\class4js.js
+echo. >> .\class4js.js
+echo }(window)); >> .\class4js.js
 %JAVA% -jar ./build/yuicompressor-2.4.8.jar --type js --nomunge --preserve-semi --disable-optimizations .\class4js.js -o .\class4js.min.js
 %NODE% .\build\include_strict_mode.js .\class4js.js
 goto :exit

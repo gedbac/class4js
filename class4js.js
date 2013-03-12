@@ -1,10 +1,10 @@
-'strict mode';
+var class4js = (function (global) {
 
-var class4js = (function (global) { 
- 
-var exports = {}; 
- 
-exports.version = '1.10.0';
+"use strict";
+
+var exports = {};
+
+exports.version = '1.9.1';
 
 /**
  * @class {class4js.TypeException}
@@ -2009,11 +2009,7 @@ Module.__loadMainModule();
 global.$module = Module.create;
 
 exports.Module = Module;
- 
-return exports; 
- 
-}(window)); 
- 
-if (typeof module !== 'undefined' && module !== null) { 
-  module.exports.class4js = class4js; 
-} 
+
+return exports;
+
+}(window));
