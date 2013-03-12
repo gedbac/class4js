@@ -1,5 +1,4 @@
 CC = java -jar ./build/yuicompressor-2.4.8.jar
-CFlAGS = WHITESPACE_ONLY
 SOURCES_FILES =	class4js.js \
 								type_exception.js \
 								namespace.js \
@@ -22,9 +21,8 @@ test: test-node test-phantomjs test-browser
 
 build-node: lib/class4js.js
 
-lib/class4js.js: clean-node
-	echo "\"use strict\";\n" >> $@
-	cat $(addprefix src/,$(SOURCES_FILES)) >> $@
+lib/class4js.js: class4js.js
+	cp class4js.js ./lib/class4js.js
 
 clean-node:
 	rm -f ./lib/class4js.js
@@ -50,24 +48,27 @@ test-node:
 
 build-browser: class4js.min.js
 
-class4js.js: clean-browser
+class4js.js: clean
 	echo "var class4js = (function (global) {\n" >> $@
-	echo "\"use strict\";\n" >> $@
 	echo "var exports = {};\n" >> $@
-	cat $(addprefix src/,$(SOURCES_FILES)) >> $@
+	node ./build/cat.js $(addprefix src/,$(SOURCES_FILES)) >> $@
 	echo "return exports;" >> $@
-	echo "\n}(window));" >> $@
+	echo "\n}(typeof global !== 'undefined' ? global : window));\n" >> $@
+	echo "if (typeof module !== 'undefined' && module !== null) {" >> $@
+	echo "  module.exports.class4js = class4js;" >> $@
+	echo "}" >> $@
+	node ./build/include_strict_mode.js $@
 
-class4js.min.js: class4js.js
+class4js.min.js: class4js.js   
 	$(CC) --type js --nomunge --preserve-semi --disable-optimizations $^ -o $@
-	node ./build/include-strict-mode.js
+	node ./build/include_strict_mode.js
 
 clean-browser:
 	rm -f class4js.js
 	rm -f class4js.min.js
 
 test-browser:
-	xdg-open ./examples/browser/index.html
+	xdg-open ./tests/browser/index.html
 
 test-phantomjs:
 	phantomjs ./tests/node/class.js

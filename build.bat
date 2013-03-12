@@ -44,7 +44,7 @@ echo. >> .\class4js.js
 echo. >> .\class4js.js
 echo return exports; >> .\class4js.js
 echo. >> .\class4js.js
-echo }(window)); >> .\class4js.js
+echo }(typeof global !== 'undefined' ? global : window)); >> .\class4js.js
 echo. >> .\class4js.js
 echo if (typeof module !== 'undefined' ^&^& module !== null) { >> .\class4js.js
 echo   module.exports.class4js = class4js; >> .\class4js.js
