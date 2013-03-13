@@ -118,6 +118,13 @@ module:
     
     // Your code goes here...
 
+### NuGet
+
+In Visual Studio __class4js__ module can be installed using NuGet extension. To 
+install class4js, run the following command in the package manager console.
+
+    Install-Package class4js
+
 ## API
 
 ### Class
