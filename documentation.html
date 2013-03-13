@@ -488,6 +488,14 @@ Counter.increment();</code></pre>
 }, IComponent);
   
 <span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__name = <span class="string">'Shape'</span>;
+  },
+  name: {
+    get: <span class="function">function</span> () {
+      <span class="return">return</span> <span class="this">this</span>.__name;
+    }
+  },
   draw: <span class="function">function</span> () {
     <span class="comment">// Your code goes here</span>
   }
