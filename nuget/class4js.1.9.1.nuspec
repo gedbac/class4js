@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>class4js</id>
+        <version>1.9.1</version>
+        <title>class4js</title>
+        <authors>Gediminas Backevicius</authors>
+        <owners />
+        <licenseUrl>https://raw.github.com/gedbac/class4js/master/license.md</licenseUrl>
+        <projectUrl>http://www.class4js.com/</projectUrl>
+        <iconUrl>http://www.class4js.com/content/images/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The class4js module is for class-driven development in JavaScript. It allows to emulate classes in JavaScript. Module is based on ECMAScript 5 standart and implements open/close principle: "A module should be open for extension but closed for modifications".</description>
+        <summary>The class4js module is for class-driven development in JavaScript.</summary>
+        <copyright>Copyright (C) 2012 - 2013 Gediminas Backevicius</copyright>
+        <tags>class, abstract, interface, inheritance, super, constant, static, browser, prototype, extensions, namespace, phantomjs, javascript, enum, property, constructor, static abstract object initializer</tags>
+    </metadata>
+    <files>
+        <file src="..\class4js.js" target="content\Scripts\class4js.js" />
+        <file src="..\class4js.min.js" target="content\Scripts\class4js.min.js" />
+    </files>
+</package>
