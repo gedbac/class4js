@@ -2,10 +2,30 @@
 <html>
 <head>
   <title>Tests</title>
+  <meta charset="utf-8">
+  <link href="./style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <h1>class4js test suite</h2>
-  <div id="container"></div>
+  <header>
+    <h1>class4js test suite</h2>
+    <div class="summary">
+      <div>
+        <span>1</span>
+        <span>pass</span>
+      </div>
+      <div>
+        <span>2</span>
+        <span>failed</span>
+      </div>
+      <div>
+        <span>0</span>
+        <span>total</span>
+      </div>
+    </div>
+  </header>
+  <section>
+    <div id="container" class="container"></div>
+  </section>
   <script src="./test_runner.js"></script>
   <script src="../../class4js.js"></script>
   <script src="./scripts/class.js"></script>
