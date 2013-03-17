@@ -368,7 +368,7 @@ var TypeBuilder = Object.create(null, {
    */
   isProperty: {
     value: function (value) {
-      return (value['get'] != null || value['set'] != null);
+      return (value['get'] || value['set']);
     },
     writable: false,
     enumerable: true,
@@ -429,7 +429,7 @@ var TypeBuilder = Object.create(null, {
   },
 
   /**
-   * @memberOf {class4js.TypeException}
+   * @memberOf {class4js.TypeBuilder}
    * @static
    * @public
    * @method forEach
@@ -452,7 +452,29 @@ var TypeBuilder = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false
-  }
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method getPropertyDescriptor
+   * @param {Object} object
+   * @param {String} propertyName
+   * @returns {Object}
+   */
+  getPropertyDescriptor: {
+    value: function (object, propertyName) {
+      var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
+      if (!descriptor) {
+        return TypeBuilder.__getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
+      }
+      return descriptor;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
 
 });
 

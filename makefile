@@ -8,6 +8,9 @@ SOURCES_FILES =	class4js.js \
 								interface.js \
 								object_factory.js \
 								enum.js \
+								invocation_type.js \
+								invocation.js \
+								proxy.js \
 								module_exception.js \
 								module_configuration.js \
 								configuration.js \

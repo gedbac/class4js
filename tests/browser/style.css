@@ -33,11 +33,11 @@ h2 {
 }
 
 .summary > div:first-child {
-  color: rgb(199, 38, 41);
+  color: rgb(120, 197, 38); 
 }
 
 .summary > div:nth-child(2) {
-  color: rgb(120, 197, 38);
+  color: rgb(199, 38, 41);
 }
 
 .summary > div:last-child {
@@ -69,4 +69,12 @@ h2 {
 
 .container > div > div {
   padding-left: 8px;
+}
+
+.failed {
+  color: rgb(199, 38, 41);
+}
+
+.succeed {
+  color: rgb(120, 197, 38);
 }

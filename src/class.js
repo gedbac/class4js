@@ -185,28 +185,6 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @method __getPropertyDescriptor
-   * @param {Object} object
-   * @param {String} propertyName
-   * @returns {Objecy}
-   */
-  __getPropertyDescriptor: {
-    value: function (object, propertyName) {
-      var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
-      if (!descriptor) {
-        return Class.__getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
-      }
-      return descriptor;
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
    * @method __instanceOf
    * @param {Object} source
    * @param {Object} target
@@ -219,8 +197,8 @@ var Class = Object.create(null, {
           if (!(propertyName in source)) {
             throw new TypeException("Class doesn't implemet property: " + propertyName);
           } else {
-            var sourceDescriptor = Class.__getPropertyDescriptor(source, propertyName);
-            var targetDescriptor = Class.__getPropertyDescriptor(target, propertyName);
+            var sourceDescriptor = TypeBuilder.getPropertyDescriptor(source, propertyName);
+            var targetDescriptor = TypeBuilder.getPropertyDescriptor(target, propertyName);
             Class.__descriptorsAreEqual(propertyName, sourceDescriptor, targetDescriptor);
           }
         }

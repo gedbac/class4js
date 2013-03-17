@@ -477,7 +477,7 @@ var TypeBuilder = Object.create(null, {
    */
   isProperty: {
     value: function (value) {
-      return (value['get'] != null || value['set'] != null);
+      return (value['get'] || value['set']);
     },
     writable: false,
     enumerable: true,
@@ -538,7 +538,7 @@ var TypeBuilder = Object.create(null, {
   },
 
   /**
-   * @memberOf {class4js.TypeException}
+   * @memberOf {class4js.TypeBuilder}
    * @static
    * @public
    * @method forEach
@@ -561,7 +561,29 @@ var TypeBuilder = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false
-  }
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method getPropertyDescriptor
+   * @param {Object} object
+   * @param {String} propertyName
+   * @returns {Object}
+   */
+  getPropertyDescriptor: {
+    value: function (object, propertyName) {
+      var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
+      if (!descriptor) {
+        return TypeBuilder.__getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
+      }
+      return descriptor;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
 
 });
 
@@ -827,28 +849,6 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @method __getPropertyDescriptor
-   * @param {Object} object
-   * @param {String} propertyName
-   * @returns {Objecy}
-   */
-  __getPropertyDescriptor: {
-    value: function (object, propertyName) {
-      var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
-      if (!descriptor) {
-        return Class.__getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
-      }
-      return descriptor;
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
    * @method __instanceOf
    * @param {Object} source
    * @param {Object} target
@@ -861,8 +861,8 @@ var Class = Object.create(null, {
           if (!(propertyName in source)) {
             throw new TypeException("Class doesn't implemet property: " + propertyName);
           } else {
-            var sourceDescriptor = Class.__getPropertyDescriptor(source, propertyName);
-            var targetDescriptor = Class.__getPropertyDescriptor(target, propertyName);
+            var sourceDescriptor = TypeBuilder.getPropertyDescriptor(source, propertyName);
+            var targetDescriptor = TypeBuilder.getPropertyDescriptor(target, propertyName);
             Class.__descriptorsAreEqual(propertyName, sourceDescriptor, targetDescriptor);
           }
         }
@@ -1233,6 +1233,416 @@ Object.freeze(Enum);
 global.$enum = Enum.create;
 
 exports.Enum = Enum;
+
+/**
+ * @enum {class4js.InvocationType}
+ */
+var InvocationType = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.InvocationType}
+   * @field {Integer} CONSTRUCTOR
+   */
+  CONSTRUCTOR: {
+    value: 0,
+    enumerable: true,
+    configurable: false,
+    writable: false
+  },
+
+  /**
+   * @memberOf {class4js.InvocationType}
+   * @field {Integer} METHOD
+   */
+  METHOD: {
+    value: 1,
+    enumerable: true,
+    configurable: false,
+    writable: false
+  },
+
+  /**
+   * @memberOf {class4js.InvocationType}
+   * @field {Integer} PROPERTY_GETTER
+   */
+  PROPERTY_GETTER: {
+    value: 2,
+    enumerable: true,
+    configurable: false,
+    writable: false
+  },
+
+  /**
+   * @memberOf {class4js.InvocationType}
+   * @field {Integer} PROPERTY_SETTER
+   */
+  PROPERTY_SETTER: {
+    value: 3,
+    enumerable: true,
+    configurable: false,
+    writable: false
+  }
+
+});
+
+Object.freeze(InvocationType);
+
+exports.InvocationType == InvocationType;
+
+/**
+ * @class {class4js.Invocation}
+ * @constructor {class4js.Invocation}
+ */
+var Invocation = function (name, type, arguments, interceptors) {
+  this.__name = name;
+  this.__type = type;
+  this.__arguments = arguments;
+  this.__returnValue = null;
+  this.__interceptors = interceptors;
+  this.__context = null;
+  this.__current = 0;
+  Object.seal(this);
+};
+
+Invocation.prototype = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {String} name
+   */
+  name: {
+    get: function () {
+      return this.__name;   
+    },
+    set: function (value) {
+      this.__name = value;
+    },
+    enumerable: true,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {InvocationType} type
+   */
+  type: {
+    get: function () {
+      return this.__type;
+    },
+    set: function (value) {
+      this.__type = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Boolean} isConstructor
+   */
+  isConstructor: {
+    get: function () {
+      return this.__type == InvocationType.CONSTRUCTOR;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Boolean} isMethod
+   */
+  isMethod: {
+    get: function () {
+      return this.__type == InvocationType.METHOD;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Boolean} isPropertyGetter
+   */
+  isPropertyGetter: {
+    get: function () {
+      return this.__type == InvocationType.PROPERTY_GETTER;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Boolean} isPropertySetter
+   */
+  isPropertySetter: {
+    get: function () {
+      return this.__type == InvocationType.PROPERTY_SETTER;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Object[]} arguments
+   */
+  arguments: {
+    get: function () {
+      return this.__arguments;
+    },
+    set: function (value) {
+      this.__arguments = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Object} returnValue
+   */
+  returnValue: {
+    get: function () {
+      return this.__returnValue;
+    },
+    set: function (value) {
+      this.__returnValue = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {IInterceptor[]} interceptors
+   */
+  interceptors: {
+    get: function () {
+      return this.__interceptors;
+    },
+    set: function (value) {
+      this.__interceptors = value;
+    },
+    enumerable: true,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Object} context
+   */
+  context: {
+    get: function () {
+      return this.__context;
+    },
+    set: function (value) {
+      this.__context = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js,Invocation}
+   * @public
+   * @method procceed
+   * @returns {Object}
+   */
+  procceed: {
+    value: function () {
+      if (this.__interceptors.length > this.__current) {
+        var interceptor = this.__interceptors[this.__current];
+        this.__current++;
+        if (typeof interceptor === 'function') {
+          this.__returnValue = interceptor.call(null, this);
+        } else {
+          this.__returnValue = interceptor.intercept.call(null, this);    
+        } 
+      }
+      return this.__returnValue;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return 'class4js.Invocation';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.seal(Invocation);
+Object.seal(Invocation.prototype);
+
+exports.Invocation = Invocation;
+
+/**
+ * @static
+ * @class {class4js.Proxy}
+ */
+var Proxy = Object.create(null, {
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @public
+   * @method create
+   * @param {Object} type
+   * @param {IInterceptor[]} interceptors
+   * @returns {Object}
+   */
+  create: {
+    value: function (type, interceptors) {
+      if (type) {
+        if (interceptors) {
+          if (typeof interceptors === 'function') {
+            interceptors = [ interceptors ];
+          } else {
+            
+          }  
+        } else {
+          throw new TypeException("Interceptor is not set"); 
+        }
+        if (typeof type === 'function') {
+          
+        } else {
+          return Proxy.__createInterfaceProxy(type, interceptors); 
+        }
+      } else {
+        throw new TypeException("Type is not set");
+      }
+      // Check if it is interface or class
+      //var constructor = function () {
+        // TODO: Invoke parents constructor
+        //Object.seal(this);
+      //};
+      // TODO: Inherit from base type
+      //return constructor;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __createInterfaceProxy
+   * @param {Object} type
+   * @param {IInterceptor[]} interceptors
+   * @returns {Object}
+   */
+  __createInterfaceProxy: {
+    value: function (type, interceptors) {
+      var proxy = {};
+      for (var propertyName in type) {
+        if (TypeBuilder.isPublic(propertyName)) {
+          var invocation;
+          var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
+          if (TypeBuilder.isProperty(descriptor)) {
+            Proxy.__intercepProperty(proxy, propertyName, descriptor['get'], 
+                descriptor['set'], interceptors);
+          } else {
+            Proxy.__interceptMethod(proxy, propertyName, interceptors);
+          }
+        }
+      }
+      Object.freeze(proxy);
+      return proxy;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __interceptMethod
+   * @param {Object} proxy
+   * @param {String} propertyName
+   * @param {IInterceptor[]} interceptors
+   */
+  __interceptMethod: {
+    value: function (proxy, propertyName, interceptors) {
+      TypeBuilder.addMethod(proxy, propertyName, function () {
+        var invocation = new Invocation(propertyName, InvocationType.METHOD, 
+          arguments, interceptors);
+        return invocation.procceed();
+      }); 
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __intercepProperty
+   * @param {Object} proxy
+   * @param {String} propertyName
+   * @param {Boolean} readable
+   * @param {Boolean} writable
+   * @param {IInterceptor[]} interceptors
+   */
+  __intercepProperty: {
+    value: function (proxy, propertyName, readable, writable, interceptors) {
+      var getter, setter;
+      if (readable) {
+        getter = function () {
+          var getterInvocation = new Invocation(propertyName, 
+              InvocationType.PROPERTY_GETTER, arguments, interceptors);
+          return getterInvocation.procceed();
+        };
+      } 
+      if (writable) {
+        setter = function () {
+          var setterInvocation = new Invocation(propertyName, 
+              InvocationType.PROPERTY_SETTER, arguments, interceptors);
+          setterInvocation.procceed();
+        };
+      }
+      TypeBuilder.addProperty(proxy, propertyName, getter, setter);
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  }
+
+});
+Object.freeze(Proxy);
+
+global.$proxy = Proxy.create;
+
+exports.Proxy = Proxy;
 
 /**
  * @class {class4js.ModuleException}

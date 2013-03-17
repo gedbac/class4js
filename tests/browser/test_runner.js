@@ -95,11 +95,11 @@ var TestRunner = {
     }
     if (!condition) {
       var textTag = document.createElement('div');
-      textTag.setAttribute('style', 'color:red;');
+      textTag.setAttribute('class', 'failed');
       if (message) {
-        textTag.innerHTML = message;
+        textTag.innerHTML = "Failed: " + message;
       } else {
-        textTag.innerHTML = "Assertion failed";
+        textTag.innerHTML = "Failed";
       }
       TestRunner.__currentTag.appendChild(textTag);
     }
