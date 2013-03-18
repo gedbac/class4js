@@ -23,7 +23,7 @@ var Class = Object.create(null, {
         }  
       }
       var constructor = function () {
-        Class.__extend(this);
+        Class.extend(this);
         if (parent) {
           Class.__initialize.call(this, parent.prototype, arguments);
         }
@@ -216,10 +216,10 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @method __extend
+   * @method extend
    * @param {Object} instance
    */
-  __extend: {
+  extend: {
     value: function (instance) {
       if (Class.__extensions && Class.__extensions.length > 0) {
         for (var i = 0; i < Class.__extensions.length; i++) {

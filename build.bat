@@ -4,7 +4,7 @@ set NODE="%ProgramFiles%\nodejs\node.exe"
 set PHANTOMJS="%ProgramFiles%\phantomjs\phantomjs.exe"
 set JAVA="%ProgramFiles(x86)%\Java\jre7\bin\java.exe"
 
-set SOURCES_FILES=.\src\class4js.js .\src\type_exception.js .\src\namespace.js .\src\type_builder.js .\src\type_extension.js .\src\class.js .\src\interface.js .\src\object_factory.js .\src\enum.js .\src\module_exception.js .\src\module_configuration.js .\src\configuration.js .\src\module.js
+set SOURCES_FILES=.\src\class4js.js .\src\type_exception.js .\src\namespace.js .\src\type_builder.js .\src\type_extension.js .\src\class.js .\src\interface.js .\src\object_factory.js .\src\enum.js .\src\iinterceptor.js .\src\invocation_type.js .\src\invocation.js .\src\proxy.js .\src\module_exception.js .\src\module_configuration.js .\src\configuration.js .\src\module.js
 
 if /i "%1"=="all" goto :all
 if /i "%1"=="clean" goto :clean

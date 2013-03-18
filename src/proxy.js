@@ -26,7 +26,7 @@ var Proxy = Object.create(null, {
           throw new TypeException("Interceptor is not set"); 
         }
         if (typeof type === 'function') {
-          
+          return Proxy.__createClassProxy(type, interceptors);  
         } else {
           return Proxy.__createInterfaceProxy(type, interceptors); 
         }
@@ -60,12 +60,11 @@ var Proxy = Object.create(null, {
       var proxy = {};
       for (var propertyName in type) {
         if (TypeBuilder.isPublic(propertyName)) {
-          var invocation;
           var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
             Proxy.__intercepProperty(proxy, propertyName, descriptor['get'], 
                 descriptor['set'], interceptors);
-          } else {
+          } else if (TypeBuilder.isMethod(descriptor['value'])) {
             Proxy.__interceptMethod(proxy, propertyName, interceptors);
           }
         }
@@ -76,6 +75,47 @@ var Proxy = Object.create(null, {
     writable: false,
     enumerable: false,
     configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __createClassProxy
+   * @param {Object} type
+   * @param {IInterceptor[]} interceptors
+   */
+  __createClassProxy: {
+    value: function (type, interceptors) {
+      var proxy = Object.create(type.prototype);
+      Class.extend(this);
+      for (var propertyName in type) {
+        
+      } 
+      // TODO: Include build in interceptors...
+      Object.seal(proxy);
+      return proxy;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __interceptConstructor
+   * @param {Object} proxy
+   * @param {IInterceptor[]} interceptors 
+   */
+  __interceptConstructor: {
+    value: function (proxy, interceptors) {
+      
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
   },
 
   /**

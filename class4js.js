@@ -1,9 +1,9 @@
 'strict mode';
 
-var class4js = (function (global) {
-
-var exports = {};
-
+var class4js = (function (global) { 
+ 
+var exports = {}; 
+ 
 exports.version = '1.10.0';
 
 /**
@@ -687,7 +687,7 @@ var Class = Object.create(null, {
         }  
       }
       var constructor = function () {
-        Class.__extend(this);
+        Class.extend(this);
         if (parent) {
           Class.__initialize.call(this, parent.prototype, arguments);
         }
@@ -880,10 +880,10 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @method __extend
+   * @method extend
    * @param {Object} instance
    */
-  __extend: {
+  extend: {
     value: function (instance) {
       if (Class.__extensions && Class.__extensions.length > 0) {
         for (var i = 0; i < Class.__extensions.length; i++) {
@@ -1235,6 +1235,29 @@ global.$enum = Enum.create;
 exports.Enum = Enum;
 
 /**
+ * @interface {class4js.IInterceptor}
+ */
+var IInterceptor = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.IInterceptor}
+   * @public
+   * @method intercept
+   */
+  intercept: {
+    value: function () { },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.freeze(IInterceptor);
+
+exports.IInterceptor = IInterceptor;
+
+/**
  * @enum {class4js.InvocationType}
  */
 var InvocationType = Object.create(Object.prototype, {
@@ -1528,7 +1551,7 @@ var Proxy = Object.create(null, {
           throw new TypeException("Interceptor is not set"); 
         }
         if (typeof type === 'function') {
-          
+          return Proxy.__createClassProxy(type, interceptors);  
         } else {
           return Proxy.__createInterfaceProxy(type, interceptors); 
         }
@@ -1562,12 +1585,11 @@ var Proxy = Object.create(null, {
       var proxy = {};
       for (var propertyName in type) {
         if (TypeBuilder.isPublic(propertyName)) {
-          var invocation;
           var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
             Proxy.__intercepProperty(proxy, propertyName, descriptor['get'], 
                 descriptor['set'], interceptors);
-          } else {
+          } else if (TypeBuilder.isMethod(descriptor['value'])) {
             Proxy.__interceptMethod(proxy, propertyName, interceptors);
           }
         }
@@ -1578,6 +1600,46 @@ var Proxy = Object.create(null, {
     writable: false,
     enumerable: false,
     configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __createClassProxy
+   * @param {Object} type
+   * @param {IInterceptor[]} interceptors
+   */
+  __createClassProxy: {
+    value: function (type, interceptors) {
+      var proxy = Object.create(type.prototype);
+      Class.extend(this);
+      for (var propertyName in type) {
+        
+      } 
+      Object.seal(proxy);
+      return proxy;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
+   * @method __interceptConstructor
+   * @param {Object} proxy
+   * @param {IInterceptor[]} interceptors 
+   */
+  __interceptConstructor: {
+    value: function (proxy, interceptors) {
+      
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
   },
 
   /**
@@ -2419,10 +2481,11 @@ Module.__loadMainModule();
 global.$module = Module.create;
 
 exports.Module = Module;
-return exports;
-
-}(typeof global !== 'undefined' ? global : window));
-
-if (typeof module !== 'undefined' && module !== null) {
-  module.exports.class4js = class4js;
-}
+ 
+return exports; 
+ 
+}(typeof global !== 'undefined' ? global : window)); 
+ 
+if (typeof module !== 'undefined' && module !== null) { 
+  module.exports.class4js = class4js; 
+} 
