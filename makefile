@@ -10,6 +10,7 @@ SOURCES_FILES =	class4js.js \
 								enum.js \
 								invocation_type.js \
 								invocation.js \
+								iinterceptor.js \
 								proxy.js \
 								module_exception.js \
 								module_configuration.js \

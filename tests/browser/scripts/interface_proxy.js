@@ -1,6 +1,10 @@
 'use strict';
 
-$run('Proxy', function () {
+$run('Interface Proxy', function () {
+
+  var drawInvoked = false;
+  var nameGetterInvoked = false;
+  var nameSetterInvoked = false;
 
   var IComponent = $interface({
     name: {
@@ -14,23 +18,32 @@ $run('Proxy', function () {
   }, IComponent);
 
   var shapeProxy = $proxy(IShape, function (e) {
-    // IsConstructor
     if (e.name === 'draw' && e.isMethod) {
-      console.log('Method draw was invoked');
+      drawInvoked = true;
     } else if (e.name === 'name' && e.isPropertyGetter) {
-      console.log('Property name get function was invoked');
+      nameGetterInvoked = true;
       return 'Item1'; 
     } else if (e.name === 'name' && e.isPropertySetter) {
-      console.log('Property name set function was invoked');
+      nameSetterInvoked = true;
     }
   });
 
   shapeProxy.draw();
   shapeProxy.name = 'Item1';
-  var value = shapeProxy.name; 
-  console.log(value);
+  var name = shapeProxy.name; 
 
   $assert($is(shapeProxy, IShape));
+  $assert(drawInvoked);
+  $assert(nameGetterInvoked);
+  $assert(nameSetterInvoked);
+  $assert(name === 'Item1');
+
+  var IMyInterceptor = $class({
+
+    intercept: function (invocation) {
+    }
+
+  }, class4js.IInterceptor);
 
   $complete('Proxy');
 
