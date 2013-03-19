@@ -7,9 +7,10 @@ var IInterceptor = Object.create(Object.prototype, {
    * @memberOf {class4js.IInterceptor}
    * @public
    * @method intercept
+   * @param {IInvocation} invocation
    */
   intercept: {
-    value: function () { },
+    value: function (invocation) { },
     writable: false,
     enumerable: true,
     configurable: false

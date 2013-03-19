@@ -17,11 +17,17 @@ var Proxy = Object.create(null, {
     value: function (type, interceptors) {
       if (type) {
         if (interceptors) {
-          if (typeof interceptors === 'function') {
+          if (typeof interceptors === 'function' || Interface.instanceOf(interceptors, IInterceptor)) {
             interceptors = [ interceptors ];
+          } else if (interceptors instanceof Array) {
+            for (var interceptor in interceptors) {
+              if (typeof interceptor !== 'function' && Interface.instanceOf(interceptor, IInterceptor)) {
+                throw new TypeException("Interceptor type is invalid");
+              } 
+            }
           } else {
-            
-          }  
+            throw new TypeException("Interceptor type is invalid");
+          }
         } else {
           throw new TypeException("Interceptor is not set"); 
         }
