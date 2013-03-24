@@ -14,7 +14,7 @@ var Enum = Object.create(null, {
    */
   create: {
     value: function (fields) {
-      var obj = {};
+      var obj = Object.create(Object.prototype);
       TypeBuilder.forEach(fields, function (name, value) {
         Enum.__addField(obj, name, value);
       });
@@ -35,7 +35,7 @@ var Enum = Object.create(null, {
    */
   __isValidName: {
     value: function (name) {
-      return /^([a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
+      return /^([A-Z]|[0-9]|_)*$/g.test(name);
     },
     writable: false,
     enumerable: false,

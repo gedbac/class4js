@@ -56,7 +56,7 @@
 
 * Now an interface can extend more than one interface
 * Re-factored type checking
-* Re-factored object factoryt 
+* Re-factored object factory 
 
 ## 2012.12.09, Version 1.6.0
 
@@ -104,3 +104,10 @@
 ## 2013.02.17, Version 1.9.1
 
 * Attribute 'data-main' was added to script tag wich allows to load main module
+
+## 2013.03.20, Version 1.9.2
+
+* Abstract class creating was fixed 
+* Parent's class method invocation was refactored. $super keyword was introduced
+* Constructor invocation was improved
+* Enum's name checking was updated

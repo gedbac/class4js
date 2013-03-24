@@ -3,22 +3,22 @@
 require('../../lib/class4js.js');
 
 var Priority = $enum({
-  low: 0,
-  normal: 1,
-  high: 2
+  LOW: 0,
+  NORMAL: 1,
+  HIGH: 2
 });
 
 var index = 0;
 for (var field in Priority) {
   switch(index) {
     case 0:
-      console.assert(field == 'low');
+      console.assert(field == 'LOW');
       break;
     case 1:
-      console.assert(field == 'normal');
+      console.assert(field == 'NORMAL');
       break;
     case 2:
-      console.assert(field == 'high');
+      console.assert(field == 'HIGH');
       break;
   }
   index++;

@@ -24,10 +24,7 @@ var Class = Object.create(null, {
       }
       var constructor = function () {
         Class.__extend(this);
-        if (parent) {
-          Class.__initialize.call(this, parent.prototype, arguments);
-        }
-        Class.__initialize.call(this, Object.getPrototypeOf(this), arguments);
+        Class.__initialize(this, Object.getPrototypeOf(this), arguments);
         Object.seal(this);
       };
       Class.__onCreateClass(constructor, properties, parent, interfaces);
@@ -50,6 +47,12 @@ var Class = Object.create(null, {
    */
   createAbstract: {
     value: function (properties, parent, interfaces) {
+      if (arguments.length === 2) {
+        if (typeof parent === 'object' || parent instanceof Array) {
+          interfaces = parent;
+          parent = null;
+        }  
+      }
       var constructor = function () {
         throw new TypeException("Abstract class can't be instantiated");
       };
@@ -71,9 +74,9 @@ var Class = Object.create(null, {
    */
   createStatic: {
     value: function (properties) {
-      var obj = {};
+      var obj = Object.create(Object.prototype);
       TypeBuilder.addStatic(obj, properties);
-      Class.__initialize.call(obj, obj);
+      Class.__initialize(obj, obj);
       Object.seal(obj);
       return obj; 
     },
@@ -133,18 +136,25 @@ var Class = Object.create(null, {
    * @static
    * @private
    * @method __initialize
+   * @param {Object} instance
    * @param {Object} prototype
    * @param {Array} args
    */
   __initialize: {
-    value: function (prototype, args) {
+    value: function (instance, prototype, args) {
+      if (prototype) {
+        var parent = Object.getPrototypeOf(prototype);
+        if (parent && parent !== Object.prototype) {
+          Class.__initialize(instance, parent, args);
+        }
+      }
       if (prototype && prototype.hasOwnProperty('__construct__')) {
         if (typeof prototype['__construct__'] === 'function') {
           if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-            prototype['__construct__'].apply(this);
-            ObjectFactory.initialize(this, args[0]);
+            prototype['__construct__'].apply(instance);
+            ObjectFactory.initialize(instance, args[0]);
           } else {
-            prototype['__construct__'].apply(this, args);
+            prototype['__construct__'].apply(instance, args);
           }
         } else {
           throw new TypeException("Class member's '__construct__' type is invalid");
@@ -167,9 +177,9 @@ var Class = Object.create(null, {
    */
   __descriptorsAreEqual: { 
     value: function (property, source, target) {
+      var sourceArguments, targetArguments;
       for (var propertyName in target) {
-        if (propertyName != 'writable' && propertyName != 'enumerable' 
-            && propertyName != 'configurable') {
+        if (propertyName != 'writable' && propertyName != 'enumerable' && propertyName != 'configurable') {
           if (!(propertyName in source) || typeof target[propertyName] !== typeof source[propertyName]) {
             throw new TypeException("Implementation of the property '" + propertyName + "' is invalid");
           }
@@ -273,14 +283,6 @@ var Class = Object.create(null, {
     value: function (constructor, properties, parent, interfaces) {
       if (parent) {
         constructor.prototype = Object.create(parent.prototype);
-        Object.defineProperty(constructor.prototype, '_super', {
-          get: function () {
-            var prototype = Object.getPrototypeOf(this);
-            return Object.getPrototypeOf(prototype);
-          },
-          enumerable: false,
-          configurable: false
-        });
       } else {
         constructor.prototype = Object.create(Object.prototype);
       }
@@ -288,10 +290,37 @@ var Class = Object.create(null, {
         if (TypeBuilder.isConstructor(name)) {
           TypeBuilder.addConstructor(constructor.prototype, name, value);
         } else if (TypeBuilder.isMethod(value)) {
-          TypeBuilder.addMethod(constructor.prototype, name, value);
+          if (parent && Class.__hasSuper(value)) {
+            TypeBuilder.addMethod(constructor.prototype, name, function () {
+              var args = [ Class.__wrap(this, parent.prototype) ];
+              if (arguments) {
+                for (var i = 0; i < arguments.length; i++) {
+                  args.push(arguments[i]);
+                }
+              }
+              return value.apply(this, args);
+            }); 
+          } else {
+            TypeBuilder.addMethod(constructor.prototype, name, value);
+          }
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(constructor.prototype, name, value['get'], 
-            value['set']);
+          var getter = value['get'];
+          if (getter && parent && Class.__hasSuper(getter)) {
+            getter = function () {
+              return value['get'].call(this, Class.__wrap(this, parent.prototype));
+            };
+          }
+          var setter = value['set'];
+          if (setter && parent && Class.__hasSuper(setter)) {
+            setter = function () {
+              var args = [ Class.__wrap(this, parent.prototype) ];
+              if (arguments && arguments.length > 0) {
+                args.push(arguments[0]);
+              }
+              value['set'].apply(this, args);
+            };
+          }
+          TypeBuilder.addProperty(constructor.prototype, name, getter, setter);
         } else if (TypeBuilder.isConstant(name)) { 
           TypeBuilder.addConstant(constructor, name, value); 
         } else if (TypeBuilder.isStatic(name)) {
@@ -312,6 +341,104 @@ var Class = Object.create(null, {
           Class.__instanceOf(constructor.prototype, interfaces);
         } 
       }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __hasSuper
+   * @param {Function} func
+   * @returns {Boolean}
+   */
+  __hasSuper: {
+    value: function (func) {
+      var names = TypeBuilder.getArgumentNames(func);
+      if (names.length > 0 && names[0] === '$super') {
+        return true;
+      }
+      return false;  
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __wrap
+   * @param {Object} instance
+   * @param {Object} prototype
+   * @returns {Object}
+   */
+  __wrap: {
+    value: function (instance, prototype) {
+      if ('__wrappers__' in instance && instance.__wrappers__) {
+        for (var i = 0; i < instance.__wrappers__.length; i++) {
+			    if (instance.__wrappers__[i].proto === proto) {
+				    return instance.__wrappers__[i].wrapper;
+			    }	
+		    }
+      }
+      var wrapper = Object.create(Object.prototype);
+      Class.__buildWrapper(instance, wrapper, prototype);
+      //Object.seal(wrapper);
+      if ('__wrappers__' in instance) {
+		    if (!this.__wrappers__) {
+			    this.__wrappers__ = [];
+		    }
+		    this.__wrappers__.push({ proto: proto, wrapper: wrapper });
+	    }
+      return wrapper;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __buildWrapper
+   * @param {Object} instance
+   * @param {Object} wrapper
+   * @param {Object} prototype
+   * @returns {Object}
+   */
+  __buildWrapper: {
+    value: function (instance, wrapper, prototype) {
+      if (prototype && prototype !== Object.prototype) {
+        var descriptor;
+        var properties = Object.getOwnPropertyNames(prototype);
+        for (var i = 0; i < properties.length; i++) {  
+          if (properties[i] !== '__construct__' && !(properties[i] in wrapper)) {
+            descriptor = Object.getOwnPropertyDescriptor(prototype, properties[i]);
+            if (descriptor.value) {
+              Object.defineProperty(wrapper, properties[i], {
+                value: descriptor.value.bind(instance),
+                writable: descriptor.writable,
+                enumerable: descriptor.enumerable,
+                configurable: descriptor.configurable
+              });
+            } else {
+              Object.defineProperty(wrapper, properties[i], {
+                get: descriptor.get ? descriptor.get.bind(instance) : undefined,
+                set: descriptor.set ? descriptor.set.bind(instance) : undefined,
+                enumerable: descriptor.enumerable,
+                configurable: descriptor.configurable
+              });
+            }
+          }
+        }
+        Class.__buildWrapper(instance, wrapper, Object.getPrototypeOf(prototype));
+      }   
     },
     writable: false,
     enumerable: false,

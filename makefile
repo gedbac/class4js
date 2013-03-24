@@ -1,6 +1,7 @@
 CC = java -jar ./build/yuicompressor-2.4.8.jar
 CFlAGS = WHITESPACE_ONLY
 SOURCES_FILES =	class4js.js \
+								compatability.js \
 								type_exception.js \
 								namespace.js \
 								type_builder.js \

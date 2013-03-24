@@ -45,8 +45,8 @@ var Rectangle = $class({
       this.__height = value;
     }
   },
-  draw: function () {
-    this.__super.draw();
+  draw: function ($super) {
+    $super.draw();
     console.log("Drawing rectangle (" + this.width + ", " + this.height 
       + ") at: (" + this.x + ", " + this.y + ")");
   }
