@@ -304,8 +304,9 @@ shape.draw();</code></pre>
           <h4 id="inheritance">Inheritance</h4>
           <p>
             Inheritance is a way to reuse code and to establish a subtype from an existing 
-            object. Constructor inheritance is also supported. To access parent's methods 
-            property <strong>_super</strong> should be used.
+            object. Constructor inheritance is also supported. To access parent's method, 
+            argument <strong>$super</strong> should be used. It must be the first argument 
+            in method definition. <strong>$super</strong> argument is optional.
           </p>
           <p>
             <strong>Example:</strong>
@@ -358,8 +359,8 @@ shape.draw();</code></pre>
       <span class="this">this</span>.__height = value;
     }
   },
-  draw: <span class="function">function</span> () {
-    <span class="this">this</span>.__super.draw();
+  draw: <span class="function">function</span> ($super) {
+    $super.draw();
     console.log(<span class="string">"Drawing rectangle ("</span> + <span class="this">this</span>.width + <span class="string">", "</span> + <span class="this">this</span>.height 
       + <span class="string">") at: ("</span> + <span class="this">this</span>.x + <span class="string">", "</span> + <span class="this">this</span>.y + <span class="string">")"</span>);
   }
