@@ -33,6 +33,6 @@ try {
 console.assert(errorRaised);
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }

@@ -455,6 +455,27 @@ var TypeBuilder = Object.create(null, {
   },
 
   /**
+   * @memberOf {class4js.TypeException}
+   * @static
+   * @public
+   * @method getArgumentNames
+   * @param {Function} func
+   * @returns {Array} 
+   */
+  getArgumentNames: {
+    value: function (func) {
+      return func.toString()
+		    .match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1]
+		    .replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g, '')
+		    .replace(/\s+/g, '')
+		    .split(',');
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
    * @memberOf {class4js.TypeBuilder}
    * @static
    * @public
@@ -474,7 +495,7 @@ var TypeBuilder = Object.create(null, {
     writable: false,
     enumerable: false,
     configurable: false
-  },
+  }
 
 });
 

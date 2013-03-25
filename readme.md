@@ -118,6 +118,13 @@ module:
     
     // Your code goes here...
 
+### NuGet
+
+In Visual Studio __class4js__ module can be installed using NuGet extension. To 
+install class4js, run the following command in the package manager console.
+
+    Install-Package class4js
+
 ## API
 
 ### Class
@@ -305,8 +312,9 @@ __Example:__
 #### Inheritance
 
 Inheritance is a way to reuse code and to establish a subtype from an existing 
-object. Constructor inheritance is also supported. To access parent's methods 
-property *\_super* should be used.
+object. Constructor inheritance is also supported. To access parent's method, 
+argument *$super* should be used. It must be the first argument in method definition.
+*$super* argument is optional.
 
 __Example:__
 
@@ -357,8 +365,8 @@ __Example:__
           this.__height = value;
         }
       },
-      draw: function () {
-        this.__super.draw();
+      draw: function ($super) {
+        $super.draw();
         console.log("Drawing rectangle (" + this.width + ", " + this.height 
           + ") at: (" + this.x + ", " + this.y + ")");
       }
@@ -439,9 +447,9 @@ __$enum__ keyword can be used to set up collections of named integer constants.
 __Example:__
 
     var Priority = $enum({
-      low: 0,
-      normal: 1,
-      high: 2
+      LOW: 0,
+      NORMAL: 1,
+      HIGH: 2
     });
 
 ### Interface
@@ -471,6 +479,14 @@ __Example:__
     }, IComponent);
     
     var Shape = $class({
+      __construct__: function () {
+        this.__name = 'Shape';
+      },
+      name: {
+        get: function () {
+          return this.__name;
+        }
+      },
       draw: function () {
         console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
       }

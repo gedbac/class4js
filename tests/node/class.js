@@ -20,6 +20,6 @@ console.assert(constructorInvoked);
 console.assert(person.getName() == 'John Smith');
 
 // It's required for PhantomJS
-if (typeof phantom !== "undefined") {
+if (typeof phantom !== 'undefined') {
   phantom.exit();
 }
