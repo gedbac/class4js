@@ -98,7 +98,7 @@ $run('Inheritance', function () {
   $assert(ctr.getContent() === 'None');
   $assert(ctr.tags === 'Shape Rectangle Control');
   $assert(ctr.width === 112);
-  $assert($is(ctr, Shape))
+  $assert($is(ctr, Shape));
 
   $complete('Inheritance');
 

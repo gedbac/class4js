@@ -464,11 +464,16 @@ var TypeBuilder = Object.create(null, {
    */
   getArgumentNames: {
     value: function (func) {
-      return func.toString()
-		    .match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1]
-		    .replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g, '')
-		    .replace(/\s+/g, '')
-		    .split(',');
+      if (func) {
+        var str = func.toString()
+          .match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1]
+          .replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g, '')
+          .replace(/\s+/g, '');
+        if (str) {
+          return str.split(',');
+        }
+      }
+      return [];
     },
     writable: false,
     enumerable: true,
@@ -488,7 +493,7 @@ var TypeBuilder = Object.create(null, {
     value: function (object, propertyName) {
       var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
       if (!descriptor) {
-        return TypeBuilder.__getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
+        return TypeBuilder.getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
       }
       return descriptor;
     },
