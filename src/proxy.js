@@ -39,13 +39,6 @@ var Proxy = Object.create(null, {
       } else {
         throw new TypeException("Type is not set");
       }
-      // Check if it is interface or class
-      //var constructor = function () {
-        // TODO: Invoke parents constructor
-        //Object.seal(this);
-      //};
-      // TODO: Inherit from base type
-      //return constructor;
     },
     writable: false,
     enumerable: true,
@@ -66,16 +59,11 @@ var Proxy = Object.create(null, {
       var proxy = {};
       for (var propertyName in type) {
         if (TypeBuilder.isPublic(propertyName)) {
-          var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
-          if (TypeBuilder.isProperty(descriptor)) {
-            Proxy.__intercepProperty(proxy, propertyName, descriptor['get'], 
-                descriptor['set'], interceptors);
-          } else if (TypeBuilder.isMethod(descriptor['value'])) {
-            Proxy.__interceptMethod(proxy, propertyName, descriptor, interceptors);
-          }
+          Proxy.__intercept(type.prototype, constructor.prototype, propertyName, 
+              interceptors);
         }
       }
-      Object.freeze(proxy);
+      Object.seal(proxy);
       return proxy;
     },
     writable: false,
@@ -93,14 +81,21 @@ var Proxy = Object.create(null, {
    */
   __createClassProxy: {
     value: function (type, interceptors) {
-      var proxy = Object.create(type.prototype);
-      Class.extend(this);
-      for (var propertyName in type) {
-        
+      var constructor = function () {
+        Class.includeExtensions(this);
+        Class.initialize(this, Object.getPrototypeOf(this), arguments);
+        Object.seal(this);
+      };
+      constructor.prototype = Object.create(type.prototype);
+      Proxy.__intercept(type.prototype, constructor.prototype, '__construct__', 
+          interceptors);
+      for (var propertyName in type.prototype) {
+        if (TypeBuilder.isPublic(propertyName)) {
+          Proxy.__intercept(type.prototype, constructor.prototype, propertyName, 
+              interceptors);
+        }
       } 
-      // TODO: Include build in interceptors...
-      Object.seal(proxy);
-      return proxy;
+      return new constructor();
     },
     writable: false,
     enumerable: false,
@@ -111,13 +106,50 @@ var Proxy = Object.create(null, {
    * @memberOf {class4js.Proxy}
    * @static
    * @private
+   * @method __intercept
+   * @param {Object} source 
+   * @param {Object} target
+   * @param {String} propertyName
+   * @param {IInterceptor[]} interceptors
+   */
+  __intercept: {
+    value: function (source, target, propertyName, interceptors) {
+      var descriptor = TypeBuilder.getPropertyDescriptor(source, propertyName);
+      if (descriptor) {
+        if (TypeBuilder.isConstructor(propertyName)) {
+          Proxy.__interceptConstructor(target, descriptor, interceptors);
+        } else if (TypeBuilder.isProperty(descriptor)) {
+          Proxy.__intercepProperty(target, propertyName, descriptor['get'], descriptor['set'], interceptors);
+        } else if (TypeBuilder.isMethod(descriptor['value'])) {
+          Proxy.__interceptMethod(target, propertyName, descriptor, interceptors);
+        }
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false 
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
+   * @private
    * @method __interceptConstructor
    * @param {Object} proxy
+   * @param {Object} descriptor
    * @param {IInterceptor[]} interceptors 
    */
   __interceptConstructor: {
-    value: function (proxy, interceptors) {
-      
+    value: function (proxy, descriptor, interceptors) {
+      var constructor = function () {
+        var invocation = new Invocation('__construct__', InvocationType.CONSTRUCTOR, 
+          arguments, interceptors);
+        return invocation.procceed();
+      };
+      TypeBuilder.addMethod(constructor, 'toString', function () {
+        return descriptor['value'].toString();
+      });
+      TypeBuilder.addConstructor(proxy, '__construct__', constructor);
     },
     writable: false,
     enumerable: false,

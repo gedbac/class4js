@@ -24,7 +24,7 @@ var Class = Object.create(null, {
       }
       var constructor = function () {
         Class.includeExtensions(this);
-        Class.__initialize(this, Object.getPrototypeOf(this), arguments);
+        Class.initialize(this, Object.getPrototypeOf(this), arguments);
         Object.seal(this);
       };
       Class.__onCreateClass(constructor, properties, parent, interfaces);
@@ -76,7 +76,7 @@ var Class = Object.create(null, {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
       TypeBuilder.addStatic(obj, properties);
-      Class.__initialize(obj, obj);
+      Class.initialize(obj, obj);
       Object.seal(obj);
       return obj; 
     },
@@ -134,18 +134,18 @@ var Class = Object.create(null, {
   /**
    * @memberOf {class4js.Class}
    * @static
-   * @private
-   * @method __initialize
+   * @public
+   * @method initialize
    * @param {Object} instance
    * @param {Object} prototype
    * @param {Array} args
    */
-  __initialize: {
+  initialize: {
     value: function (instance, prototype, args) {
       if (prototype) {
         var parent = Object.getPrototypeOf(prototype);
         if (parent && parent !== Object.prototype) {
-          Class.__initialize(instance, parent, args);
+          Class.initialize(instance, parent, args);
         }
       }
       if (prototype && prototype.hasOwnProperty('__construct__')) {
@@ -317,7 +317,7 @@ var Class = Object.create(null, {
           TypeBuilder.addField(constructor.prototype, name, value);
         }
       });
-      Class.__initialize.call(constructor, constructor);
+      Class.initialize(constructor, constructor);
       Object.seal(constructor);
       Object.seal(constructor.prototype);
       if (interfaces) {

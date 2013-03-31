@@ -111,3 +111,7 @@
 * Parent's class method invocation was refactored. $super keyword was introduced
 * Constructor invocation was improved
 * Enum's name checking was updated
+
+## ????.??.??, Version 1.10.0
+
+* Proxies were introduced
