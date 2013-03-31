@@ -50,7 +50,7 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return 'class4js.ModuleConfiguration';
+      return '[object class4js.ModuleConfiguration]';
     },
     writable: false,
     enumerable: true,

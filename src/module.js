@@ -112,7 +112,7 @@ Module.prototype = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return 'class4js.Module';
+      return '[object class4js.Module]';
     },
     writable: false,
     enumerable: true,

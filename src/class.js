@@ -278,15 +278,10 @@ var Class = Object.create(null, {
               }
               return value.apply(this, args);
             };
-            TypeBuilder.addMethod(constructor.prototype, name, method); 
-            Object.defineProperty(method, 'toString', {
-              value: function () {
-                return value.toString();
-              },
-              writable: false,
-              enumerable: true,
-              configurable: false
+            TypeBuilder.addMethod(method, 'toString', function () {
+              return value.toString();
             });
+            TypeBuilder.addMethod(constructor.prototype, name, method);
           } else {
             TypeBuilder.addMethod(constructor.prototype, name, value);
           }
@@ -296,13 +291,8 @@ var Class = Object.create(null, {
             getter = function () {
               return value['get'].call(this, Class.__wrap(this, parent.prototype));
             };
-            Object.defineProperty(getter, 'toString', {
-              value: function () {
-                return value['get'].toString();
-              },
-              writable: false,
-              enumerable: true,
-              configurable: false
+            TypeBuilder.addMethod(getter, 'toString', function () {
+              return value['get'].toString();
             });
           }
           var setter = value['set'];
@@ -314,13 +304,8 @@ var Class = Object.create(null, {
               }
               value['set'].apply(this, args);
             };
-            Object.defineProperty(setter, 'toString', {
-              value: function () {
-                return value['set'].toString();
-              },
-              writable: false,
-              enumerable: true,
-              configurable: false
+            TypeBuilder.addMethod(setter, 'toString', function () {
+              return value['set'].toString();
             });
           }
           TypeBuilder.addProperty(constructor.prototype, name, getter, setter);

@@ -71,7 +71,7 @@ var Proxy = Object.create(null, {
             Proxy.__intercepProperty(proxy, propertyName, descriptor['get'], 
                 descriptor['set'], interceptors);
           } else if (TypeBuilder.isMethod(descriptor['value'])) {
-            Proxy.__interceptMethod(proxy, propertyName, interceptors);
+            Proxy.__interceptMethod(proxy, propertyName, descriptor, interceptors);
           }
         }
       }
@@ -131,15 +131,20 @@ var Proxy = Object.create(null, {
    * @method __interceptMethod
    * @param {Object} proxy
    * @param {String} propertyName
+   * @param {Object} descriptor
    * @param {IInterceptor[]} interceptors
    */
   __interceptMethod: {
-    value: function (proxy, propertyName, interceptors) {
-      TypeBuilder.addMethod(proxy, propertyName, function () {
+    value: function (proxy, propertyName, descriptor, interceptors) {
+      var method = function () {
         var invocation = new Invocation(propertyName, InvocationType.METHOD, 
           arguments, interceptors);
         return invocation.procceed();
-      }); 
+      };
+      TypeBuilder.addMethod(method, 'toString', function () {
+        return descriptor['value'].toString();
+      });
+      TypeBuilder.addMethod(proxy, propertyName, method); 
     },
     writable: false,
     enumerable: false,
@@ -154,25 +159,31 @@ var Proxy = Object.create(null, {
    * @param {Object} proxy
    * @param {String} propertyName
    * @param {Boolean} readable
-   * @param {Boolean} writable
+   * @param {Object} descriptor
    * @param {IInterceptor[]} interceptors
    */
   __intercepProperty: {
-    value: function (proxy, propertyName, readable, writable, interceptors) {
+    value: function (proxy, propertyName, descriptor, interceptors) {
       var getter, setter;
-      if (readable) {
+      if (descriptor['get']) {
         getter = function () {
           var getterInvocation = new Invocation(propertyName, 
               InvocationType.PROPERTY_GETTER, arguments, interceptors);
           return getterInvocation.procceed();
         };
+        TypeBuilder.addMethod(getter, 'toString', function () {
+          return descriptor['get'].toString();
+        });
       } 
-      if (writable) {
+      if (descriptor['set']) {
         setter = function () {
           var setterInvocation = new Invocation(propertyName, 
               InvocationType.PROPERTY_SETTER, arguments, interceptors);
           setterInvocation.procceed();
         };
+        TypeBuilder.addMethod(setter, 'toString', function () {
+          return descriptor['set'].toString();
+        });
       }
       TypeBuilder.addProperty(proxy, propertyName, getter, setter);
     },

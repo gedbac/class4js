@@ -73,7 +73,7 @@ Configuration.prototype = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return 'class4js.Configuration';
+      return '[object class4js.Configuration]';
     },
     writable: false,
     enumerable: true,
