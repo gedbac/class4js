@@ -2,7 +2,7 @@
  * @static
  * @class {class4js.ObjectFactory}
  */
-var ObjectFactory = Object.create(null, {
+var ObjectFactory = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.ObjectFactory}
@@ -52,6 +52,22 @@ var ObjectFactory = Object.create(null, {
         }
       }
     }
+  },
+
+  /**
+   * @memberOf {class4js.ObjectFactory}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.ObjectFactory]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 }); 

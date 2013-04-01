@@ -45,6 +45,21 @@ var InvocationType = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false,
     writable: false
+  },
+
+  /**
+   * @memberOf {class4js.InvocationType}
+   * @public
+   * @methos toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Enum]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });

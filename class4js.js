@@ -82,7 +82,7 @@ exports.TypeException = TypeException;
  * @static
  * @class {class4js.Namespace}
  */
-var Namespace = Object.create(null, {
+var Namespace = Object.create(Object.prototype, {
 
   /*
    * @memberOf {class4js.Namespace}
@@ -109,6 +109,22 @@ var Namespace = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Namespace}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Namespace]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -122,7 +138,7 @@ exports.Namespace = Namespace;
  * @static
  * @class {class4js.TypeBuilder}
  */
-var TypeBuilder = Object.create(null, {
+var TypeBuilder = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.TypeBuilder}
@@ -618,7 +634,23 @@ var TypeBuilder = Object.create(null, {
       return descriptor;
     },
     writable: false,
-    enumerable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.TypeBuilder]';
+    },
+    writable: false,
+    enumerable: true,
     configurable: false
   }
 
@@ -703,7 +735,20 @@ Object.seal(TypeExtension.prototype);
  * @static
  * @class {class4js.Class}
  */
-var Class = Object.create(null, {
+var Class = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @field {TypeExtension[]} __extensions
+   */
+  __extensions: {
+    value: [],
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
 
   /**
    * @memberOf {class4js.Class}
@@ -777,6 +822,9 @@ var Class = Object.create(null, {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
       TypeBuilder.addStatic(obj, properties);
+      TypeBuilder.addMethod(obj, 'toString', function () {
+        return '[object Class]';
+      });
       Class.initialize(obj, obj);
       Object.seal(obj);
       return obj; 
@@ -822,19 +870,6 @@ var Class = Object.create(null, {
   /**
    * @memberOf {class4js.Class}
    * @static
-   * @private
-   * @field {TypeExtension[]} __extensions
-   */
-  __extensions: {
-    value: [],
-    writable: true,
-    enumerable: false,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
    * @public
    * @method initialize
    * @param {Object} instance
@@ -864,6 +899,47 @@ var Class = Object.create(null, {
     },
     writable: false,
     enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method includeExtensions
+   * @param {Object} instance
+   */
+  includeExtensions: {
+    value: function (instance) {
+      if (Class.__extensions && Class.__extensions.length > 0) {
+        for (var i = 0; i < Class.__extensions.length; i++) {
+          var extension = Class.__extensions[i];
+          if (Interface.instanceOf(instance, extension.target)) {
+            if (!(extension.name in instance)) {
+              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            }
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Class]';
+    },
+    writable: false,
+    enumerable: true,
     configurable: false
   },
 
@@ -927,31 +1003,6 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @method includeExtensions
-   * @param {Object} instance
-   */
-  includeExtensions: {
-    value: function (instance) {
-      if (Class.__extensions && Class.__extensions.length > 0) {
-        for (var i = 0; i < Class.__extensions.length; i++) {
-          var extension = Class.__extensions[i];
-          if (Interface.instanceOf(instance, extension.target)) {
-            if (!(extension.name in instance)) {
-              TypeBuilder.addMethod(instance, extension.name, extension.value); 
-            }
-          }
-        }
-      }
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
    * @method __onCreateClass
    * @param {Function} constructor
    * @param {Object} properties
@@ -964,6 +1015,9 @@ var Class = Object.create(null, {
         constructor.prototype = Object.create(parent.prototype);
       } else {
         constructor.prototype = Object.create(Object.prototype);
+        TypeBuilder.addMethod(constructor.prototype, 'toString', function () {
+          return '[object Class]';
+        });
       }
       TypeBuilder.forEach(properties, function (name, value) {
         if (TypeBuilder.isConstructor(name)) {
@@ -1148,35 +1202,7 @@ exports.Class = Class;
  * @static
  * @class {class4js.Interface}
  */
-var Interface = Object.create(null, {
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __copyParentMembers
-   * @param {Object} target
-   * @param {Object} source
-   */
-  __copyParentMembers: { 
-    value: function (target, source) {
-      if (source) {
-        for (var propertyName in source) {
-          var property = Object.getOwnPropertyDescriptor(source, propertyName); 
-          if (property['value'] && TypeBuilder.isMethod(property['value'])) {
-            TypeBuilder.addMethod(target, propertyName, property.value);
-          } else if (TypeBuilder.isProperty(property)) {
-            TypeBuilder.addProperty(target, propertyName, property.get, property.set);
-          } else {
-            throw new TypeException("Member '" + propertyName + "' is invalid");
-          }
-        }
-      }
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  },
+var Interface = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.Class}
@@ -1189,7 +1215,10 @@ var Interface = Object.create(null, {
    */
   create: {
     value: function (properties, parents) {
-      var obj = {};
+      var obj = Object.create(Object.prototype);
+      TypeBuilder.addMethod(obj, 'toString', function () {
+        return '[object Interface]';
+      });
       if (parents) {
         if (parents instanceof Array) {
           for (var i = 0; i < parents.length; i++) {
@@ -1200,12 +1229,14 @@ var Interface = Object.create(null, {
         } 
       }
       TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isMethod(value)) {
-          TypeBuilder.addMethod(obj, name, value);
-        } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(obj, name, value['get'], value['set']);
-        } else {
-          throw new TypeException("Member '" + name + "' is invalid"); 
+        if (!(name in obj)) {
+          if (TypeBuilder.isMethod(value)) {
+            TypeBuilder.addMethod(obj, name, value);
+          } else if (TypeBuilder.isProperty(value)) {
+            TypeBuilder.addProperty(obj, name, value['get'], value['set']);
+          } else {
+            throw new TypeException("Member '" + name + "' is invalid"); 
+          }
         }
       });
       Object.freeze(obj);
@@ -1246,6 +1277,52 @@ var Interface = Object.create(null, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Interface}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __copyParentMembers
+   * @param {Object} target
+   * @param {Object} source
+   */
+  __copyParentMembers: { 
+    value: function (target, source) {
+      if (source) {
+        for (var propertyName in source) {
+          if (!(propertyName in target)) {
+            var property = Object.getOwnPropertyDescriptor(source, propertyName); 
+            if (property['value'] && TypeBuilder.isMethod(property['value'])) {
+              TypeBuilder.addMethod(target, propertyName, property.value);
+            } else if (TypeBuilder.isProperty(property)) {
+              TypeBuilder.addProperty(target, propertyName, property.get, property.set);
+            } else {
+              throw new TypeException("Member '" + propertyName + "' is invalid");
+            }
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -1260,7 +1337,7 @@ exports.Interface = Interface;
  * @static
  * @class {class4js.ObjectFactory}
  */
-var ObjectFactory = Object.create(null, {
+var ObjectFactory = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.ObjectFactory}
@@ -1310,6 +1387,22 @@ var ObjectFactory = Object.create(null, {
         }
       }
     }
+  },
+
+  /**
+   * @memberOf {class4js.ObjectFactory}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.ObjectFactory]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 }); 
@@ -1325,7 +1418,7 @@ exports.ObjectFactory = ObjectFactory;
  * @static
  * @class {class4js.Enum}
  */
-var Enum = Object.create(null, {
+var Enum = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.Enum}
@@ -1341,8 +1434,27 @@ var Enum = Object.create(null, {
       TypeBuilder.forEach(fields, function (name, value) {
         Enum.__addField(obj, name, value);
       });
+      TypeBuilder.addMethod(obj, 'toString', function () {
+        return '[object Enum]';
+      });
       Object.freeze(obj);
       return obj;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Enum}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Enum]';
     },
     writable: false,
     enumerable: true,
@@ -1424,6 +1536,21 @@ var IInterceptor = Object.create(Object.prototype, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.IInterceptor}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -1479,6 +1606,21 @@ var InvocationType = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false,
     writable: false
+  },
+
+  /**
+   * @memberOf {class4js.InvocationType}
+   * @public
+   * @methos toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Enum]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -1734,6 +1876,21 @@ var IInterceptor = Object.create(Object.prototype, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.IInterceptor}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -1746,7 +1903,7 @@ exports.IInterceptor = IInterceptor;
  * @static
  * @class {class4js.Proxy}
  */
-var Proxy = Object.create(null, {
+var Proxy = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.Proxy}
@@ -1792,6 +1949,22 @@ var Proxy = Object.create(null, {
   /**
    * @memberOf {class4js.Proxy}
    * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Proxy]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
    * @private
    * @method __createInterfaceProxy
    * @param {Object} type
@@ -1800,9 +1973,11 @@ var Proxy = Object.create(null, {
    */
   __createInterfaceProxy: {
     value: function (type, interceptors) {
-      var proxy = {};
+      var proxy = Object.create(Object.prototype);
+      var descriptor;
       for (var propertyName in type) {
         if (TypeBuilder.isPublic(propertyName)) {
+          descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
             Proxy.__intercepProperty(proxy, propertyName, descriptor, interceptors, interceptors);
           } else if (TypeBuilder.isMethod(descriptor['value'])) {

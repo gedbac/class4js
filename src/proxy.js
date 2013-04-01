@@ -2,7 +2,7 @@
  * @static
  * @class {class4js.Proxy}
  */
-var Proxy = Object.create(null, {
+var Proxy = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.Proxy}
@@ -48,6 +48,22 @@ var Proxy = Object.create(null, {
   /**
    * @memberOf {class4js.Proxy}
    * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Proxy]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Proxy}
+   * @static
    * @private
    * @method __createInterfaceProxy
    * @param {Object} type
@@ -56,9 +72,11 @@ var Proxy = Object.create(null, {
    */
   __createInterfaceProxy: {
     value: function (type, interceptors) {
-      var proxy = {};
+      var proxy = Object.create(Object.prototype);
+      var descriptor;
       for (var propertyName in type) {
         if (TypeBuilder.isPublic(propertyName)) {
+          descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
             Proxy.__intercepProperty(proxy, propertyName, descriptor, interceptors, interceptors);
           } else if (TypeBuilder.isMethod(descriptor['value'])) {

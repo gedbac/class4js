@@ -2,7 +2,7 @@
  * @static
  * @class {class4js.Enum}
  */
-var Enum = Object.create(null, {
+var Enum = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.Enum}
@@ -18,8 +18,27 @@ var Enum = Object.create(null, {
       TypeBuilder.forEach(fields, function (name, value) {
         Enum.__addField(obj, name, value);
       });
+      TypeBuilder.addMethod(obj, 'toString', function () {
+        return '[object Enum]';
+      });
       Object.freeze(obj);
       return obj;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Enum}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Enum]';
     },
     writable: false,
     enumerable: true,

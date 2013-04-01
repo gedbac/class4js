@@ -2,7 +2,7 @@
  * @static
  * @class {class4js.Namespace}
  */
-var Namespace = Object.create(null, {
+var Namespace = Object.create(Object.prototype, {
 
   /*
    * @memberOf {class4js.Namespace}
@@ -25,6 +25,22 @@ var Namespace = Object.create(null, {
       } else {
         throw new TypeException("Namespace is not set"); 
       }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Namespace}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Namespace]';
     },
     writable: false,
     enumerable: true,

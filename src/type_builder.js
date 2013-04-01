@@ -2,7 +2,7 @@
  * @static
  * @class {class4js.TypeBuilder}
  */
-var TypeBuilder = Object.create(null, {
+var TypeBuilder = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.TypeBuilder}
@@ -498,7 +498,23 @@ var TypeBuilder = Object.create(null, {
       return descriptor;
     },
     writable: false,
-    enumerable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.TypeBuilder]';
+    },
+    writable: false,
+    enumerable: true,
     configurable: false
   }
 

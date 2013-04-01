@@ -2,35 +2,7 @@
  * @static
  * @class {class4js.Interface}
  */
-var Interface = Object.create(null, {
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __copyParentMembers
-   * @param {Object} target
-   * @param {Object} source
-   */
-  __copyParentMembers: { 
-    value: function (target, source) {
-      if (source) {
-        for (var propertyName in source) {
-          var property = Object.getOwnPropertyDescriptor(source, propertyName); 
-          if (property['value'] && TypeBuilder.isMethod(property['value'])) {
-            TypeBuilder.addMethod(target, propertyName, property.value);
-          } else if (TypeBuilder.isProperty(property)) {
-            TypeBuilder.addProperty(target, propertyName, property.get, property.set);
-          } else {
-            throw new TypeException("Member '" + propertyName + "' is invalid");
-          }
-        }
-      }
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  },
+var Interface = Object.create(Object.prototype, {
 
   /**
    * @memberOf {class4js.Class}
@@ -43,7 +15,10 @@ var Interface = Object.create(null, {
    */
   create: {
     value: function (properties, parents) {
-      var obj = {};
+      var obj = Object.create(Object.prototype);
+      TypeBuilder.addMethod(obj, 'toString', function () {
+        return '[object Interface]';
+      });
       if (parents) {
         if (parents instanceof Array) {
           for (var i = 0; i < parents.length; i++) {
@@ -54,12 +29,14 @@ var Interface = Object.create(null, {
         } 
       }
       TypeBuilder.forEach(properties, function (name, value) {
-        if (TypeBuilder.isMethod(value)) {
-          TypeBuilder.addMethod(obj, name, value);
-        } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(obj, name, value['get'], value['set']);
-        } else {
-          throw new TypeException("Member '" + name + "' is invalid"); 
+        if (!(name in obj)) {
+          if (TypeBuilder.isMethod(value)) {
+            TypeBuilder.addMethod(obj, name, value);
+          } else if (TypeBuilder.isProperty(value)) {
+            TypeBuilder.addProperty(obj, name, value['get'], value['set']);
+          } else {
+            throw new TypeException("Member '" + name + "' is invalid"); 
+          }
         }
       });
       Object.freeze(obj);
@@ -95,6 +72,52 @@ var Interface = Object.create(null, {
         return true;
       } else {
         throw new TypeException("Source or target is not set");
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Interface}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method __copyParentMembers
+   * @param {Object} target
+   * @param {Object} source
+   */
+  __copyParentMembers: { 
+    value: function (target, source) {
+      if (source) {
+        for (var propertyName in source) {
+          if (!(propertyName in target)) {
+            var property = Object.getOwnPropertyDescriptor(source, propertyName); 
+            if (property['value'] && TypeBuilder.isMethod(property['value'])) {
+              TypeBuilder.addMethod(target, propertyName, property.value);
+            } else if (TypeBuilder.isProperty(property)) {
+              TypeBuilder.addProperty(target, propertyName, property.get, property.set);
+            } else {
+              throw new TypeException("Member '" + propertyName + "' is invalid");
+            }
+          }
+        }
       }
     },
     writable: false,

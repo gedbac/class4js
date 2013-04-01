@@ -14,6 +14,21 @@ var IInterceptor = Object.create(Object.prototype, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.IInterceptor}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });

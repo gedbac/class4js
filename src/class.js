@@ -2,7 +2,20 @@
  * @static
  * @class {class4js.Class}
  */
-var Class = Object.create(null, {
+var Class = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @field {TypeExtension[]} __extensions
+   */
+  __extensions: {
+    value: [],
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
 
   /**
    * @memberOf {class4js.Class}
@@ -76,6 +89,9 @@ var Class = Object.create(null, {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
       TypeBuilder.addStatic(obj, properties);
+      TypeBuilder.addMethod(obj, 'toString', function () {
+        return '[object Class]';
+      });
       Class.initialize(obj, obj);
       Object.seal(obj);
       return obj; 
@@ -121,19 +137,6 @@ var Class = Object.create(null, {
   /**
    * @memberOf {class4js.Class}
    * @static
-   * @private
-   * @field {TypeExtension[]} __extensions
-   */
-  __extensions: {
-    value: [],
-    writable: true,
-    enumerable: false,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
    * @public
    * @method initialize
    * @param {Object} instance
@@ -163,6 +166,47 @@ var Class = Object.create(null, {
     },
     writable: false,
     enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @private
+   * @method includeExtensions
+   * @param {Object} instance
+   */
+  includeExtensions: {
+    value: function (instance) {
+      if (Class.__extensions && Class.__extensions.length > 0) {
+        for (var i = 0; i < Class.__extensions.length; i++) {
+          var extension = Class.__extensions[i];
+          if (Interface.instanceOf(instance, extension.target)) {
+            if (!(extension.name in instance)) {
+              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+            }
+          }
+        }
+      }
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Class]';
+    },
+    writable: false,
+    enumerable: true,
     configurable: false
   },
 
@@ -226,31 +270,6 @@ var Class = Object.create(null, {
    * @memberOf {class4js.Class}
    * @static
    * @private
-   * @method includeExtensions
-   * @param {Object} instance
-   */
-  includeExtensions: {
-    value: function (instance) {
-      if (Class.__extensions && Class.__extensions.length > 0) {
-        for (var i = 0; i < Class.__extensions.length; i++) {
-          var extension = Class.__extensions[i];
-          if (Interface.instanceOf(instance, extension.target)) {
-            if (!(extension.name in instance)) {
-              TypeBuilder.addMethod(instance, extension.name, extension.value); 
-            }
-          }
-        }
-      }
-    },
-    writable: false,
-    enumerable: false,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
    * @method __onCreateClass
    * @param {Function} constructor
    * @param {Object} properties
@@ -263,6 +282,9 @@ var Class = Object.create(null, {
         constructor.prototype = Object.create(parent.prototype);
       } else {
         constructor.prototype = Object.create(Object.prototype);
+        TypeBuilder.addMethod(constructor.prototype, 'toString', function () {
+          return '[object Class]';
+        });
       }
       TypeBuilder.forEach(properties, function (name, value) {
         if (TypeBuilder.isConstructor(name)) {
