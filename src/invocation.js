@@ -1,8 +1,14 @@
 /**
  * @class {class4js.Invocation}
  * @constructor {class4js.Invocation}
+ * @param {Object} target
+ * @param {String} name
+ * @param {InvocationType} type
+ * @param {Array} arguments
+ * @param {IInterceptor[]} interceptors
  */
-var Invocation = function (name, type, arguments, interceptors) {
+var Invocation = function (target, name, type, arguments, interceptors) {
+  this.__target = target;
   this.__name = name;
   this.__type = type;
   this.__arguments = arguments;
@@ -14,6 +20,20 @@ var Invocation = function (name, type, arguments, interceptors) {
 };
 
 Invocation.prototype = Object.create(Object.prototype, {
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @public
+   * @property {Object} target
+   */
+  target: {
+    get: function () {
+      return this.__target;
+    },
+    set: function (value) {
+      this.__target = value;
+    }
+  },
 
   /**
    * @memberOf {class4js.Invocation}
@@ -175,9 +195,9 @@ Invocation.prototype = Object.create(Object.prototype, {
         var interceptor = this.__interceptors[this.__current];
         this.__current++;
         if (typeof interceptor === 'function') {
-          this.__returnValue = interceptor.call(null, this);
+          this.__returnValue = interceptor.call(this.target, this);
         } else {
-          this.__returnValue = interceptor.intercept.call(null, this);    
+          this.__returnValue = interceptor.intercept.call(this.target, this);    
         } 
       }
       return this.__returnValue;
