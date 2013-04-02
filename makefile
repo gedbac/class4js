@@ -51,6 +51,8 @@ test-node:
 	node ./tests/node/module_inline.js
 	node ./tests/node/module_with_arguments.js
 	node ./tests/node/enum.js
+	node ./tests/node/interface_proxy.js
+	node ./tests/node/class_proxy.js
 
 build-browser: class4js.min.js
 
@@ -94,3 +96,5 @@ test-phantomjs:
 	phantomjs ./tests/node/module_inline.js
 	phantomjs ./tests/node/module_with_arguments.js
 	phantomjs ./tests/node/enum.js
+	phantomjs ./tests/node/interface_proxy.js
+	phantomjs ./tests/node/class_proxy.js

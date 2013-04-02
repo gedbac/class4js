@@ -150,17 +150,20 @@ var Class = Object.create(Object.prototype, {
         if (parent && parent !== Object.prototype) {
           Class.initialize(instance, parent, args);
         }
-      }
-      if (prototype && prototype.hasOwnProperty('__construct__')) {
-        if (typeof prototype['__construct__'] === 'function') {
-          if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-            prototype['__construct__'].apply(instance);
-            ObjectFactory.initialize(instance, args[0]);
+        if (prototype.hasOwnProperty('__construct__')) {
+          if (typeof prototype['__construct__'] === 'function') {
+            if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
+              prototype['__construct__'].apply(instance); 
+            } else {
+              prototype['__construct__'].apply(instance, args);
+            }
           } else {
-            prototype['__construct__'].apply(instance, args);
+            throw new TypeException("Class member's '__construct__' type is invalid");
           }
-        } else {
-          throw new TypeException("Class member's '__construct__' type is invalid");
+        }
+        if (Object.getPrototypeOf(instance) == prototype && args 
+            && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
+          ObjectFactory.initialize(instance, args[0]);
         }
       }
     },

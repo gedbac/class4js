@@ -11,10 +11,11 @@ var Proxy = Object.create(Object.prototype, {
    * @method create
    * @param {Object} type
    * @param {IInterceptor[]} interceptors
+   * @param {Array} args
    * @returns {Object}
    */
   create: {
-    value: function (type, interceptors) {
+    value: function (type, interceptors, args) {
       if (type) {
         if (interceptors) {
           if (typeof interceptors === 'function' || Interface.instanceOf(interceptors, IInterceptor)) {
@@ -31,10 +32,13 @@ var Proxy = Object.create(Object.prototype, {
         } else {
           throw new TypeException("Interceptor is not set"); 
         }
+        if (args && !(args instanceof Array)) {
+          args = [ args ];
+        }
         if (typeof type === 'function') {
-          return Proxy.__createClassProxy(type, interceptors);  
+          return Proxy.__createClassProxy(type, interceptors, args);  
         } else {
-          return Proxy.__createInterfaceProxy(type, interceptors); 
+          return Proxy.__createInterfaceProxy(type, interceptors, args); 
         }
       } else {
         throw new TypeException("Type is not set");
@@ -71,21 +75,27 @@ var Proxy = Object.create(Object.prototype, {
    * @returns {Object}
    */
   __createInterfaceProxy: {
-    value: function (type, interceptors) {
-      var proxy = Object.create(Object.prototype);
-      var descriptor;
+    value: function (type, interceptors, args) {
+      var constructor = function () {
+        Class.includeExtensions(this);
+        Class.initialize(this, Object.getPrototypeOf(this), args);
+        Object.seal(this);
+      };
+      constructor.prototype = Object.create(Object.prototype);
+      Proxy.__interceptClassConstructor(type, constructor.prototype, interceptors);
       for (var propertyName in type) {
         if (TypeBuilder.isPublic(propertyName)) {
-          descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
+          var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
-            Proxy.__intercepProperty(proxy, propertyName, descriptor, interceptors, interceptors);
+            Proxy.__intercepProperty(constructor.prototype, propertyName, descriptor, interceptors, interceptors);
           } else if (TypeBuilder.isMethod(descriptor['value'])) {
-            Proxy.__interceptMethod(proxy, propertyName, descriptor, interceptors);
+            Proxy.__interceptMethod(constructor.prototype, propertyName, descriptor, interceptors);
           }
         }
       }
-      Object.seal(proxy);
-      return proxy;
+      Object.seal(constructor);
+      Object.seal(constructor.prototype);
+      return new constructor();
     },
     writable: false,
     enumerable: false,
@@ -99,12 +109,13 @@ var Proxy = Object.create(Object.prototype, {
    * @method __createClassProxy
    * @param {Object} type
    * @param {IInterceptor[]} interceptors
+   * @param {Array} args
    */
   __createClassProxy: {
-    value: function (type, interceptors) {
+    value: function (type, interceptors, args) {
       var constructor = function () {
         Class.includeExtensions(this);
-        Class.initialize(this, Object.getPrototypeOf(this), arguments);
+        Class.initialize(this, Object.getPrototypeOf(this), args);
         Object.seal(this);
       };
       constructor.prototype = Object.create(type.prototype);
@@ -113,6 +124,8 @@ var Proxy = Object.create(Object.prototype, {
         Proxy.__intercepClassMember(type.prototype, constructor.prototype, 
           propertyName, interceptors);
       }
+      Object.seal(constructor);
+      Object.seal(constructor.prototype);
       return new constructor();
     },
     writable: false,
@@ -132,9 +145,7 @@ var Proxy = Object.create(Object.prototype, {
   __interceptClassConstructor: {
     value: function (source, target, interceptors) {
       var descriptor = TypeBuilder.getPropertyDescriptor(source, '__construct__');
-      if (descriptor) {
-        Proxy.__interceptConstructor(target, descriptor, interceptors);
-      }
+      Proxy.__interceptConstructor(target, descriptor, interceptors);
     },
     writable: false,
     enumerable: true,
@@ -202,9 +213,11 @@ var Proxy = Object.create(Object.prototype, {
           arguments, interceptors);
         return invocation.procceed();
       };
-      TypeBuilder.addMethod(constructor, 'toString', function () {
-        return descriptor['value'].toString();
-      });
+      if (descriptor) {
+        TypeBuilder.addMethod(constructor, 'toString', function () {
+          return descriptor['value'].toString();
+        });
+      }
       TypeBuilder.addConstructor(proxy, '__construct__', constructor);
     },
     writable: false,

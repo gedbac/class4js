@@ -69,9 +69,6 @@ $run('Interface Proxy', function () {
   $assert(nameSetterInvoked);
   $assert(name === 'Item1');
 
-  var obj = {};
-  console.log(obj.toString());
-
   $complete('Proxy');
 
 });

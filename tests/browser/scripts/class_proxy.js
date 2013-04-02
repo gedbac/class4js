@@ -21,21 +21,30 @@ $run('Class Proxy', function () {
     
     },
     draw: function (context) {
-      return { x: context.x + 10, y: context.y + 10 };
+      $print("Shape '" + this.name +"' is drawn... [status: " + context.status + " ]");
     }
   }, Component);
 
-  var proxy = $proxy(Shape, function (invocation) { 
-    console.log("Property was invoked: " + invocation.name);
+  var Rectangle = $class({
+    __construct__: function () {
+      
+    },
+    draw: function ($super, context) {
+      $super.draw(context);
+      $print("Rectangle '" + this.name + "' is drawn... [status: " + context.status + " ]");
+    }
+  }, Shape);
+
+  var proxy = $proxy(Rectangle, function (invocation) { 
+    $print(invocation.name);
     return invocation.procceed(); 
-  });
+  }, { name: 'MyRectangle' });
 
-  //proxy.name = 'item1';
-  //var name = proxy.name;
-  //$assert(name === 'item1');
+  proxy.draw({ status: 'OK' });
 
-  //var result = proxy.draw({ x: '50', y: '50' });
-  //console.log(result);
+  proxy.name = 'item1';
+  var name = proxy.name;
+  $assert(name === 'item1');
 
   $complete('Class Proxy');
 

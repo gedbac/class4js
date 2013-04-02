@@ -491,11 +491,14 @@ var TypeBuilder = Object.create(Object.prototype, {
    */
   getPropertyDescriptor: {
     value: function (object, propertyName) {
-      var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
-      if (!descriptor) {
-        return TypeBuilder.getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
+      if (object && propertyName) {
+        var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
+        if (!descriptor) {
+          return TypeBuilder.getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
+        }
+        return descriptor;
       }
-      return descriptor;
+      return null;
     },
     writable: false,
     enumerable: true,

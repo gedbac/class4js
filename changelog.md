@@ -115,3 +115,5 @@
 ## ????.??.??, Version 1.10.0
 
 * Proxies were introduced
+* Method toString, which returns object's type, was added
+* Object intialization with anonymous object was optimized

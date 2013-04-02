@@ -4,6 +4,7 @@ $run('Constant', function () {
   
   var Person = $class({
     MAX_AGE: 99,
+    TEMPLATE: '{template}',
     __construct__: function () {
     }
   });
