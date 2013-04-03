@@ -45,3 +45,8 @@ proxy.draw({ status: 'OK' });
 proxy.name = 'item1';
 var name = proxy.name;
 console.assert(name === 'item1');
+
+// It's required for PhantomJS
+if (typeof phantom !== 'undefined') {
+  phantom.exit();
+}

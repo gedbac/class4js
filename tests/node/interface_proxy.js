@@ -68,3 +68,8 @@ console.assert(drawInvoked);
 console.assert(nameGetterInvoked);
 console.assert(nameSetterInvoked);
 console.assert(name === 'Item1');
+
+// It's required for PhantomJS
+if (typeof phantom !== 'undefined') {
+  phantom.exit();
+}
