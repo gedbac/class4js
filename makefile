@@ -18,7 +18,8 @@ SOURCES_FILES =	class4js.js \
 								module_configuration.js \
 								configuration.js \
 								module.js \
-								idisposable.js
+								idisposable.js \
+								iconfiguration_section.js
 
 all: build-node build-browser
 

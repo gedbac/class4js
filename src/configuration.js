@@ -153,11 +153,11 @@ Object.defineProperties(Configuration, {
    * @static
    * @public
    * @method configure
-   * @param {class4js.Configuration} configuration
+   * @param {class4js.Configuration} options
    */
   configure: {
-    value: function (configuration) {
-      Configuration.__configuration = ObjectFactory.create(Configuration, configuration); 
+    value: function (options) {
+      Configuration.__configuration = ObjectFactory.create(Configuration, options); 
     },
     writable: false,
     enumerable: true,
