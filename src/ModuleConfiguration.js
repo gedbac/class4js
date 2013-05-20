@@ -59,6 +59,26 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(ModuleConfiguration, {
+
+  /**
+   * @memberOf {class4js.ModuleConfiguration}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(ModuleConfiguration);
 Object.seal(ModuleConfiguration.prototype);
 

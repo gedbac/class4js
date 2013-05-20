@@ -54,6 +54,26 @@ TypeException.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(TypeException, {
+
+  /**
+   * @memberOf {class4js.TypeException}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(TypeException);
 Object.seal(TypeException.prototype);
 

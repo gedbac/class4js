@@ -73,6 +73,26 @@ TypeException.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(TypeException, {
+
+  /**
+   * @memberOf {class4js.TypeException}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(TypeException);
 Object.seal(TypeException.prototype);
 
@@ -120,7 +140,7 @@ var Namespace = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Namespace]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -650,7 +670,7 @@ var TypeBuilder = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.TypeBuilder]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -727,6 +747,26 @@ TypeExtension.prototype = Object.create(Object.prototype, {
    */
   toString: function () {
     return '[object class4js.TypeExtension]';
+  }
+
+});
+
+Object.defineProperties(TypeExtension, {
+
+  /**
+   * @memberOf {class4js.TypeExtension}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });
@@ -942,7 +982,7 @@ var Class = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Class]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -1294,7 +1334,7 @@ var Interface = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Interface]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -1404,7 +1444,7 @@ var ObjectFactory = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.ObjectFactory]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -1861,6 +1901,26 @@ Invocation.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(Invocation, {
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(Invocation);
 Object.seal(Invocation.prototype);
 
@@ -1965,7 +2025,7 @@ var Proxy = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Proxy]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -2263,6 +2323,26 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(ModuleException, {
+
+  /**
+   * @memberOf {class4js.ModuleException}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(ModuleException);
 Object.seal(ModuleException.prototype);
 
@@ -2321,6 +2401,26 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
   toString: {
     value: function () {
       return '[object class4js.ModuleConfiguration]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.defineProperties(ModuleConfiguration, {
+
+  /**
+   * @memberOf {class4js.ModuleConfiguration}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -2494,6 +2594,22 @@ Object.defineProperties(Configuration, {
   configure: {
     value: function (options) {
       Configuration.__configuration = ObjectFactory.create(Configuration, options); 
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Configuration}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -2796,6 +2912,21 @@ Object.defineProperties(Module, {
   isValidModuleName: {
     value: function (name) {
       return /^(_|[a-z]|[A-Z]|[0-9]|)*$/g.test(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
+   * @method toString
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,
@@ -3147,10 +3278,50 @@ Event.prototype = Object.create(Object.prototype, {
   
 });
 
+Object.defineProperties(Event, {
+
+  /**
+   * @memberOf {class4js.Event}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(Event);
 Object.seal(Event.prototype);
 
 exports.Event = Event;
+
+/**
+ * @interface {class4js.IEventListener}
+ */
+var IEventListener = Object.create(Object.prototype, {
+
+  toString: {
+    value: function () {
+      return '[object Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.freeze(IEventListener);
+
+exports.IEventListener = IEventListener;
 return exports;
 
 }(typeof global !== 'undefined' ? global : window));

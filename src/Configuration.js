@@ -162,6 +162,22 @@ Object.defineProperties(Configuration, {
     writable: false,
     enumerable: true,
     configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Configuration}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
   }
 
 });

@@ -59,6 +59,26 @@ Event.prototype = Object.create(Object.prototype, {
   
 });
 
+Object.defineProperties(Event, {
+
+  /**
+   * @memberOf {class4js.Event}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(Event);
 Object.seal(Event.prototype);
 

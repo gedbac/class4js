@@ -224,6 +224,26 @@ Invocation.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(Invocation, {
+
+  /**
+   * @memberOf {class4js.Invocation}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(Invocation);
 Object.seal(Invocation.prototype);
 

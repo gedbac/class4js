@@ -20,7 +20,8 @@ SOURCES_FILES =	Package.js \
 				Module.js \
 				IDisposable.js \
 				IEventTarget.js \
-				Event.js
+				Event.js \
+				IEventListener.js
 
 all: build-node build-browser
 

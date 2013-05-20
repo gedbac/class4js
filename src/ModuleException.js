@@ -53,6 +53,26 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(ModuleException, {
+
+  /**
+   * @memberOf {class4js.ModuleException}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(ModuleException);
 Object.seal(ModuleException.prototype);
 

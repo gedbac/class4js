@@ -66,5 +66,25 @@ TypeExtension.prototype = Object.create(Object.prototype, {
 
 });
 
+Object.defineProperties(TypeExtension, {
+
+  /**
+   * @memberOf {class4js.TypeExtension}
+   * @static
+   * @private
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
 Object.seal(TypeExtension);
 Object.seal(TypeExtension.prototype);

@@ -206,7 +206,7 @@ var Class = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Class]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,

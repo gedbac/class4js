@@ -63,7 +63,7 @@ var ObjectFactory = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.ObjectFactory]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,

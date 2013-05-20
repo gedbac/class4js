@@ -40,7 +40,7 @@ var Namespace = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Namespace]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,

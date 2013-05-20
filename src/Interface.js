@@ -88,7 +88,7 @@ var Interface = Object.create(Object.prototype, {
    */
   toString: {
     value: function () {
-      return '[object class4js.Interface]';
+      return '[object Class]';
     },
     writable: false,
     enumerable: true,

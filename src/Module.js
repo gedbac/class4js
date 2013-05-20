@@ -295,6 +295,21 @@ Object.defineProperties(Module, {
    * @memberOf {class4js.Module}
    * @static
    * @public
+   * @method toString
+   */
+  toString: {
+    value: function () {
+      return '[object Class]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Module}
+   * @static
+   * @public
    * @method __loadMainModule
    */
   __loadMainModule: {
