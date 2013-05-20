@@ -3023,25 +3023,50 @@ Object.freeze(IDisposable);
 exports.IDisposable = IDisposable;
 
 /**
- * @interface {class4js.IConfigurationSection}
+ * @interface {class4js.IEventTarget}
  */
-var IConfigurationSection = Object.create(Object.prototype, {
+var IEventTarget = Object.create(Object.prototype, {
 
   /**
-   * @memberOf {class4js.IConfigurationSection}
-   * @public
-   * @method configure
-   * @param {Object} options
+   * @memberOf {util4js.IEventTarget}
+   * @method addEventListener
+   * @param {String} type
+   * @param {Function} listener
    */
-  configure: {
-    value: function (options) { },
+  addEventListener: {
+    value: function (type, listener) { },
     writable: false,
     enumerable: true,
     configurable: false
   },
 
   /**
-   * @memberOf {class4js.IConfigurationSection}
+   * @memberOf {util4js.IEventTarget}
+   * @method removeEventListener
+   * @param {String} type
+   * @param {Function} listener
+   */
+  removeEventListener: { 
+    value: function (type, listener) { },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {util4js.IEventTarget}
+   * @method dispatchEvent
+   * @param {util4js.Event} e 
+   */ 
+  dispatchEvent: { 
+    value: function (e) { },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+  
+  /**
+   * @memberOf {class4js.IEventTarget}
    * @public
    * @method toString
    * @returns {String}
@@ -3054,11 +3079,78 @@ var IConfigurationSection = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false
   }
+
 });
 
-Object.freeze(IConfigurationSection);
+Object.freeze(IEventTarget);
 
-exports.IConfigurationSection = IConfigurationSection;
+exports.IEventTarget = IEventTarget;
+
+/**
+ * @class {class4js.Event}
+ * @constructor {class4js.Event}
+ */
+var Event = function () {
+  this.__type = null;
+  this.__target = null;
+  Object.seal(this);
+};
+
+Event.prototype = Object.create(Object.prototype, {
+
+  /**
+   * @class {class4js.Event}
+   * @public
+   * @property {String} type
+   */
+  type: {
+    get: function () { 
+      return this.__type;
+    },
+    set: function (value) { 
+      this.__type = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @class {class4js.Event}
+   * @public
+   * @property {String} target
+   */
+  target: {
+    get: function () {
+      return this.__target;
+    },
+    set: function (value) {
+      this.__target = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeException}
+   * @public
+   * @method toString
+   * @returns {String}
+   */
+  toString: {
+    value: function () {
+      return '[object class4js.Event]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+  
+});
+
+Object.seal(Event);
+Object.seal(Event.prototype);
+
+exports.Event = Event;
 return exports;
 
 }(typeof global !== 'undefined' ? global : window));

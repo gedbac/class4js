@@ -1,25 +1,26 @@
 CC = java -jar ./build/yuicompressor-2.4.8.jar
-SOURCES_FILES =	class4js.js \
-								compatability.js \
-								type_exception.js \
-								namespace.js \
-								type_builder.js \
-								type_extension.js \
-								class.js \
-								interface.js \
-								object_factory.js \
-								enum.js \
-								iinterceptor.js \
-								invocation_type.js \
-								invocation.js \
-								iinterceptor.js \
-								proxy.js \
-								module_exception.js \
-								module_configuration.js \
-								configuration.js \
-								module.js \
-								idisposable.js \
-								iconfiguration_section.js
+SOURCES_FILES =	Package.js \
+				Compatability.js \
+				TypeException.js \
+				Namespace.js \
+				TypeBuilder.js \
+				TypeExtension.js \
+				Class.js \
+				Interface.js \
+				ObjectFactory.js \
+				Enum.js \
+				IInterceptor.js \
+				InvocationType.js \
+				Invocation.js \
+				IInterceptor.js \
+				Proxy.js \
+				ModuleException.js \
+				ModuleConfiguration.js \
+				Configuration.js \
+				Module.js \
+				IDisposable.js \
+				IEventTarget.js \
+				Event.js
 
 all: build-node build-browser
 
