@@ -10,7 +10,7 @@ $run('Constant', function () {
   });
 
   $assert(Person.MAX_AGE == 99);
- 
+
   $complete('Constant');
 
 });

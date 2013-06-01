@@ -127,6 +127,23 @@ var TypeBuilder = Object.create(Object.prototype, {
    * @memberOf {class4js.TypeBuilder}
    * @static
    * @public
+   * @method isValidSystemFieldName
+   * @param {String} name
+   * @returns {Boolean}
+   */
+  isValidSystemFieldName: {
+    value: function (name) {
+      return /^__([a-z]|[A-Z]|[0-9])*__$/g.test(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
    * @method isObjectInitializer
    * @param {Object} param
    * @returns {Boolean}
@@ -195,6 +212,37 @@ var TypeBuilder = Object.create(Object.prototype, {
         }
       } else {
         throw new TypeException("Field's '" + name + "' owner can't be null");
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.TypeBuilder}
+   * @static
+   * @public
+   * @method addSystemField
+   * @param {Object} owner
+   * @param {String} name
+   * @param {Object} value
+   */
+  addSystemField: {
+    value: function (owner, name, value) {
+      if (owner) {
+        if (TypeBuilder.isValidSystemFieldName(name)) {
+          Object.defineProperty(owner, name, {
+            value: value,
+            writable: true,
+            enumerable: false,
+            configurable: false
+          });
+        } else {
+          throw new TypeException("System field's '" + name + "' name is invalid"); 
+        }
+      } else {
+        throw new TypeException("System field's '" + name + "' owner can't be null");
       }
     },
     writable: false,
@@ -452,6 +500,7 @@ var TypeBuilder = Object.create(Object.prototype, {
     writable: false,
     enumerable: true,
     configurable: false
+
   },
 
   /**

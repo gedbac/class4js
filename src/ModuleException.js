@@ -1,10 +1,10 @@
 /**
  * @class {class4js.ModuleException}
- * @constructor {class4js
+ * @constructor {class4js.ModuleException}
  */
 var ModuleException = function (message) {
   this.__name = 'ModuleException';
-  this.__message = message;
+  this.__message = message || "A module exception has occurred.";
   Object.seal(this);
 };
 
@@ -58,7 +58,7 @@ Object.defineProperties(ModuleException, {
   /**
    * @memberOf {class4js.ModuleException}
    * @static
-   * @private
+   * @public
    * @method toString
    * @returns {String}
    */

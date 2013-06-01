@@ -38,6 +38,9 @@ var Class = Object.create(Object.prototype, {
       var constructor = function () {
         Class.includeExtensions(this);
         Class.initialize(this, Object.getPrototypeOf(this), arguments);
+        if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
+          ObjectFactory.initialize(this, arguments[0]);
+        }
         Object.seal(this);
       };
       Class.__onCreateClass(constructor, properties, parent, interfaces);
@@ -88,10 +91,12 @@ var Class = Object.create(Object.prototype, {
   createStatic: {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
+      TypeBuilder.addSystemField(obj, '__events__', null);
       TypeBuilder.addStatic(obj, properties);
       TypeBuilder.addMethod(obj, 'toString', function () {
         return '[object Class]';
       });
+      Class.includeEvents(constructor.prototype);
       Class.initialize(obj, obj);
       Object.seal(obj);
       return obj; 
@@ -150,6 +155,20 @@ var Class = Object.create(Object.prototype, {
         if (parent && parent !== Object.prototype) {
           Class.initialize(instance, parent, args);
         }
+        if (prototype.hasOwnProperty('__fields__')) {
+          var properties = Object.getOwnPropertyNames(prototype['__fields__']);
+          var descriptor;
+          for (var i = 0; i < properties.length; i++) {
+            if (properties[i] !== '__fields__') {
+              descriptor = Object.getOwnPropertyDescriptor(prototype['__fields__'], properties[i]);
+              if (!(properties[i] in instance)) {
+                Object.defineProperty(instance, properties[i], descriptor);
+              } else {
+                throw new TypeException("Field '" + properties[i] + "'is already defined");
+              }
+            }
+          }
+        }
         if (prototype.hasOwnProperty('__construct__')) {
           if (typeof prototype['__construct__'] === 'function') {
             if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
@@ -161,10 +180,6 @@ var Class = Object.create(Object.prototype, {
             throw new TypeException("Class member's '__construct__' type is invalid");
           }
         }
-        if (Object.getPrototypeOf(instance) == prototype && args 
-            && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-          ObjectFactory.initialize(instance, args[0]);
-        }
       }
     },
     writable: false,
@@ -175,13 +190,13 @@ var Class = Object.create(Object.prototype, {
   /**
    * @memberOf {class4js.Class}
    * @static
-   * @private
+   * @public
    * @method includeExtensions
    * @param {Object} instance
    */
   includeExtensions: {
     value: function (instance) {
-      if (Class.__extensions && Class.__extensions.length > 0) {
+      if (instance && Class.__extensions && Class.__extensions.length > 0) {
         for (var i = 0; i < Class.__extensions.length; i++) {
           var extension = Class.__extensions[i];
           if (Interface.instanceOf(instance, extension.target)) {
@@ -193,7 +208,92 @@ var Class = Object.create(Object.prototype, {
       }
     },
     writable: false,
-    enumerable: false,
+    enumerable: true,
+    configurable: false
+  },
+
+  /**
+   * @memberOf {class4js.Class}
+   * @static
+   * @public
+   * @method includeEvents
+   * @param {Object} instance
+   */
+  includeEvents: {
+    value: function (owner) {
+      if (owner) {
+        if (!('addEventListener' in owner)) {
+          Object.defineProperty(owner, 'addEventListener', {
+            value: function (type, listener) {
+              if (!this.__events__) {
+                this.__events__ = new EventDispatcher();
+              }
+              this.__events__.addEventListener(type, listener);
+            },
+            writable: false,
+            enumerable: true,
+            configurable: false
+          });          
+        }
+        if (!('removeEventListener' in owner)) {
+          Object.defineProperty(owner, 'removeEventListener', {
+            value: function (type, listener) {
+              if (this.__events__) {
+                this.__events__.removeEventListener(type, listener);
+              }
+            },
+            writable: false,
+            enumerable: true,
+            configurable: false
+          });          
+        }
+        if (!('removeAllEventListener' in owner)) {
+          Object.defineProperty(owner, 'removeAllEventListener', {
+            value: function (type) {
+              if (this.__events__) {
+                this.__events__.removeAllEventListener(type);
+              }
+            },
+            writable: false,
+            enumerable: true,
+            configurable: false
+          });          
+        }
+        if (!('dispatchEvent' in owner)) {
+          Object.defineProperty(owner, 'dispatchEvent', {
+            value: function (e) {
+              if (this.__events__) {
+                this.__events__.dispatchEvent(e);
+              }
+            },
+            writable: false,
+            enumerable: true,
+            configurable: false
+          });          
+        }
+        if (!('on' in owner)) {
+          Object.defineProperty(owner, 'on', {
+            value: function (type, listener) {
+              this.addEventListener(type, listener);
+              return this;
+            },
+            writable: false,
+            enumerable: true,
+            configurable: false
+          });
+        }
+        if (!('fire' in owner)) {
+          Object.defineProperty(owner, 'fire', {
+            value: function (e) {
+              this.dispatchEvent(e);
+              return this;
+            }
+          });
+        }
+      }
+    },
+    writable: false,
+    enumerable: true,
     configurable: false
   },
 
@@ -285,14 +385,34 @@ var Class = Object.create(Object.prototype, {
         constructor.prototype = Object.create(parent.prototype);
       } else {
         constructor.prototype = Object.create(Object.prototype);
+        TypeBuilder.addMethod(constructor, 'toString', function () {
+          return '[object Class]';
+        });
         TypeBuilder.addMethod(constructor.prototype, 'toString', function () {
           return '[object Class]';
         });
       }
+      if (!constructor.prototype.hasOwnProperty('__fields__')) {
+        Object.defineProperty(constructor.prototype, '__fields__', {
+          value: {},
+          writable: true,
+          enumerable: false,
+          configurable: false
+        });
+      }
+      if (!parent) {
+        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__wrappers__', null);
+        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__events__', null);
+      }
       TypeBuilder.forEach(properties, function (name, value) {
+        var hasSupper;
         if (TypeBuilder.isConstructor(name)) {
           TypeBuilder.addConstructor(constructor.prototype, name, value);
         } else if (TypeBuilder.isMethod(value)) {
+          hasSupper = Class.__hasSuper(value);
+          if (!parent && hasSupper) {
+            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't have a parent.");
+          }
           if (parent && Class.__hasSuper(value)) {
             var method = function () {
               var args = [ Class.__wrap(this, parent.prototype) ];
@@ -312,36 +432,49 @@ var Class = Object.create(Object.prototype, {
           }
         } else if (TypeBuilder.isProperty(value)) {
           var getter = value['get'];
-          if (getter && parent && Class.__hasSuper(getter)) {
-            getter = function () {
-              return value['get'].call(this, Class.__wrap(this, parent.prototype));
-            };
-            TypeBuilder.addMethod(getter, 'toString', function () {
-              return value['get'].toString();
-            });
+          if (getter) {
+            hasSupper = Class.__hasSuper(getter);
+            if (!parent && hasSupper) {
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't have a parent.");
+            }
+            if (parent && hasSupper) {
+              getter = function () {
+                return value['get'].call(this, Class.__wrap(this, parent.prototype));
+              };
+              TypeBuilder.addMethod(getter, 'toString', function () {
+                return value['get'].toString();
+              });
+            }
           }
           var setter = value['set'];
-          if (setter && parent && Class.__hasSuper(setter)) {
-            setter = function () {
-              var args = [ Class.__wrap(this, parent.prototype) ];
-              if (arguments && arguments.length > 0) {
-                args.push(arguments[0]);
-              }
-              value['set'].apply(this, args);
-            };
-            TypeBuilder.addMethod(setter, 'toString', function () {
-              return value['set'].toString();
-            });
+          if (setter) {
+            hasSupper = Class.__hasSuper(setter);
+            if (!parent && hasSupper) {
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't have a parent.");
+            }
+            if (parent && hasSupper) {
+              setter = function () {     
+                var args = [ Class.__wrap(this, parent.prototype) ];
+                if (arguments && arguments.length > 0) {
+                  args.push(arguments[0]);
+                }
+                value['set'].apply(this, args);
+              };
+              TypeBuilder.addMethod(setter, 'toString', function () {
+                return value['set'].toString();
+              });
+            }
           }
           TypeBuilder.addProperty(constructor.prototype, name, getter, setter);
         } else if (TypeBuilder.isConstant(name)) { 
-          TypeBuilder.addConstant(constructor, name, value); 
+          TypeBuilder.addConstant(constructor, name, value);
         } else if (TypeBuilder.isStatic(name)) {
           TypeBuilder.addStatic(constructor, value); 
         } else {
-          TypeBuilder.addField(constructor.prototype, name, value);
+          TypeBuilder.addField(constructor.prototype['__fields__'], name, value);
         }
       });
+      Class.includeEvents(constructor.prototype);
       Class.initialize(constructor, constructor);
       Object.seal(constructor);
       Object.seal(constructor.prototype);
@@ -394,7 +527,7 @@ var Class = Object.create(Object.prototype, {
     value: function (instance, prototype) {
       if ('__wrappers__' in instance && instance.__wrappers__) {
         for (var i = 0; i < instance.__wrappers__.length; i++) {
-			    if (instance.__wrappers__[i].proto === proto) {
+			    if (instance.__wrappers__[i].proto === prototype) {
 				    return instance.__wrappers__[i].wrapper;
 			    }	
 		    }
@@ -403,10 +536,10 @@ var Class = Object.create(Object.prototype, {
       Class.__buildWrapper(instance, wrapper, prototype);
       Object.seal(wrapper);
       if ('__wrappers__' in instance) {
-		    if (!this.__wrappers__) {
-			    this.__wrappers__ = [];
+		    if (!instance.__wrappers__) {
+			    instance.__wrappers__ = [];
 		    }
-		    this.__wrappers__.push({ proto: proto, wrapper: wrapper });
+		    instance.__wrappers__.push({ proto: prototype, wrapper: wrapper });
 	    }
       return wrapper;
     },
@@ -431,7 +564,7 @@ var Class = Object.create(Object.prototype, {
         var descriptor;
         var properties = Object.getOwnPropertyNames(prototype);
         for (var i = 0; i < properties.length; i++) {  
-          if (properties[i] !== '__construct__' && !(properties[i] in wrapper)) {
+          if (!TypeBuilder.isValidSystemFieldName(properties[i]) && !(properties[i] in wrapper)) {
             descriptor = Object.getOwnPropertyDescriptor(prototype, properties[i]);
             if (descriptor.value) {
               Object.defineProperty(wrapper, properties[i], {

@@ -19,9 +19,11 @@ SOURCES_FILES =	Package.js \
 				Configuration.js \
 				Module.js \
 				IDisposable.js \
+				EventException.js \
 				IEventTarget.js \
 				Event.js \
-				IEventListener.js
+				IEventListener.js \
+				EventDispatcher.js
 
 all: build-node build-browser
 

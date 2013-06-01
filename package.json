@@ -1,7 +1,7 @@
 { 
   "name" : "class4js",
   "description": "The class4js module is for class-driven development in JavaScript. It allows to emulate classes in JavaScript. Module is based on ECMAScript 5 standart and implements open/close principle: 'A module should be open for extension but closed for modifications'",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "homepage": "http://www.class4js.com",
   "author": "Gediminas Backevicius <gediminas.backevicius@gmail.com>",
   "bugs": {

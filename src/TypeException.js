@@ -5,7 +5,7 @@
  */
 var TypeException = function (message) {
   this.__name = 'TypeException';
-  this.__message = message;
+  this.__message = message || "A type exception has occurred.";
   Object.seal(this);
 };
 

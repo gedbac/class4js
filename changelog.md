@@ -107,7 +107,7 @@
 
 ## 2013.03.20, Version 1.9.2
 
-* Abstract class creating was fixed 
+* Abstract class creation was fixed 
 * Parent's class method invocation was refactored. $super keyword was introduced
 * Constructor invocation was improved
 * Enum's name checking was updated
@@ -115,5 +115,8 @@
 ## ????.??.??, Version 1.10.0
 
 * Proxies were introduced
+* Events were introduced
 * Method toString, which returns object's type, was added
 * Object intialization with anonymous object was optimized
+* Parameter '$super' invoking was optimized
+* Fields initialization was fixed

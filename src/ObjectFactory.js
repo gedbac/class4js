@@ -16,11 +16,13 @@ var ObjectFactory = Object.create(Object.prototype, {
   create: {
     value: function (type, properties) {
       if (type) {
-        if (properties instanceof type) {
+        if (properties && properties instanceof type) {
           return properties;
         } else {
           var object = new type();
-          ObjectFactory.initialize(object, properties);
+          if (properties) {
+            ObjectFactory.initialize(object, properties);
+          }
           return object;
         }
       } else {

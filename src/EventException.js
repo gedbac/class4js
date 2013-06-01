@@ -1,7 +1,8 @@
 /**
- * @class {class4js.Event}
+ * @class {class4js.EventException}
+ * @constructor {class4js.EventException}
  */
-var Event = function () {
+var EventException = function (message) {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
     ObjectFactory.initialize(this, arguments[0]);
@@ -11,17 +12,17 @@ var Event = function () {
   Object.seal(this);
 };
 
-Event.prototype = Object.create(Object.prototype, {
+EventException.prototype = Object.create(Object.prototype, {
 
   /**
-   * @memberOf {class4js.Event}
+   * @memberOf {class4js.EventException}
    * @public
-   * @constructor {class4js.Event}
+   * @constructor {class4js.EventException}
    */
   __construct__: {
     value: function () {
-      this.__type = null;
-      this.__target = null;
+      this.__name = 'EventException';
+      this.__message = message || "An event exception has occurred.";
     },
     writable: false,
     enumerable: false,
@@ -29,60 +30,54 @@ Event.prototype = Object.create(Object.prototype, {
   },
 
   /**
-   * @memberOf {class4js.Event}
+   * @memberOf {class4js.EventException}
    * @public
-   * @property {String} type
+   * @property {String} name
    */
-  type: {
-    get: function () { 
-      return this.__type;
-    },
-    set: function (value) { 
-      this.__type = value;
-    },
-    enumerable: true,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @property {String} target
-   */
-  target: {
+  name: {
     get: function () {
-      return this.__target;
-    },
-    set: function (value) {
-      this.__target = value;
+      return this.__name;
     },
     enumerable: true,
     configurable: false
   },
 
   /**
-   * @memberOf {class4js.TypeException}
+   * @memberOf {class4js.EventException}
+   * @public
+   * @property {String} message
+   */
+  message: {
+    get: function () {
+     return this.__message;
+    },
+    enumerable: true,
+    configurable: false
+  },
+  
+  /**
+   * @memberOf {class4js.EventException}
    * @public
    * @method toString
    * @returns {String}
    */
   toString: {
     value: function () {
-      return '[object class4js.Event]';
+      return this.name + ': ' + this.message;
     },
     writable: false,
     enumerable: true,
     configurable: false
   }
-  
+
 });
 
-Object.defineProperties(Event, {
+Object.defineProperties(EventException, {
 
   /**
-   * @memberOf {class4js.Event}
+   * @memberOf {class4js.EventException}
    * @static
-   * @private
+   * @public
    * @method toString
    * @returns {String}
    */
@@ -97,7 +92,7 @@ Object.defineProperties(Event, {
 
 });
 
-Object.seal(Event);
-Object.seal(Event.prototype);
+Object.seal(EventException);
+Object.seal(EventException.prototype);
 
-exports.Event = Event;
+exports.EventException = EventException;
