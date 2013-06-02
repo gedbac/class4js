@@ -11,6 +11,7 @@ if (process.argv.length >= 2) {
                 process.stdout.write(data);
                 if (i !== process.argv.length - 1) {
                     process.stdout.write(os.EOL);
+                    process.stdout.write(os.EOL);
                 }
             } catch (e) {
                 console.log("Error: Failed to read file '" + filename + "'");

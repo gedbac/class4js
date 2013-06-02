@@ -1,7 +1,3 @@
-/**
- * @class {class4js.EventException}
- * @constructor {class4js.EventException}
- */
 var EventException = function (message) {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
@@ -14,11 +10,6 @@ var EventException = function (message) {
 
 EventException.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @constructor {class4js.EventException}
-   */
   __construct__: {
     value: function () {
       this.__name = 'EventException';
@@ -29,11 +20,6 @@ EventException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -42,11 +28,6 @@ EventException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @property {String} message
-   */
   message: {
     get: function () {
      return this.__message;
@@ -55,12 +36,6 @@ EventException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
   
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -74,13 +49,6 @@ EventException.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(EventException, {
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

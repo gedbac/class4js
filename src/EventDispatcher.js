@@ -114,20 +114,22 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
    */
   dispatchEvent: {
     value: function (e) {
-      var event = ObjectFactory.create(Event, e);
-      if (!event.type) {
+      if (!Interface.instanceOf(e, IEvent)) {
+        throw new EventException({ message: "Event's class doesn't imlement interface 'class4js.IEvent'" });
+      }
+      if (!e.type) {
         throw new EventException({ message: "Event type is not set" });
       }
-      if (this.__listeners[event.type] && this.__listeners[event.type].length > 0) {
+      if (this.__listeners[e.type] && this.__listeners[e.type].length > 0) {
         setTimeout(function (listeners) {
           for (var i = 0; i < listeners.length; i++) {
             if (typeof listeners[i] === 'function') {
-              listeners[i].call(event.target, event);
+              listeners[i].call(e.target, e);
             } else {
-              listeners[i].handleEvent.call(event.target, event);
+              listeners[i].handleEvent.call(e.target, e);
             }
           }
-        }, 0, this.__listeners[event.type]);
+        }, 0, this.__listeners[e.type]);
       }
     },
     writable: false,

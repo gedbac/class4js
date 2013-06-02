@@ -91,7 +91,7 @@ var Class = Object.create(Object.prototype, {
   createStatic: {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
-      TypeBuilder.addSystemField(obj, '__events__', null);
+      TypeBuilder.addSystemField(obj, '__eventdispatcher__', null);
       TypeBuilder.addStatic(obj, properties);
       TypeBuilder.addMethod(obj, 'toString', function () {
         return '[object Class]';
@@ -225,10 +225,10 @@ var Class = Object.create(Object.prototype, {
         if (!('addEventListener' in owner)) {
           Object.defineProperty(owner, 'addEventListener', {
             value: function (type, listener) {
-              if (!this.__events__) {
-                this.__events__ = new EventDispatcher();
+              if (!this.__eventdispatcher__) {
+                this.__eventdispatcher__ = new EventDispatcher();
               }
-              this.__events__.addEventListener(type, listener);
+              this.__eventdispatcher__.addEventListener(type, listener);
             },
             writable: false,
             enumerable: true,
@@ -238,8 +238,8 @@ var Class = Object.create(Object.prototype, {
         if (!('removeEventListener' in owner)) {
           Object.defineProperty(owner, 'removeEventListener', {
             value: function (type, listener) {
-              if (this.__events__) {
-                this.__events__.removeEventListener(type, listener);
+              if (this.__eventdispatcher__) {
+                this.__eventdispatcher__.removeEventListener(type, listener);
               }
             },
             writable: false,
@@ -250,8 +250,8 @@ var Class = Object.create(Object.prototype, {
         if (!('removeAllEventListener' in owner)) {
           Object.defineProperty(owner, 'removeAllEventListener', {
             value: function (type) {
-              if (this.__events__) {
-                this.__events__.removeAllEventListener(type);
+              if (this.__eventdispatcher__) {
+                this.__eventdispatcher__.removeAllEventListener(type);
               }
             },
             writable: false,
@@ -262,8 +262,8 @@ var Class = Object.create(Object.prototype, {
         if (!('dispatchEvent' in owner)) {
           Object.defineProperty(owner, 'dispatchEvent', {
             value: function (e) {
-              if (this.__events__) {
-                this.__events__.dispatchEvent(e);
+              if (this.__eventdispatcher__) {
+                this.__eventdispatcher__.dispatchEvent($create(Event, e));
               }
             },
             writable: false,
@@ -284,8 +284,11 @@ var Class = Object.create(Object.prototype, {
         }
         if (!('fire' in owner)) {
           Object.defineProperty(owner, 'fire', {
-            value: function (e) {
-              this.dispatchEvent(e);
+            value: function (type) {
+              this.dispatchEvent({
+                target: this,
+                type: type
+              });
               return this;
             }
           });
@@ -402,7 +405,7 @@ var Class = Object.create(Object.prototype, {
       }
       if (!parent) {
         TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__wrappers__', null);
-        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__events__', null);
+        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__eventdispatcher__', null);
       }
       TypeBuilder.forEach(properties, function (name, value) {
         var hasSupper;

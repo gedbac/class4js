@@ -21,6 +21,7 @@ SOURCES_FILES =	Package.js \
 				IDisposable.js \
 				EventException.js \
 				IEventTarget.js \
+				IEvent.js \
 				Event.js \
 				IEventListener.js \
 				EventDispatcher.js
@@ -59,6 +60,7 @@ test-node:
 	node ./tests/node/enum.js
 	node ./tests/node/interface_proxy.js
 	node ./tests/node/class_proxy.js
+	node ./tests/node/event.js
 
 build-browser: class4js.min.js
 
@@ -104,3 +106,4 @@ test-phantomjs:
 	phantomjs ./tests/node/enum.js
 	phantomjs ./tests/node/interface_proxy.js
 	phantomjs ./tests/node/class_proxy.js
+	phantomjs ./tests/node/event.js

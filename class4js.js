@@ -6,6 +6,7 @@ var exports = {};
 
 exports.version = '1.10.0';
 
+
 if (typeof Function.prototype.bind === 'undefined') {
   Function.prototype.bind = function (instance) {
     var fn = this,
@@ -16,6 +17,7 @@ if (typeof Function.prototype.bind === 'undefined') {
     };
   };
 }
+
 
 /**
  * @class {class4js.TypeException}
@@ -98,6 +100,7 @@ Object.seal(TypeException.prototype);
 
 exports.TypeException = TypeException;
 
+
 /**
  * @static
  * @class {class4js.Namespace}
@@ -153,6 +156,7 @@ Object.freeze(Namespace);
 global.$namespace = Namespace.create;
 
 exports.Namespace = Namespace;
+
 
 /**
  * @static
@@ -732,6 +736,7 @@ Object.seal(TypeBuilder);
 
 exports.TypeBuilder = TypeBuilder;
 
+
 /**
  * @internal
  * @class {class4js.TypeExtension}
@@ -822,6 +827,7 @@ Object.defineProperties(TypeExtension, {
 
 Object.seal(TypeExtension);
 Object.seal(TypeExtension.prototype);
+
 
 /**
  * @static
@@ -916,7 +922,7 @@ var Class = Object.create(Object.prototype, {
   createStatic: {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
-      TypeBuilder.addSystemField(obj, '__events__', null);
+      TypeBuilder.addSystemField(obj, '__eventdispatcher__', null);
       TypeBuilder.addStatic(obj, properties);
       TypeBuilder.addMethod(obj, 'toString', function () {
         return '[object Class]';
@@ -1050,10 +1056,10 @@ var Class = Object.create(Object.prototype, {
         if (!('addEventListener' in owner)) {
           Object.defineProperty(owner, 'addEventListener', {
             value: function (type, listener) {
-              if (!this.__events__) {
-                this.__events__ = new EventDispatcher();
+              if (!this.__eventdispatcher__) {
+                this.__eventdispatcher__ = new EventDispatcher();
               }
-              this.__events__.addEventListener(type, listener);
+              this.__eventdispatcher__.addEventListener(type, listener);
             },
             writable: false,
             enumerable: true,
@@ -1063,8 +1069,8 @@ var Class = Object.create(Object.prototype, {
         if (!('removeEventListener' in owner)) {
           Object.defineProperty(owner, 'removeEventListener', {
             value: function (type, listener) {
-              if (this.__events__) {
-                this.__events__.removeEventListener(type, listener);
+              if (this.__eventdispatcher__) {
+                this.__eventdispatcher__.removeEventListener(type, listener);
               }
             },
             writable: false,
@@ -1075,8 +1081,8 @@ var Class = Object.create(Object.prototype, {
         if (!('removeAllEventListener' in owner)) {
           Object.defineProperty(owner, 'removeAllEventListener', {
             value: function (type) {
-              if (this.__events__) {
-                this.__events__.removeAllEventListener(type);
+              if (this.__eventdispatcher__) {
+                this.__eventdispatcher__.removeAllEventListener(type);
               }
             },
             writable: false,
@@ -1087,8 +1093,8 @@ var Class = Object.create(Object.prototype, {
         if (!('dispatchEvent' in owner)) {
           Object.defineProperty(owner, 'dispatchEvent', {
             value: function (e) {
-              if (this.__events__) {
-                this.__events__.dispatchEvent(e);
+              if (this.__eventdispatcher__) {
+                this.__eventdispatcher__.dispatchEvent($create(Event, e));
               }
             },
             writable: false,
@@ -1109,8 +1115,11 @@ var Class = Object.create(Object.prototype, {
         }
         if (!('fire' in owner)) {
           Object.defineProperty(owner, 'fire', {
-            value: function (e) {
-              this.dispatchEvent(e);
+            value: function (type) {
+              this.dispatchEvent({
+                target: this,
+                type: type
+              });
               return this;
             }
           });
@@ -1227,7 +1236,7 @@ var Class = Object.create(Object.prototype, {
       }
       if (!parent) {
         TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__wrappers__', null);
-        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__events__', null);
+        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__eventdispatcher__', null);
       }
       TypeBuilder.forEach(properties, function (name, value) {
         var hasSupper;
@@ -1426,6 +1435,7 @@ global.$extend = Class.addExtension;
 
 exports.Class = Class;
 
+
 /**
  * @static
  * @class {class4js.Interface}
@@ -1561,6 +1571,7 @@ global.$is = Interface.instanceOf;
 
 exports.Interface = Interface;
 
+
 /**
  * @static
  * @class {class4js.ObjectFactory}
@@ -1643,6 +1654,7 @@ global.$create = ObjectFactory.create;
 global.$init = ObjectFactory.initialize;
 
 exports.ObjectFactory = ObjectFactory;
+
 
 /**
  * @static
@@ -1750,6 +1762,7 @@ global.$enum = Enum.create;
 
 exports.Enum = Enum;
 
+
 /**
  * @interface {class4js.IInterceptor}
  */
@@ -1788,6 +1801,7 @@ var IInterceptor = Object.create(Object.prototype, {
 Object.freeze(IInterceptor);
 
 exports.IInterceptor = IInterceptor;
+
 
 /**
  * @enum {class4js.InvocationType}
@@ -1858,6 +1872,7 @@ var InvocationType = Object.create(Object.prototype, {
 Object.freeze(InvocationType);
 
 exports.InvocationType == InvocationType;
+
 
 /**
  * @class {class4js.Invocation}
@@ -2110,6 +2125,7 @@ Object.seal(Invocation.prototype);
 
 exports.Invocation = Invocation;
 
+
 /**
  * @interface {class4js.IInterceptor}
  */
@@ -2148,6 +2164,7 @@ var IInterceptor = Object.create(Object.prototype, {
 Object.freeze(IInterceptor);
 
 exports.IInterceptor = IInterceptor;
+
 
 /**
  * @static
@@ -2452,6 +2469,7 @@ global.$proxy = Proxy.create;
 
 exports.Proxy = Proxy;
 
+
 /**
  * @class {class4js.ModuleException}
  * @constructor {class4js.ModuleException}
@@ -2531,6 +2549,7 @@ Object.seal(ModuleException);
 Object.seal(ModuleException.prototype);
 
 exports.ModuleException = ModuleException;
+
 
 /**
  * @class {class4js.ModuleConfiguration}
@@ -2617,6 +2636,7 @@ Object.seal(ModuleConfiguration);
 Object.seal(ModuleConfiguration.prototype);
 
 exports.ModuleConfiguration = ModuleConfiguration;
+
 
 /**
  * @class {class4js.Configuration}
@@ -2808,6 +2828,7 @@ Object.seal(Configuration.prototype);
 global.$configure = Configuration.configure;
 
 exports.Configuration = Configuration;
+
 
 /**
  * @class {class4js.Module}
@@ -3299,6 +3320,7 @@ global.$module = Module.create;
 
 exports.Module = Module;
 
+
 /**
  * @interface {class4js.IDisposable}
  */
@@ -3337,10 +3359,7 @@ Object.freeze(IDisposable);
 
 exports.IDisposable = IDisposable;
 
-/**
- * @class {class4js.EventException}
- * @constructor {class4js.EventException}
- */
+
 var EventException = function (message) {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
@@ -3353,11 +3372,6 @@ var EventException = function (message) {
 
 EventException.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @constructor {class4js.EventException}
-   */
   __construct__: {
     value: function () {
       this.__name = 'EventException';
@@ -3368,11 +3382,6 @@ EventException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -3381,11 +3390,6 @@ EventException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @property {String} message
-   */
   message: {
     get: function () {
      return this.__message;
@@ -3394,12 +3398,6 @@ EventException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
   
-  /**
-   * @memberOf {class4js.EventException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -3413,13 +3411,6 @@ EventException.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(EventException, {
 
-  /**
-   * @memberOf {class4js.EventException}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -3436,55 +3427,30 @@ Object.seal(EventException.prototype);
 
 exports.EventException = EventException;
 
-/**
- * @interface {class4js.IEventTarget}
- */
+
 var IEventTarget = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {util4js.IEventTarget}
-   * @method addEventListener
-   * @param {String} type
-   * @param {Function} listener
-   */
   addEventListener: {
-    value: function (type, listener) { },
+    value: function (type, listener) {},
     writable: false,
     enumerable: true,
     configurable: false
   },
 
-  /**
-   * @memberOf {util4js.IEventTarget}
-   * @method removeEventListener
-   * @param {String} type
-   * @param {Function} listener
-   */
   removeEventListener: { 
-    value: function (type, listener) { },
+    value: function (type, listener) {},
     writable: false,
     enumerable: true,
     configurable: false
   },
 
-  /**
-   * @memberOf {util4js.IEventTarget}
-   * @method dispatchEvent
-   * @param {util4js.Event} e 
-   */ 
   dispatchEvent: { 
-    value: function (e) { },
+    value: function (e) {},
     writable: false,
     enumerable: true,
     configurable: false
   },
-  
-  /**
-   * @memberOf {class4js.IEventTarget}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
+
   toString: {
     value: function () {
       return '[object Interface]';
@@ -3499,6 +3465,38 @@ var IEventTarget = Object.create(Object.prototype, {
 Object.freeze(IEventTarget);
 
 exports.IEventTarget = IEventTarget;
+
+
+var IEvent = Object.create(Object.prototype, {
+
+  type: {
+    get: function () {},
+    set: function (value) {},
+    enumerable: true,
+    configurable: false
+  },
+
+  target: {
+    get: function () {},
+    set: function (value) {},
+    enumerable: true,
+    configurable: false
+  },
+
+  toString: {
+    value: function () {
+      return '[object Interface]';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  }
+
+});
+
+Object.freeze(IEvent);
+
+exports.IEvent = IEvent;
 
 /**
  * @class {class4js.Event}
@@ -3604,29 +3602,16 @@ Object.seal(Event.prototype);
 
 exports.Event = Event;
 
-/**
- * @interface {class4js.IEventListener}
- */
+
 var IEventListener = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.IEventListener}
-   * @public
-   * @method handleEvent
-   */
   handleEvent: {
-    value: function (e) { },
+    value: function (e) {},
     writable: false,
     enumerable: true,
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.IEventListener}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Interface]';
@@ -3641,6 +3626,7 @@ var IEventListener = Object.create(Object.prototype, {
 Object.freeze(IEventListener);
 
 exports.IEventListener = IEventListener;
+
 
 /**
  * @class {class4js.EventDispatcher}
@@ -3758,20 +3744,22 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
    */
   dispatchEvent: {
     value: function (e) {
-      var event = ObjectFactory.create(Event, e);
-      if (!event.type) {
+      if (!Interface.instanceOf(e, IEvent)) {
+        throw new EventException({ message: "Event's class doesn't imlement interface 'class4js.IEvent'" });
+      }
+      if (!e.type) {
         throw new EventException({ message: "Event type is not set" });
       }
-      if (this.__listeners[event.type] && this.__listeners[event.type].length > 0) {
+      if (this.__listeners[e.type] && this.__listeners[e.type].length > 0) {
         setTimeout(function (listeners) {
           for (var i = 0; i < listeners.length; i++) {
             if (typeof listeners[i] === 'function') {
-              listeners[i].call(event.target, event);
+              listeners[i].call(e.target, e);
             } else {
-              listeners[i].handleEvent.call(event.target, event);
+              listeners[i].handleEvent.call(e.target, e);
             }
           }
-        }, 0, this.__listeners[event.type]);
+        }, 0, this.__listeners[e.type]);
       }
     },
     writable: false,
