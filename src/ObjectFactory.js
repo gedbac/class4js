@@ -1,18 +1,5 @@
-/**
- * @static
- * @class {class4js.ObjectFactory}
- */
 var ObjectFactory = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
-   * @method create
-   * @param {Function} type
-   * @param {Object} properties
-   * @returns {Object}
-   */
   create: {
     value: function (type, properties) {
       if (type) {
@@ -34,14 +21,6 @@ var ObjectFactory = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
-   * @method initialize
-   * @param {Object} target
-   * @param {Object} source
-   */
   initialize: {
     value: function (target, source) {
       if (target && source) {
@@ -56,13 +35,6 @@ var ObjectFactory = Object.create(Object.prototype, {
     }
   },
 
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

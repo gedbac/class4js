@@ -1,7 +1,3 @@
-/**
- * @class {class4js.Configuration}
- * @constructor {class4js.Configuration}
- */
 var Configuration = function () {
   this.__debug = false;
   this.__basePath = null;
@@ -11,11 +7,6 @@ var Configuration = function () {
 
 Configuration.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @class {class4js.Configuration}
-   * @public
-   * @property {Boolean} debug 
-   */
   debug: {
     get: function () {
       return this.__debug;
@@ -27,11 +18,6 @@ Configuration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @class {class4js.Configuration}
-   * @public
-   * @property {String} basePath
-   */
   basePath: {
     get: function () {
       return this.__basePath;
@@ -43,11 +29,6 @@ Configuration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @class {class4js.Configuration}
-   * @public
-   * @property {class4js.ModuleConfiguration[]} modules
-   */
   modules: {
     get: function () {
       return this.__modules;
@@ -65,12 +46,6 @@ Configuration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Configuration]';
@@ -84,12 +59,6 @@ Configuration.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Configuration, {
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @private
-   * @field {Configuration} __configuration
-   */ 
   __configuration: {
     value: null,
     writable: true,
@@ -97,12 +66,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @property {Boolean} debug 
-   */
   debug: {
     get: function () {
       if (Configuration.__configuration) {
@@ -114,12 +77,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @property {String} basePath
-   */
   basePath: {
     get: function () {
       if (Configuration.__configuration) {
@@ -131,12 +88,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @property {String} modules
-   */
   modules: {
     get: function () {
       if (Configuration.__configuration) {
@@ -148,13 +99,6 @@ Object.defineProperties(Configuration, {
     configure: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @method configure
-   * @param {class4js.Configuration} options
-   */
   configure: {
     value: function (options) {
       Configuration.__configuration = ObjectFactory.create(Configuration, options); 
@@ -164,13 +108,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

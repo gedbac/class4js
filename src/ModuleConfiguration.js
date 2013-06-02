@@ -1,7 +1,3 @@
-/**
- * @class {class4js.ModuleConfiguration}
- * @constructor {class4js.ModuleConfiguration}
- */
 var ModuleConfiguration = function () {
   this.__name = null;
   this.__path = null;
@@ -10,11 +6,6 @@ var ModuleConfiguration = function () {
 
 ModuleConfiguration.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -26,11 +17,6 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @public
-   * @property {String} path
-   */
   path: {
     get: function () {
       return this.__path;
@@ -42,12 +28,6 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.ModuleConfiguration]';
@@ -61,13 +41,6 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(ModuleConfiguration, {
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

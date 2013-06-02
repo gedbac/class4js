@@ -6,7 +6,6 @@ var exports = {};
 
 exports.version = '1.10.0';
 
-
 if (typeof Function.prototype.bind === 'undefined') {
   Function.prototype.bind = function (instance) {
     var fn = this,
@@ -18,12 +17,6 @@ if (typeof Function.prototype.bind === 'undefined') {
   };
 }
 
-
-/**
- * @class {class4js.TypeException}
- * @constructor {class4js.TypeException}
- * @param {String} message
- */
 var TypeException = function (message) {
   this.__name = 'TypeException';
   this.__message = message || "A type exception has occurred.";
@@ -32,38 +25,28 @@ var TypeException = function (message) {
 
 TypeException.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
     },
-    enumerable: true,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @property {String} message
-   */
-  message: {
-    get: function () {
-     return this.__message;
+    set: function (value) {
+      this.__name = value;
     },
     enumerable: true,
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
+  message: {
+    get: function () {
+     return this.__message;
+    },
+    set: function (value) {
+      this.__message = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -77,13 +60,6 @@ TypeException.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(TypeException, {
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -100,20 +76,8 @@ Object.seal(TypeException.prototype);
 
 exports.TypeException = TypeException;
 
-
-/**
- * @static
- * @class {class4js.Namespace}
- */
 var Namespace = Object.create(Object.prototype, {
 
-  /*
-   * @memberOf {class4js.Namespace}
-   * @static
-   * @public
-   * @method create
-   * @param {String} name
-   */
   create: {
     value: function (name) {
       if (name) {
@@ -134,13 +98,6 @@ var Namespace = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Namespace}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -151,27 +108,15 @@ var Namespace = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Namespace);
 
 global.$namespace = Namespace.create;
 
 exports.Namespace = Namespace;
 
-
-/**
- * @static
- * @class {class4js.TypeBuilder}
- */
 var TypeBuilder = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isPrivate
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isPrivate: {
     value: function (name) {
       return /^__([A-Z]|[a-z]|[0-9])*$/g.test(name); 
@@ -181,14 +126,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isProtected
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isProtected: {
     value: function (name) {
       return /^_([A-Z]|[a-z]|[0-9])*$/g.test(name);
@@ -198,14 +135,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isPublic
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isPublic: {
     value: function (name) {
       return !TypeBuilder.isPrivate(name) && !TypeBuilder.isProtected(name);
@@ -215,14 +144,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidTypeName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidTypeName: {
     value: function (name) {
       return /^[A-Z]([A-Z]|[a-z]|[0-9])*$/g.test(name);
@@ -232,14 +153,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidConstructorName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidConstructorName: {
     value: function (name) {
       return name == '__construct__';
@@ -249,14 +162,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidName: {
     value: function (name) {
       return /^(_|__|[a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
@@ -266,14 +171,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidConstantName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidConstantName: {
     value: function (name) {
       return /^([A-Z]|[0-9]|_)*$/g.test(name);
@@ -283,14 +180,15 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidSystemFieldName
-   * @param {String} name
-   * @returns {Boolean}
-   */
+  isValidEventName: {
+    value: function (name) {
+      return /^([a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   isValidSystemFieldName: {
     value: function (name) {
       return /^__([a-z]|[A-Z]|[0-9])*__$/g.test(name);
@@ -300,14 +198,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isObjectInitializer
-   * @param {Object} param
-   * @returns {Boolean}
-   */
   isObjectInitializer: {
     value: function (param) {
       if (typeof param === 'object' && Object.getPrototypeOf(param) === Object.prototype) {
@@ -317,15 +207,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     }
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addConstructor
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addConstructor: {
     value: function (owner, name, value) {
       if (owner) {
@@ -348,15 +229,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addField
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addField: {
     value: function (owner, name, value) {
       if (owner) {
@@ -379,15 +251,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addSystemField
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addSystemField: {
     value: function (owner, name, value) {
       if (owner) {
@@ -410,15 +273,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addMethod
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Function} value
-   */
   addMethod: {
     value: function (owner, name, value) {
       if (owner) {
@@ -441,16 +295,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addProperty
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Function} getter
-   * @param {Function} setter
-   */
   addProperty: {
     value: function (owner, name, getter, setter) {
       if (owner) {
@@ -473,15 +317,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addConstant
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addConstant: {
     value: function (owner, name, value) {
       if (owner) {
@@ -503,14 +338,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @private
-   * @method addStatic
-   * @param {Object} owner
-   * @param {Object} properties
-   */
   addStatic: {
     value: function (owner, properties) {
       TypeBuilder.forEach(properties, function (name, value) {
@@ -532,14 +359,36 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isConstructor
-   * @param {String} name
-   * @returns {Boolean}
-   */
+  addEvents: {
+    value: function (owner, properties) {
+      if (owner) {
+        TypeBuilder.forEach(properties, function (name, value) {
+          if (TypeBuilder.isValidEventName(name)) {
+            if (typeof owner['__events__'] === 'undefined') {
+              owner['__events__']= Object.create(null);
+            }
+            Object.defineProperty(owner['__events__'], name, {
+              value: value,
+              writable: false,
+              enumerable: true,
+              configurable: false
+            });
+          } else {
+            throw new TypeException("Event's name is invalid");
+          }
+        });
+        if (typeof owner['__events__'] !== 'undefined') {
+          Object.freeze(owner['__events__']);
+        }
+      } else {
+        throw new TypeException("Event's owner is not set");
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   isConstructor: {
     value: function (name) {
       return name == '__construct__';
@@ -549,14 +398,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isMethod
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   isMethod: {
     value: function (value) {
       return typeof value === 'function'; 
@@ -566,14 +407,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isProperty
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   isProperty: {
     value: function (value) {
       return (value['get'] || value['set']);
@@ -583,14 +416,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isConstant
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isConstant: {
     value: function (name) {
       return /^([A-Z]|[0-9]|_)*$/g.test(name);
@@ -600,31 +425,24 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @private
-   * @method isStatic
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isStatic: {
     value: function (name) {
       return name == '__static__';
     },
     writable: false,
-    enumerable: false,
+    enumerable: true,
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isField
-   * @param {String} name
-   * @param {Object} value
-   */
+  isEvents: {
+    value: function (name) {
+      return name === '__events__';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   isField: {
     value: function (name, value) {
       return !TypeBuilder.isConstructor(name) && !TypeBuilder.isMethod(value) 
@@ -636,14 +454,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method forEach
-   * @param {Object} properties
-   * @param {Function} callback
-   */
   forEach: {
     value: function (properties, callback) {
       if (properties) {
@@ -660,17 +470,8 @@ var TypeBuilder = Object.create(Object.prototype, {
     writable: false,
     enumerable: true,
     configurable: false
-
   },
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @static
-   * @public
-   * @method getArgumentNames
-   * @param {Function} func
-   * @returns {Array} 
-   */
   getArgumentNames: {
     value: function (func) {
       if (func) {
@@ -689,15 +490,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method getPropertyDescriptor
-   * @param {Object} object
-   * @param {String} propertyName
-   * @returns {Object}
-   */
   getPropertyDescriptor: {
     value: function (object, propertyName) {
       if (object && propertyName) {
@@ -714,13 +506,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -736,15 +521,6 @@ Object.seal(TypeBuilder);
 
 exports.TypeBuilder = TypeBuilder;
 
-
-/**
- * @internal
- * @class {class4js.TypeExtension}
- * @constructor {class4js.TypeExtension}
- * @param {Object} target
- * @param {String} name
- * @param {Function} value
- */
 var TypeExtension = function (target, name, value) {
   this.__target = target;
   this.__name = name;
@@ -754,11 +530,6 @@ var TypeExtension = function (target, name, value) {
 
 TypeExtension.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @property {Object} target
-   */
   target: {
     get: function () {
       return this.__target;
@@ -767,11 +538,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -780,11 +546,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @property {Function} value
-   */
   value: {
     get: function () {
       return this.__value;
@@ -793,12 +554,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: function () {
     return '[object class4js.TypeExtension]';
   }
@@ -807,13 +562,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(TypeExtension, {
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -828,19 +576,8 @@ Object.defineProperties(TypeExtension, {
 Object.seal(TypeExtension);
 Object.seal(TypeExtension.prototype);
 
-
-/**
- * @static
- * @class {class4js.Class}
- */
 var Class = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @field {TypeExtension[]} __extensions
-   */
   __extensions: {
     value: [],
     writable: true,
@@ -848,16 +585,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method create
-   * @param {Object} properties
-   * @param {Object} parent
-   * @param {Array} interfaces
-   * @returns {Function}
-   */
   create: {
     value: function (properties, parent, interfaces) {
       if (arguments.length === 2) {
@@ -882,16 +609,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method createAbstract
-   * @param {Object} properties
-   * @param {Object} parent
-   * @param {Array} interfaces
-   * @returns {Function}
-   */
   createAbstract: {
     value: function (properties, parent, interfaces) {
       if (arguments.length === 2) {
@@ -911,14 +628,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method createStatic
-   * @param {Object} properties
-   * @returns {Object}
-   */
   createStatic: {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
@@ -937,15 +646,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method addExtension
-   * @param {Object} target
-   * @param {String} name
-   * @param {Function} value
-   */
   addExtension: {
     value: function (target, name, value) {
       if (!target) {
@@ -970,15 +670,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method initialize
-   * @param {Object} instance
-   * @param {Object} prototype
-   * @param {Array} args
-   */
   initialize: {
     value: function (instance, prototype, args) {
       if (prototype) {
@@ -990,7 +681,24 @@ var Class = Object.create(Object.prototype, {
           var properties = Object.getOwnPropertyNames(prototype['__fields__']);
           var descriptor;
           for (var i = 0; i < properties.length; i++) {
-            if (properties[i] !== '__fields__') {
+            if (properties[i] === '__events__') {
+              var events = Object.getOwnPropertyNames(prototype['__fields__']['__events__']);
+              if (events.length > 0 && !instance['__events__']) {
+                instance['__events__'] = Object.create(null);
+              }
+              for (var j = 0; j < events.length; j++) {
+                if (!(events[j] in instance['__events__'])) {
+                  Object.defineProperty(instance['__events__'], events[j], {
+                    value: prototype['__fields__']['__events__'][events[j]],
+                    writable: false,
+                    enumerable: false,
+                    configurable: false
+                  });
+                } else {
+                  throw new TypeException("Event '" + events[j] + "'is already defined");
+                }
+              }
+            } else {
               descriptor = Object.getOwnPropertyDescriptor(prototype['__fields__'], properties[i]);
               if (!(properties[i] in instance)) {
                 Object.defineProperty(instance, properties[i], descriptor);
@@ -1018,13 +726,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method includeExtensions
-   * @param {Object} instance
-   */
   includeExtensions: {
     value: function (instance) {
       if (instance && Class.__extensions && Class.__extensions.length > 0) {
@@ -1043,13 +744,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method includeEvents
-   * @param {Object} instance
-   */
   includeEvents: {
     value: function (owner) {
       if (owner) {
@@ -1115,11 +809,21 @@ var Class = Object.create(Object.prototype, {
         }
         if (!('fire' in owner)) {
           Object.defineProperty(owner, 'fire', {
-            value: function (type) {
-              this.dispatchEvent({
+            value: function (type, options) {
+              if (!type) {
+                throw new EventException({ message: "Event's 'type' is not set." });
+              }
+              if (!this.__events__ || !(type in this.__events__)) {
+                throw new EventException({ message: "Event '" + type + "' is not declared." });
+              }
+              var event = ObjectFactory.create(this.__events__[type], {
                 target: this,
                 type: type
               });
+              if (options) {
+                ObjectFactory.initialize(event, options);
+              }
+              this.dispatchEvent(event);
               return this;
             }
           });
@@ -1131,13 +835,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -1147,15 +844,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @methods __descriptorsAreEqual
-   * @param {String} property
-   * @param {Object} source
-   * @param {Object} target
-   */
   __descriptorsAreEqual: { 
     value: function (property, source, target) {
       var sourceArguments, targetArguments;
@@ -1172,15 +860,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __instanceOf
-   * @param {Object} source
-   * @param {Object} target
-   * @throws {class4js.TypeException}
-   */
   __instanceOf: {
     value: function (source, target) {
       if (source && target) {
@@ -1203,16 +882,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __onCreateClass
-   * @param {Function} constructor
-   * @param {Object} properties
-   * @param {Object} parent
-   * @param {Array} interfaces
-   */
   __onCreateClass: {
     value: function (constructor, properties, parent, interfaces) {
       if (parent) {
@@ -1228,7 +897,7 @@ var Class = Object.create(Object.prototype, {
       }
       if (!constructor.prototype.hasOwnProperty('__fields__')) {
         Object.defineProperty(constructor.prototype, '__fields__', {
-          value: {},
+          value: Object.create(null),
           writable: true,
           enumerable: false,
           configurable: false
@@ -1304,6 +973,8 @@ var Class = Object.create(Object.prototype, {
           TypeBuilder.addConstant(constructor, name, value);
         } else if (TypeBuilder.isStatic(name)) {
           TypeBuilder.addStatic(constructor, value); 
+        } else if (TypeBuilder.isEvents(name)) {
+          TypeBuilder.addEvents(constructor.prototype['__fields__'], value);
         } else {
           TypeBuilder.addField(constructor.prototype['__fields__'], name, value);
         }
@@ -1327,14 +998,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __hasSuper
-   * @param {Function} func
-   * @returns {Boolean}
-   */
   __hasSuper: {
     value: function (func) {
       var names = TypeBuilder.getArgumentNames(func);
@@ -1348,15 +1011,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __wrap
-   * @param {Object} instance
-   * @param {Object} prototype
-   * @returns {Object}
-   */
   __wrap: {
     value: function (instance, prototype) {
       if ('__wrappers__' in instance && instance.__wrappers__) {
@@ -1382,16 +1036,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __buildWrapper
-   * @param {Object} instance
-   * @param {Object} wrapper
-   * @param {Object} prototype
-   * @returns {Object}
-   */
   __buildWrapper: {
     value: function (instance, wrapper, prototype) {
       if (prototype && prototype !== Object.prototype) {
@@ -1426,6 +1070,7 @@ var Class = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Class);
 
 global.$class = Class.create;
@@ -1435,22 +1080,8 @@ global.$extend = Class.addExtension;
 
 exports.Class = Class;
 
-
-/**
- * @static
- * @class {class4js.Interface}
- */
 var Interface = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method create
-   * @param {Object} properties
-   * @param {Array} parents
-   * @returns {Object}
-   */
   create: {
     value: function (properties, parents) {
       var obj = Object.create(Object.prototype);
@@ -1485,16 +1116,6 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Interface}
-   * @static
-   * @public
-   * @method instanceOf
-   * @param {Object} source
-   * @param {Object} target
-   * @returns {Boolean}
-   * @throws {class4js.TypeException}
-   */
   instanceOf: {
     value: function (source, target) {
       if (source && target) {
@@ -1517,13 +1138,6 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Interface}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -1533,14 +1147,6 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __copyParentMembers
-   * @param {Object} target
-   * @param {Object} source
-   */
   __copyParentMembers: { 
     value: function (target, source) {
       if (source) {
@@ -1564,6 +1170,7 @@ var Interface = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Interface);
 
 global.$interface = Interface.create;
@@ -1571,22 +1178,8 @@ global.$is = Interface.instanceOf;
 
 exports.Interface = Interface;
 
-
-/**
- * @static
- * @class {class4js.ObjectFactory}
- */
 var ObjectFactory = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
-   * @method create
-   * @param {Function} type
-   * @param {Object} properties
-   * @returns {Object}
-   */
   create: {
     value: function (type, properties) {
       if (type) {
@@ -1608,14 +1201,6 @@ var ObjectFactory = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
-   * @method initialize
-   * @param {Object} target
-   * @param {Object} source
-   */
   initialize: {
     value: function (target, source) {
       if (target && source) {
@@ -1630,13 +1215,6 @@ var ObjectFactory = Object.create(Object.prototype, {
     }
   },
 
-  /**
-   * @memberOf {class4js.ObjectFactory}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -1655,21 +1233,8 @@ global.$init = ObjectFactory.initialize;
 
 exports.ObjectFactory = ObjectFactory;
 
-
-/**
- * @static
- * @class {class4js.Enum}
- */
 var Enum = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @public
-   * @method create
-   * @param {Array} fields
-   * @returns {Object}
-   */
   create: {
     value: function (fields) {
       var obj = Object.create(Object.prototype);
@@ -1687,13 +1252,6 @@ var Enum = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Enum]';
@@ -1703,13 +1261,6 @@ var Enum = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @private
-   * @method __isValidName
-   * @returns {Boolean} 
-   */
   __isValidName: {
     value: function (name) {
       return /^([A-Z]|[0-9]|_)*$/g.test(name);
@@ -1719,16 +1270,6 @@ var Enum = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @private
-   * @method __addField
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   __addField: {
     value: function (owner, name, value) {
       if (owner) {
@@ -1756,24 +1297,15 @@ var Enum = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Enum);
 
 global.$enum = Enum.create;
 
 exports.Enum = Enum;
 
-
-/**
- * @interface {class4js.IInterceptor}
- */
 var IInterceptor = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.IInterceptor}
-   * @public
-   * @method intercept
-   * @param {IInvocation} invocation
-   */
   intercept: {
     value: function (invocation) { },
     writable: false,
@@ -1781,12 +1313,6 @@ var IInterceptor = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.IInterceptor}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Interface]';
@@ -1802,16 +1328,8 @@ Object.freeze(IInterceptor);
 
 exports.IInterceptor = IInterceptor;
 
-
-/**
- * @enum {class4js.InvocationType}
- */
 var InvocationType = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.InvocationType}
-   * @field {Integer} CONSTRUCTOR
-   */
   CONSTRUCTOR: {
     value: 0,
     enumerable: true,
@@ -1819,10 +1337,6 @@ var InvocationType = Object.create(Object.prototype, {
     writable: false
   },
 
-  /**
-   * @memberOf {class4js.InvocationType}
-   * @field {Integer} METHOD
-   */
   METHOD: {
     value: 1,
     enumerable: true,
@@ -1830,10 +1344,6 @@ var InvocationType = Object.create(Object.prototype, {
     writable: false
   },
 
-  /**
-   * @memberOf {class4js.InvocationType}
-   * @field {Integer} PROPERTY_GETTER
-   */
   PROPERTY_GETTER: {
     value: 2,
     enumerable: true,
@@ -1841,10 +1351,6 @@ var InvocationType = Object.create(Object.prototype, {
     writable: false
   },
 
-  /**
-   * @memberOf {class4js.InvocationType}
-   * @field {Integer} PROPERTY_SETTER
-   */
   PROPERTY_SETTER: {
     value: 3,
     enumerable: true,
@@ -1852,12 +1358,6 @@ var InvocationType = Object.create(Object.prototype, {
     writable: false
   },
 
-  /**
-   * @memberOf {class4js.InvocationType}
-   * @public
-   * @methos toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Enum]';
@@ -1873,16 +1373,6 @@ Object.freeze(InvocationType);
 
 exports.InvocationType == InvocationType;
 
-
-/**
- * @class {class4js.Invocation}
- * @constructor {class4js.Invocation}
- * @param {Object} target
- * @param {String} name
- * @param {InvocationType} type
- * @param {Array} arguments
- * @param {IInterceptor[]} interceptors
- */
 var Invocation = function (target, name, type, arguments, interceptors) {
   this.__target = target;
   this.__name = name;
@@ -1897,11 +1387,6 @@ var Invocation = function (target, name, type, arguments, interceptors) {
 
 Invocation.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object} target
-   */
   target: {
     get: function () {
       return this.__target;
@@ -1911,11 +1396,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     }
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;   
@@ -1927,11 +1407,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {InvocationType} type
-   */
   type: {
     get: function () {
       return this.__type;
@@ -1943,11 +1418,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isConstructor
-   */
   isConstructor: {
     get: function () {
       return this.__type == InvocationType.CONSTRUCTOR;
@@ -1956,11 +1426,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isMethod
-   */
   isMethod: {
     get: function () {
       return this.__type == InvocationType.METHOD;
@@ -1969,11 +1434,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isPropertyGetter
-   */
   isPropertyGetter: {
     get: function () {
       return this.__type == InvocationType.PROPERTY_GETTER;
@@ -1982,11 +1442,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isPropertySetter
-   */
   isPropertySetter: {
     get: function () {
       return this.__type == InvocationType.PROPERTY_SETTER;
@@ -1995,11 +1450,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object[]} arguments
-   */
   arguments: {
     get: function () {
       return this.__arguments;
@@ -2011,11 +1461,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object} returnValue
-   */
   returnValue: {
     get: function () {
       return this.__returnValue;
@@ -2027,11 +1472,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {IInterceptor[]} interceptors
-   */
   interceptors: {
     get: function () {
       return this.__interceptors;
@@ -2043,11 +1483,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object} context
-   */
   context: {
     get: function () {
       return this.__context;
@@ -2059,12 +1494,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js,Invocation}
-   * @public
-   * @method procceed
-   * @returns {Object}
-   */
   procceed: {
     value: function () {
       if (this.__interceptors.length > this.__current) {
@@ -2083,12 +1512,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Invocation]';
@@ -2102,13 +1525,6 @@ Invocation.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Invocation, {
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -2125,18 +1541,8 @@ Object.seal(Invocation.prototype);
 
 exports.Invocation = Invocation;
 
-
-/**
- * @interface {class4js.IInterceptor}
- */
 var IInterceptor = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.IInterceptor}
-   * @public
-   * @method intercept
-   * @param {IInvocation} invocation
-   */
   intercept: {
     value: function (invocation) { },
     writable: false,
@@ -2144,12 +1550,6 @@ var IInterceptor = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.IInterceptor}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Interface]';
@@ -2165,23 +1565,8 @@ Object.freeze(IInterceptor);
 
 exports.IInterceptor = IInterceptor;
 
-
-/**
- * @static
- * @class {class4js.Proxy}
- */
 var Proxy = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @public
-   * @method create
-   * @param {Object} type
-   * @param {IInterceptor[]} interceptors
-   * @param {Array} args
-   * @returns {Object}
-   */
   create: {
     value: function (type, interceptors, args) {
       if (type) {
@@ -2217,13 +1602,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -2233,15 +1611,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __createInterfaceProxy
-   * @param {Object} type
-   * @param {IInterceptor[]} interceptors
-   * @returns {Object}
-   */
   __createInterfaceProxy: {
     value: function (type, interceptors, args) {
       var constructor = function () {
@@ -2270,15 +1639,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __createClassProxy
-   * @param {Object} type
-   * @param {IInterceptor[]} interceptors
-   * @param {Array} args
-   */
   __createClassProxy: {
     value: function (type, interceptors, args) {
       var constructor = function () {
@@ -2301,15 +1661,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __interceptClassConstructor
-   * @param {Object} source
-   * @param {Object} target
-   * @param {IInterceptor[]} interceptors
-   */
   __interceptClassConstructor: {
     value: function (source, target, interceptors) {
       var descriptor = TypeBuilder.getPropertyDescriptor(source, '__construct__');
@@ -2320,16 +1671,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __intercepClassMember
-   * @param {Object} source
-   * @param {Object} target
-   * @param {String} propertyName
-   * @param {IInterceptor[]} interceptors
-   */
   __intercepClassMember: {
     value: function (source, target, propertyName, interceptors) {
       if (TypeBuilder.isPublic(propertyName)) {  
@@ -2365,15 +1706,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __interceptConstructor
-   * @param {Object} proxy
-   * @param {Object} descriptor
-   * @param {IInterceptor[]} interceptors 
-   */
   __interceptConstructor: {
     value: function (proxy, descriptor, interceptors) {
       var constructor = function () {
@@ -2393,16 +1725,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __interceptMethod
-   * @param {Object} proxy
-   * @param {String} propertyName
-   * @param {Object} descriptor
-   * @param {IInterceptor[]} interceptors
-   */
   __interceptMethod: {
     value: function (proxy, propertyName, descriptor, interceptors) {
       var method = function () {
@@ -2420,18 +1742,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __intercepProperty
-   * @param {Object} proxy
-   * @param {String} propertyName
-   * @param {Boolean} readable
-   * @param {Object} descriptor
-   * @param {IInterceptor[]} getterInterceptors
-   * @param {IInterceptor[]} setterInterceptors
-   */
   __intercepProperty: {
     value: function (proxy, propertyName, descriptor, getterInterceptors, setterInterceptors) {
       var getter, setter;
@@ -2463,17 +1773,13 @@ var Proxy = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Proxy);
 
 global.$proxy = Proxy.create;
 
 exports.Proxy = Proxy;
 
-
-/**
- * @class {class4js.ModuleException}
- * @constructor {class4js.ModuleException}
- */
 var ModuleException = function (message) {
   this.__name = 'ModuleException';
   this.__message = message || "A module exception has occurred.";
@@ -2482,11 +1788,6 @@ var ModuleException = function (message) {
 
 ModuleException.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -2495,11 +1796,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @public
-   * @property {String} message
-   */
   message: {
     get: function () {
      return this.__message;
@@ -2508,12 +1804,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -2527,13 +1817,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(ModuleException, {
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -2550,11 +1833,6 @@ Object.seal(ModuleException.prototype);
 
 exports.ModuleException = ModuleException;
 
-
-/**
- * @class {class4js.ModuleConfiguration}
- * @constructor {class4js.ModuleConfiguration}
- */
 var ModuleConfiguration = function () {
   this.__name = null;
   this.__path = null;
@@ -2563,11 +1841,6 @@ var ModuleConfiguration = function () {
 
 ModuleConfiguration.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -2579,11 +1852,6 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @public
-   * @property {String} path
-   */
   path: {
     get: function () {
       return this.__path;
@@ -2595,12 +1863,6 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.ModuleConfiguration]';
@@ -2614,13 +1876,6 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(ModuleConfiguration, {
 
-  /**
-   * @memberOf {class4js.ModuleConfiguration}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -2637,11 +1892,6 @@ Object.seal(ModuleConfiguration.prototype);
 
 exports.ModuleConfiguration = ModuleConfiguration;
 
-
-/**
- * @class {class4js.Configuration}
- * @constructor {class4js.Configuration}
- */
 var Configuration = function () {
   this.__debug = false;
   this.__basePath = null;
@@ -2651,11 +1901,6 @@ var Configuration = function () {
 
 Configuration.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @class {class4js.Configuration}
-   * @public
-   * @property {Boolean} debug 
-   */
   debug: {
     get: function () {
       return this.__debug;
@@ -2667,11 +1912,6 @@ Configuration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @class {class4js.Configuration}
-   * @public
-   * @property {String} basePath
-   */
   basePath: {
     get: function () {
       return this.__basePath;
@@ -2683,11 +1923,6 @@ Configuration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @class {class4js.Configuration}
-   * @public
-   * @property {class4js.ModuleConfiguration[]} modules
-   */
   modules: {
     get: function () {
       return this.__modules;
@@ -2705,12 +1940,6 @@ Configuration.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Configuration]';
@@ -2724,12 +1953,6 @@ Configuration.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Configuration, {
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @private
-   * @field {Configuration} __configuration
-   */ 
   __configuration: {
     value: null,
     writable: true,
@@ -2737,12 +1960,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @property {Boolean} debug 
-   */
   debug: {
     get: function () {
       if (Configuration.__configuration) {
@@ -2754,12 +1971,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @property {String} basePath
-   */
   basePath: {
     get: function () {
       if (Configuration.__configuration) {
@@ -2771,12 +1982,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @property {String} modules
-   */
   modules: {
     get: function () {
       if (Configuration.__configuration) {
@@ -2788,13 +1993,6 @@ Object.defineProperties(Configuration, {
     configure: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @public
-   * @method configure
-   * @param {class4js.Configuration} options
-   */
   configure: {
     value: function (options) {
       Configuration.__configuration = ObjectFactory.create(Configuration, options); 
@@ -2804,13 +2002,6 @@ Object.defineProperties(Configuration, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Configuration}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -2829,12 +2020,6 @@ global.$configure = Configuration.configure;
 
 exports.Configuration = Configuration;
 
-
-/**
- * @class {class4js.Module}
- * @constructor {class4js.Module}
- * @param {String} name
- */
 var Module = function (name) {
   this.__name = name; 
   this.__loaded = false;
@@ -2845,11 +2030,6 @@ var Module = function (name) {
 
 Module.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -2861,11 +2041,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memebtOf {class4js.Module}
-   * @public
-   * @property {Object} value
-   */
   value: {
     get: function () {
       return this.__value;
@@ -2877,11 +2052,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @property {Boolean} isLoaded
-   */
   isLoaded: {
     get: function () {
       return this.__loaded;
@@ -2893,13 +2063,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @method on
-   * @param {String} name
-   * @param {Function} callback
-   */
   on: {
     value: function (name, callback) {
       if (!name || name !== 'loaded') {
@@ -2915,12 +2078,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false  
   },
 
-  /**:vs
-   * @memberOf {class4js.Module}
-   * @public
-   * @method fire
-   * @param {String} name
-   */
   fire: {
     value: function (name) {
       if (!name || name !== 'loaded') {
@@ -2936,12 +2093,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Module]';
@@ -2955,12 +2106,6 @@ Module.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Module, {
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @field {class4js.Module[]} __modules
-   */
   __modules: {
     value: [],
     writable: true,
@@ -2968,12 +2113,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @field {class4js.Module} __current
-   */
   __current: {
     value: null,
     writable: true,
@@ -2981,15 +2120,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method create
-   * @param {Function} callback
-   * @param {Function} dependencies
-   * @returns {Object}
-   */
   create: {
     value: function (callback, dependencies) {
       if (!Module.__current) {
@@ -3032,13 +2162,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method isLoaded
-   * @param {String} name
-   */
   isLoaded: {
     value: function (name) {
       if (name && typeof name === 'string') {
@@ -3055,14 +2178,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method load
-   * @param {String} name
-   * @param {Function} callback
-   */
   load: {
     value: function (name, callback) {
       if (name) {
@@ -3107,13 +2222,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method isValidModuleName
-   * @param {String} name
-   */
   isValidModuleName: {
     value: function (name) {
       return /^(_|[a-z]|[A-Z]|[0-9]|)*$/g.test(name);
@@ -3123,12 +2231,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method toString
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -3138,12 +2240,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method __loadMainModule
-   */
   __loadMainModule: {
     value: function () {
       if (!Module.__hasRequire()) {
@@ -3168,14 +2264,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @method __loadDependency
-   * @param {String} name
-   * @param {Function} callback
-   */
   __loadDependency: {
     value: function (name, callback) {
       if (typeof name === 'string') {
@@ -3191,14 +2279,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @method __find
-   * @param {String} name
-   * @returns {Object}
-   */
   __find: {
     value: function (name) {
       if (name && typeof name === 'string') {
@@ -3215,14 +2295,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @method
-   * @param {class4js.Module} definition
-   * @param {Function} callback
-   */
   __loadScript: {
     value: function (definition, callback) {
       var path = Module.__getModulePath(definition.name); 
@@ -3257,14 +2329,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method __getModulePath
-   * @param {String} name
-   * @returns {String}
-   */
   __getModulePath: {
     value: function (name) {
       var path = name;
@@ -3294,13 +2358,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method __hasRequire
-   * @returns {Boolean}
-   */
   __hasRequire: {
     value: function () {
       return typeof require !== 'undefined';
@@ -3311,6 +2368,7 @@ Object.defineProperties(Module, {
   }
 
 });
+
 Object.seal(Module);
 Object.seal(Module.prototype);
 
@@ -3320,30 +2378,15 @@ global.$module = Module.create;
 
 exports.Module = Module;
 
-
-/**
- * @interface {class4js.IDisposable}
- */
 var IDisposable = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.IDisposable}
-   * @public
-   * @method dispose
-   */
   dispose: {
-    value: function () { },
+    value: function () {},
     writable: false,
     enumerable: true,
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.IDisposable}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Interface]';
@@ -3359,10 +2402,10 @@ Object.freeze(IDisposable);
 
 exports.IDisposable = IDisposable;
 
-
 var EventException = function (message) {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
+    debugger
     ObjectFactory.initialize(this, arguments[0]);
   } else {
     this.__construct__.call(this, arguments);
@@ -3373,7 +2416,7 @@ var EventException = function (message) {
 EventException.prototype = Object.create(Object.prototype, {
 
   __construct__: {
-    value: function () {
+    value: function (message) {
       this.__name = 'EventException';
       this.__message = message || "An event exception has occurred.";
     },
@@ -3386,6 +2429,9 @@ EventException.prototype = Object.create(Object.prototype, {
     get: function () {
       return this.__name;
     },
+    set: function (value) {
+      this.__name = value;
+    },
     enumerable: true,
     configurable: false
   },
@@ -3393,6 +2439,9 @@ EventException.prototype = Object.create(Object.prototype, {
   message: {
     get: function () {
      return this.__message;
+    },
+    set: function (value) {
+      this.__message = value;
     },
     enumerable: true,
     configurable: false
@@ -3426,7 +2475,6 @@ Object.seal(EventException);
 Object.seal(EventException.prototype);
 
 exports.EventException = EventException;
-
 
 var IEventTarget = Object.create(Object.prototype, {
 
@@ -3466,7 +2514,6 @@ Object.freeze(IEventTarget);
 
 exports.IEventTarget = IEventTarget;
 
-
 var IEvent = Object.create(Object.prototype, {
 
   type: {
@@ -3498,9 +2545,6 @@ Object.freeze(IEvent);
 
 exports.IEvent = IEvent;
 
-/**
- * @class {class4js.Event}
- */
 var Event = function () {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
@@ -3513,11 +2557,6 @@ var Event = function () {
 
 Event.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @constructor {class4js.Event}
-   */
   __construct__: {
     value: function () {
       this.__type = null;
@@ -3528,11 +2567,6 @@ Event.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @property {String} type
-   */
   type: {
     get: function () { 
       return this.__type;
@@ -3544,11 +2578,6 @@ Event.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @property {String} target
-   */
   target: {
     get: function () {
       return this.__target;
@@ -3560,12 +2589,6 @@ Event.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Event]';
@@ -3579,13 +2602,6 @@ Event.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Event, {
 
-  /**
-   * @memberOf {class4js.Event}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -3601,7 +2617,6 @@ Object.seal(Event);
 Object.seal(Event.prototype);
 
 exports.Event = Event;
-
 
 var IEventListener = Object.create(Object.prototype, {
 
@@ -3627,10 +2642,6 @@ Object.freeze(IEventListener);
 
 exports.IEventListener = IEventListener;
 
-
-/**
- * @class {class4js.EventDispatcher}
- */
 var EventDispatcher = function () {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
@@ -3643,11 +2654,6 @@ var EventDispatcher = function () {
 
 EventDispatcher.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @constructor {class4js.EventDispatcher}b
-   */
   __construct__: {
     value: function () {
       this.__listeners = {};
@@ -3657,13 +2663,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method addEventListener
-   * @param {String} type
-   * @param {class4js.IEventListener} listener 
-   */
   addEventListener: {
     value: function (type, listener) {
       if (!type) {
@@ -3689,13 +2688,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method removeEventListener
-   * @param {String} type
-   * @param {class4js.IEventListener} listener 
-   */
   removeEventListener: {
     value: function (type, listener) {
       if (!type) {
@@ -3716,12 +2708,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method removeAllEventListener
-   * @param {String} type
-   */  
   removeAllEventListener: {
     value: function (type) {
       if (!type) {
@@ -3736,12 +2722,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method dispatchEvent
-   * @param {class4js.Event} e
-   */
   dispatchEvent: {
     value: function (e) {
       if (!Interface.instanceOf(e, IEvent)) {
@@ -3767,12 +2747,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method toString
-   * @returns {String}   
-   */
   toString: {
     value: function () {
       return '[object class4js.EventDispatcher]';
@@ -3786,13 +2760,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(EventDispatcher, {
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -3804,11 +2771,10 @@ Object.defineProperties(EventDispatcher, {
 
 });
 
-exports.EventDispatcher = EventDispatcher;
-return exports;
+exports.EventDispatcher = EventDispatcher;return exports;
 
 }(typeof global !== 'undefined' ? global : window));
 
 if (typeof module !== 'undefined' && module !== null) {
-  module.exports.class4js = class4js;
+  module.exports = class4js;
 }

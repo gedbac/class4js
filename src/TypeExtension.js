@@ -1,11 +1,3 @@
-/**
- * @internal
- * @class {class4js.TypeExtension}
- * @constructor {class4js.TypeExtension}
- * @param {Object} target
- * @param {String} name
- * @param {Function} value
- */
 var TypeExtension = function (target, name, value) {
   this.__target = target;
   this.__name = name;
@@ -15,11 +7,6 @@ var TypeExtension = function (target, name, value) {
 
 TypeExtension.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @property {Object} target
-   */
   target: {
     get: function () {
       return this.__target;
@@ -28,11 +15,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -41,11 +23,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @property {Function} value
-   */
   value: {
     get: function () {
       return this.__value;
@@ -54,12 +31,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: function () {
     return '[object class4js.TypeExtension]';
   }
@@ -68,13 +39,6 @@ TypeExtension.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(TypeExtension, {
 
-  /**
-   * @memberOf {class4js.TypeExtension}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

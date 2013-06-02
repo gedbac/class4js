@@ -1,16 +1,5 @@
-/**
- * @static
- * @class {class4js.Namespace}
- */
 var Namespace = Object.create(Object.prototype, {
 
-  /*
-   * @memberOf {class4js.Namespace}
-   * @static
-   * @public
-   * @method create
-   * @param {String} name
-   */
   create: {
     value: function (name) {
       if (name) {
@@ -31,13 +20,6 @@ var Namespace = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Namespace}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -48,6 +30,7 @@ var Namespace = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Namespace);
 
 global.$namespace = Namespace.create;

@@ -1,6 +1,3 @@
-/**
- * @class {class4js.Event}
- */
 var Event = function () {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
@@ -13,11 +10,6 @@ var Event = function () {
 
 Event.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @constructor {class4js.Event}
-   */
   __construct__: {
     value: function () {
       this.__type = null;
@@ -28,11 +20,6 @@ Event.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @property {String} type
-   */
   type: {
     get: function () { 
       return this.__type;
@@ -44,11 +31,6 @@ Event.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Event}
-   * @public
-   * @property {String} target
-   */
   target: {
     get: function () {
       return this.__target;
@@ -60,12 +42,6 @@ Event.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Event]';
@@ -79,13 +55,6 @@ Event.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Event, {
 
-  /**
-   * @memberOf {class4js.Event}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

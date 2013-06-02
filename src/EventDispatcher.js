@@ -1,6 +1,3 @@
-/**
- * @class {class4js.EventDispatcher}
- */
 var EventDispatcher = function () {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
@@ -13,11 +10,6 @@ var EventDispatcher = function () {
 
 EventDispatcher.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @constructor {class4js.EventDispatcher}b
-   */
   __construct__: {
     value: function () {
       this.__listeners = {};
@@ -27,13 +19,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method addEventListener
-   * @param {String} type
-   * @param {class4js.IEventListener} listener 
-   */
   addEventListener: {
     value: function (type, listener) {
       if (!type) {
@@ -59,13 +44,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method removeEventListener
-   * @param {String} type
-   * @param {class4js.IEventListener} listener 
-   */
   removeEventListener: {
     value: function (type, listener) {
       if (!type) {
@@ -86,12 +64,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method removeAllEventListener
-   * @param {String} type
-   */  
   removeAllEventListener: {
     value: function (type) {
       if (!type) {
@@ -106,12 +78,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method dispatchEvent
-   * @param {class4js.Event} e
-   */
   dispatchEvent: {
     value: function (e) {
       if (!Interface.instanceOf(e, IEvent)) {
@@ -137,12 +103,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @public
-   * @method toString
-   * @returns {String}   
-   */
   toString: {
     value: function () {
       return '[object class4js.EventDispatcher]';
@@ -156,13 +116,6 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(EventDispatcher, {
 
-  /**
-   * @memberOf {class4js.EventDispatcher}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

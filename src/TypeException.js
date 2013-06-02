@@ -1,8 +1,3 @@
-/**
- * @class {class4js.TypeException}
- * @constructor {class4js.TypeException}
- * @param {String} message
- */
 var TypeException = function (message) {
   this.__name = 'TypeException';
   this.__message = message || "A type exception has occurred.";
@@ -11,38 +6,28 @@ var TypeException = function (message) {
 
 TypeException.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
     },
-    enumerable: true,
-    configurable: false
-  },
-
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @property {String} message
-   */
-  message: {
-    get: function () {
-     return this.__message;
+    set: function (value) {
+      this.__name = value;
     },
     enumerable: true,
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
+  message: {
+    get: function () {
+     return this.__message;
+    },
+    set: function (value) {
+      this.__message = value;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -56,13 +41,6 @@ TypeException.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(TypeException, {
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

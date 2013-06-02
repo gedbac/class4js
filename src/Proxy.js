@@ -1,19 +1,5 @@
-/**
- * @static
- * @class {class4js.Proxy}
- */
 var Proxy = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @public
-   * @method create
-   * @param {Object} type
-   * @param {IInterceptor[]} interceptors
-   * @param {Array} args
-   * @returns {Object}
-   */
   create: {
     value: function (type, interceptors, args) {
       if (type) {
@@ -49,13 +35,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -65,15 +44,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __createInterfaceProxy
-   * @param {Object} type
-   * @param {IInterceptor[]} interceptors
-   * @returns {Object}
-   */
   __createInterfaceProxy: {
     value: function (type, interceptors, args) {
       var constructor = function () {
@@ -102,15 +72,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __createClassProxy
-   * @param {Object} type
-   * @param {IInterceptor[]} interceptors
-   * @param {Array} args
-   */
   __createClassProxy: {
     value: function (type, interceptors, args) {
       var constructor = function () {
@@ -133,15 +94,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __interceptClassConstructor
-   * @param {Object} source
-   * @param {Object} target
-   * @param {IInterceptor[]} interceptors
-   */
   __interceptClassConstructor: {
     value: function (source, target, interceptors) {
       var descriptor = TypeBuilder.getPropertyDescriptor(source, '__construct__');
@@ -152,16 +104,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __intercepClassMember
-   * @param {Object} source
-   * @param {Object} target
-   * @param {String} propertyName
-   * @param {IInterceptor[]} interceptors
-   */
   __intercepClassMember: {
     value: function (source, target, propertyName, interceptors) {
       if (TypeBuilder.isPublic(propertyName)) {  
@@ -197,15 +139,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __interceptConstructor
-   * @param {Object} proxy
-   * @param {Object} descriptor
-   * @param {IInterceptor[]} interceptors 
-   */
   __interceptConstructor: {
     value: function (proxy, descriptor, interceptors) {
       var constructor = function () {
@@ -225,16 +158,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __interceptMethod
-   * @param {Object} proxy
-   * @param {String} propertyName
-   * @param {Object} descriptor
-   * @param {IInterceptor[]} interceptors
-   */
   __interceptMethod: {
     value: function (proxy, propertyName, descriptor, interceptors) {
       var method = function () {
@@ -252,18 +175,6 @@ var Proxy = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Proxy}
-   * @static
-   * @private
-   * @method __intercepProperty
-   * @param {Object} proxy
-   * @param {String} propertyName
-   * @param {Boolean} readable
-   * @param {Object} descriptor
-   * @param {IInterceptor[]} getterInterceptors
-   * @param {IInterceptor[]} setterInterceptors
-   */
   __intercepProperty: {
     value: function (proxy, propertyName, descriptor, getterInterceptors, setterInterceptors) {
       var getter, setter;
@@ -295,6 +206,7 @@ var Proxy = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Proxy);
 
 global.$proxy = Proxy.create;

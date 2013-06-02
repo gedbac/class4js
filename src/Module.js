@@ -1,8 +1,3 @@
-/**
- * @class {class4js.Module}
- * @constructor {class4js.Module}
- * @param {String} name
- */
 var Module = function (name) {
   this.__name = name; 
   this.__loaded = false;
@@ -13,11 +8,6 @@ var Module = function (name) {
 
 Module.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -29,11 +19,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memebtOf {class4js.Module}
-   * @public
-   * @property {Object} value
-   */
   value: {
     get: function () {
       return this.__value;
@@ -45,11 +30,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @property {Boolean} isLoaded
-   */
   isLoaded: {
     get: function () {
       return this.__loaded;
@@ -61,13 +41,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @method on
-   * @param {String} name
-   * @param {Function} callback
-   */
   on: {
     value: function (name, callback) {
       if (!name || name !== 'loaded') {
@@ -83,12 +56,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false  
   },
 
-  /**:vs
-   * @memberOf {class4js.Module}
-   * @public
-   * @method fire
-   * @param {String} name
-   */
   fire: {
     value: function (name) {
       if (!name || name !== 'loaded') {
@@ -104,12 +71,6 @@ Module.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Module]';
@@ -123,12 +84,6 @@ Module.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Module, {
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @field {class4js.Module[]} __modules
-   */
   __modules: {
     value: [],
     writable: true,
@@ -136,12 +91,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @field {class4js.Module} __current
-   */
   __current: {
     value: null,
     writable: true,
@@ -149,15 +98,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method create
-   * @param {Function} callback
-   * @param {Function} dependencies
-   * @returns {Object}
-   */
   create: {
     value: function (callback, dependencies) {
       if (!Module.__current) {
@@ -200,13 +140,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method isLoaded
-   * @param {String} name
-   */
   isLoaded: {
     value: function (name) {
       if (name && typeof name === 'string') {
@@ -223,14 +156,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method load
-   * @param {String} name
-   * @param {Function} callback
-   */
   load: {
     value: function (name, callback) {
       if (name) {
@@ -275,13 +200,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method isValidModuleName
-   * @param {String} name
-   */
   isValidModuleName: {
     value: function (name) {
       return /^(_|[a-z]|[A-Z]|[0-9]|)*$/g.test(name);
@@ -291,12 +209,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method toString
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -306,12 +218,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method __loadMainModule
-   */
   __loadMainModule: {
     value: function () {
       if (!Module.__hasRequire()) {
@@ -336,14 +242,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @method __loadDependency
-   * @param {String} name
-   * @param {Function} callback
-   */
   __loadDependency: {
     value: function (name, callback) {
       if (typeof name === 'string') {
@@ -359,14 +257,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @method __find
-   * @param {String} name
-   * @returns {Object}
-   */
   __find: {
     value: function (name) {
       if (name && typeof name === 'string') {
@@ -383,14 +273,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @private
-   * @method
-   * @param {class4js.Module} definition
-   * @param {Function} callback
-   */
   __loadScript: {
     value: function (definition, callback) {
       var path = Module.__getModulePath(definition.name); 
@@ -425,14 +307,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method __getModulePath
-   * @param {String} name
-   * @returns {String}
-   */
   __getModulePath: {
     value: function (name) {
       var path = name;
@@ -462,13 +336,6 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Module}
-   * @static
-   * @public
-   * @method __hasRequire
-   * @returns {Boolean}
-   */
   __hasRequire: {
     value: function () {
       return typeof require !== 'undefined';
@@ -479,6 +346,7 @@ Object.defineProperties(Module, {
   }
 
 });
+
 Object.seal(Module);
 Object.seal(Module.prototype);
 

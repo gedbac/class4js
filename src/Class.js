@@ -1,15 +1,5 @@
-/**
- * @static
- * @class {class4js.Class}
- */
 var Class = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @field {TypeExtension[]} __extensions
-   */
   __extensions: {
     value: [],
     writable: true,
@@ -17,16 +7,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method create
-   * @param {Object} properties
-   * @param {Object} parent
-   * @param {Array} interfaces
-   * @returns {Function}
-   */
   create: {
     value: function (properties, parent, interfaces) {
       if (arguments.length === 2) {
@@ -51,16 +31,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method createAbstract
-   * @param {Object} properties
-   * @param {Object} parent
-   * @param {Array} interfaces
-   * @returns {Function}
-   */
   createAbstract: {
     value: function (properties, parent, interfaces) {
       if (arguments.length === 2) {
@@ -80,14 +50,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method createStatic
-   * @param {Object} properties
-   * @returns {Object}
-   */
   createStatic: {
     value: function (properties) {
       var obj = Object.create(Object.prototype);
@@ -106,15 +68,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method addExtension
-   * @param {Object} target
-   * @param {String} name
-   * @param {Function} value
-   */
   addExtension: {
     value: function (target, name, value) {
       if (!target) {
@@ -139,15 +92,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method initialize
-   * @param {Object} instance
-   * @param {Object} prototype
-   * @param {Array} args
-   */
   initialize: {
     value: function (instance, prototype, args) {
       if (prototype) {
@@ -159,7 +103,24 @@ var Class = Object.create(Object.prototype, {
           var properties = Object.getOwnPropertyNames(prototype['__fields__']);
           var descriptor;
           for (var i = 0; i < properties.length; i++) {
-            if (properties[i] !== '__fields__') {
+            if (properties[i] === '__events__') {
+              var events = Object.getOwnPropertyNames(prototype['__fields__']['__events__']);
+              if (events.length > 0 && !instance['__events__']) {
+                instance['__events__'] = Object.create(null);
+              }
+              for (var j = 0; j < events.length; j++) {
+                if (!(events[j] in instance['__events__'])) {
+                  Object.defineProperty(instance['__events__'], events[j], {
+                    value: prototype['__fields__']['__events__'][events[j]],
+                    writable: false,
+                    enumerable: false,
+                    configurable: false
+                  });
+                } else {
+                  throw new TypeException("Event '" + events[j] + "'is already defined");
+                }
+              }
+            } else {
               descriptor = Object.getOwnPropertyDescriptor(prototype['__fields__'], properties[i]);
               if (!(properties[i] in instance)) {
                 Object.defineProperty(instance, properties[i], descriptor);
@@ -187,13 +148,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method includeExtensions
-   * @param {Object} instance
-   */
   includeExtensions: {
     value: function (instance) {
       if (instance && Class.__extensions && Class.__extensions.length > 0) {
@@ -212,13 +166,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method includeEvents
-   * @param {Object} instance
-   */
   includeEvents: {
     value: function (owner) {
       if (owner) {
@@ -284,11 +231,21 @@ var Class = Object.create(Object.prototype, {
         }
         if (!('fire' in owner)) {
           Object.defineProperty(owner, 'fire', {
-            value: function (type) {
-              this.dispatchEvent({
+            value: function (type, options) {
+              if (!type) {
+                throw new EventException({ message: "Event's 'type' is not set." });
+              }
+              if (!this.__events__ || !(type in this.__events__)) {
+                throw new EventException({ message: "Event '" + type + "' is not declared." });
+              }
+              var event = ObjectFactory.create(this.__events__[type], {
                 target: this,
                 type: type
               });
+              if (options) {
+                ObjectFactory.initialize(event, options);
+              }
+              this.dispatchEvent(event);
               return this;
             }
           });
@@ -300,13 +257,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -316,15 +266,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @methods __descriptorsAreEqual
-   * @param {String} property
-   * @param {Object} source
-   * @param {Object} target
-   */
   __descriptorsAreEqual: { 
     value: function (property, source, target) {
       var sourceArguments, targetArguments;
@@ -341,15 +282,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __instanceOf
-   * @param {Object} source
-   * @param {Object} target
-   * @throws {class4js.TypeException}
-   */
   __instanceOf: {
     value: function (source, target) {
       if (source && target) {
@@ -372,16 +304,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __onCreateClass
-   * @param {Function} constructor
-   * @param {Object} properties
-   * @param {Object} parent
-   * @param {Array} interfaces
-   */
   __onCreateClass: {
     value: function (constructor, properties, parent, interfaces) {
       if (parent) {
@@ -397,7 +319,7 @@ var Class = Object.create(Object.prototype, {
       }
       if (!constructor.prototype.hasOwnProperty('__fields__')) {
         Object.defineProperty(constructor.prototype, '__fields__', {
-          value: {},
+          value: Object.create(null),
           writable: true,
           enumerable: false,
           configurable: false
@@ -473,6 +395,8 @@ var Class = Object.create(Object.prototype, {
           TypeBuilder.addConstant(constructor, name, value);
         } else if (TypeBuilder.isStatic(name)) {
           TypeBuilder.addStatic(constructor, value); 
+        } else if (TypeBuilder.isEvents(name)) {
+          TypeBuilder.addEvents(constructor.prototype['__fields__'], value);
         } else {
           TypeBuilder.addField(constructor.prototype['__fields__'], name, value);
         }
@@ -496,14 +420,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __hasSuper
-   * @param {Function} func
-   * @returns {Boolean}
-   */
   __hasSuper: {
     value: function (func) {
       var names = TypeBuilder.getArgumentNames(func);
@@ -517,15 +433,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __wrap
-   * @param {Object} instance
-   * @param {Object} prototype
-   * @returns {Object}
-   */
   __wrap: {
     value: function (instance, prototype) {
       if ('__wrappers__' in instance && instance.__wrappers__) {
@@ -551,16 +458,6 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __buildWrapper
-   * @param {Object} instance
-   * @param {Object} wrapper
-   * @param {Object} prototype
-   * @returns {Object}
-   */
   __buildWrapper: {
     value: function (instance, wrapper, prototype) {
       if (prototype && prototype !== Object.prototype) {
@@ -595,6 +492,7 @@ var Class = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Class);
 
 global.$class = Class.create;

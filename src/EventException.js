@@ -1,6 +1,7 @@
 var EventException = function (message) {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
+    debugger
     ObjectFactory.initialize(this, arguments[0]);
   } else {
     this.__construct__.call(this, arguments);
@@ -11,7 +12,7 @@ var EventException = function (message) {
 EventException.prototype = Object.create(Object.prototype, {
 
   __construct__: {
-    value: function () {
+    value: function (message) {
       this.__name = 'EventException';
       this.__message = message || "An event exception has occurred.";
     },
@@ -24,6 +25,9 @@ EventException.prototype = Object.create(Object.prototype, {
     get: function () {
       return this.__name;
     },
+    set: function (value) {
+      this.__name = value;
+    },
     enumerable: true,
     configurable: false
   },
@@ -31,6 +35,9 @@ EventException.prototype = Object.create(Object.prototype, {
   message: {
     get: function () {
      return this.__message;
+    },
+    set: function (value) {
+      this.__message = value;
     },
     enumerable: true,
     configurable: false

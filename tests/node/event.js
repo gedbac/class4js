@@ -1,11 +1,16 @@
 'use strict';
 
-require('../../lib/class4js.js');
+var class4js = require('../../lib/class4js.js');
 
 var eventRaised = false;
 
 var Button = $class({
-  __construct__: function () {}
+  __events__: {
+    click: class4js.Event
+  },
+  __construct__: function () {
+
+  }
 });
 
 var btn = new Button();

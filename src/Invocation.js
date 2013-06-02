@@ -1,12 +1,3 @@
-/**
- * @class {class4js.Invocation}
- * @constructor {class4js.Invocation}
- * @param {Object} target
- * @param {String} name
- * @param {InvocationType} type
- * @param {Array} arguments
- * @param {IInterceptor[]} interceptors
- */
 var Invocation = function (target, name, type, arguments, interceptors) {
   this.__target = target;
   this.__name = name;
@@ -21,11 +12,6 @@ var Invocation = function (target, name, type, arguments, interceptors) {
 
 Invocation.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object} target
-   */
   target: {
     get: function () {
       return this.__target;
@@ -35,11 +21,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     }
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;   
@@ -51,11 +32,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {InvocationType} type
-   */
   type: {
     get: function () {
       return this.__type;
@@ -67,11 +43,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isConstructor
-   */
   isConstructor: {
     get: function () {
       return this.__type == InvocationType.CONSTRUCTOR;
@@ -80,11 +51,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isMethod
-   */
   isMethod: {
     get: function () {
       return this.__type == InvocationType.METHOD;
@@ -93,11 +59,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isPropertyGetter
-   */
   isPropertyGetter: {
     get: function () {
       return this.__type == InvocationType.PROPERTY_GETTER;
@@ -106,11 +67,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Boolean} isPropertySetter
-   */
   isPropertySetter: {
     get: function () {
       return this.__type == InvocationType.PROPERTY_SETTER;
@@ -119,11 +75,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object[]} arguments
-   */
   arguments: {
     get: function () {
       return this.__arguments;
@@ -135,11 +86,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object} returnValue
-   */
   returnValue: {
     get: function () {
       return this.__returnValue;
@@ -151,11 +97,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {IInterceptor[]} interceptors
-   */
   interceptors: {
     get: function () {
       return this.__interceptors;
@@ -167,11 +108,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @property {Object} context
-   */
   context: {
     get: function () {
       return this.__context;
@@ -183,12 +119,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js,Invocation}
-   * @public
-   * @method procceed
-   * @returns {Object}
-   */
   procceed: {
     value: function () {
       if (this.__interceptors.length > this.__current) {
@@ -207,12 +137,6 @@ Invocation.prototype = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object class4js.Invocation]';
@@ -226,13 +150,6 @@ Invocation.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(Invocation, {
 
-  /**
-   * @memberOf {class4js.Invocation}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

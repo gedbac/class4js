@@ -1,7 +1,3 @@
-/**
- * @class {class4js.ModuleException}
- * @constructor {class4js.ModuleException}
- */
 var ModuleException = function (message) {
   this.__name = 'ModuleException';
   this.__message = message || "A module exception has occurred.";
@@ -10,11 +6,6 @@ var ModuleException = function (message) {
 
 ModuleException.prototype = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @public
-   * @property {String} name
-   */
   name: {
     get: function () {
       return this.__name;
@@ -23,11 +14,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @public
-   * @property {String} message
-   */
   message: {
     get: function () {
      return this.__message;
@@ -36,12 +22,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -55,13 +35,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
 Object.defineProperties(ModuleException, {
 
-  /**
-   * @memberOf {class4js.ModuleException}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

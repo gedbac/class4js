@@ -1,18 +1,5 @@
-/**
- * @static
- * @class {class4js.Interface}
- */
 var Interface = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @public
-   * @method create
-   * @param {Object} properties
-   * @param {Array} parents
-   * @returns {Object}
-   */
   create: {
     value: function (properties, parents) {
       var obj = Object.create(Object.prototype);
@@ -47,16 +34,6 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Interface}
-   * @static
-   * @public
-   * @method instanceOf
-   * @param {Object} source
-   * @param {Object} target
-   * @returns {Boolean}
-   * @throws {class4js.TypeException}
-   */
   instanceOf: {
     value: function (source, target) {
       if (source && target) {
@@ -79,13 +56,6 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Interface}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';
@@ -95,14 +65,6 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Class}
-   * @static
-   * @private
-   * @method __copyParentMembers
-   * @param {Object} target
-   * @param {Object} source
-   */
   __copyParentMembers: { 
     value: function (target, source) {
       if (source) {
@@ -126,6 +88,7 @@ var Interface = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Interface);
 
 global.$interface = Interface.create;

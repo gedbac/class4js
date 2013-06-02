@@ -1,6 +1,6 @@
 'use strict';
 
-var class4js = require('../../lib/class4js.js');
+require('../../lib/class4js.js');
 
 var Component = $class({
   __construct__: function () {

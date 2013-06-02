@@ -1,17 +1,5 @@
-/**
- * @static
- * @class {class4js.TypeBuilder}
- */
 var TypeBuilder = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isPrivate
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isPrivate: {
     value: function (name) {
       return /^__([A-Z]|[a-z]|[0-9])*$/g.test(name); 
@@ -21,14 +9,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isProtected
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isProtected: {
     value: function (name) {
       return /^_([A-Z]|[a-z]|[0-9])*$/g.test(name);
@@ -38,14 +18,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isPublic
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isPublic: {
     value: function (name) {
       return !TypeBuilder.isPrivate(name) && !TypeBuilder.isProtected(name);
@@ -55,14 +27,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidTypeName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidTypeName: {
     value: function (name) {
       return /^[A-Z]([A-Z]|[a-z]|[0-9])*$/g.test(name);
@@ -72,14 +36,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidConstructorName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidConstructorName: {
     value: function (name) {
       return name == '__construct__';
@@ -89,14 +45,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidName: {
     value: function (name) {
       return /^(_|__|[a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
@@ -106,14 +54,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidConstantName
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isValidConstantName: {
     value: function (name) {
       return /^([A-Z]|[0-9]|_)*$/g.test(name);
@@ -123,14 +63,15 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isValidSystemFieldName
-   * @param {String} name
-   * @returns {Boolean}
-   */
+  isValidEventName: {
+    value: function (name) {
+      return /^([a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   isValidSystemFieldName: {
     value: function (name) {
       return /^__([a-z]|[A-Z]|[0-9])*__$/g.test(name);
@@ -140,14 +81,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isObjectInitializer
-   * @param {Object} param
-   * @returns {Boolean}
-   */
   isObjectInitializer: {
     value: function (param) {
       if (typeof param === 'object' && Object.getPrototypeOf(param) === Object.prototype) {
@@ -157,15 +90,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     }
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addConstructor
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addConstructor: {
     value: function (owner, name, value) {
       if (owner) {
@@ -188,15 +112,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addField
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addField: {
     value: function (owner, name, value) {
       if (owner) {
@@ -219,15 +134,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addSystemField
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addSystemField: {
     value: function (owner, name, value) {
       if (owner) {
@@ -250,15 +156,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addMethod
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Function} value
-   */
   addMethod: {
     value: function (owner, name, value) {
       if (owner) {
@@ -281,16 +178,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addProperty
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Function} getter
-   * @param {Function} setter
-   */
   addProperty: {
     value: function (owner, name, getter, setter) {
       if (owner) {
@@ -313,15 +200,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method addConstant
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   */
   addConstant: {
     value: function (owner, name, value) {
       if (owner) {
@@ -343,14 +221,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @private
-   * @method addStatic
-   * @param {Object} owner
-   * @param {Object} properties
-   */
   addStatic: {
     value: function (owner, properties) {
       TypeBuilder.forEach(properties, function (name, value) {
@@ -372,14 +242,36 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isConstructor
-   * @param {String} name
-   * @returns {Boolean}
-   */
+  addEvents: {
+    value: function (owner, properties) {
+      if (owner) {
+        TypeBuilder.forEach(properties, function (name, value) {
+          if (TypeBuilder.isValidEventName(name)) {
+            if (typeof owner['__events__'] === 'undefined') {
+              owner['__events__']= Object.create(null);
+            }
+            Object.defineProperty(owner['__events__'], name, {
+              value: value,
+              writable: false,
+              enumerable: true,
+              configurable: false
+            });
+          } else {
+            throw new TypeException("Event's name is invalid");
+          }
+        });
+        if (typeof owner['__events__'] !== 'undefined') {
+          Object.freeze(owner['__events__']);
+        }
+      } else {
+        throw new TypeException("Event's owner is not set");
+      }
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   isConstructor: {
     value: function (name) {
       return name == '__construct__';
@@ -389,14 +281,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isMethod
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   isMethod: {
     value: function (value) {
       return typeof value === 'function'; 
@@ -406,14 +290,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isProperty
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   isProperty: {
     value: function (value) {
       return (value['get'] || value['set']);
@@ -423,14 +299,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isConstant
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isConstant: {
     value: function (name) {
       return /^([A-Z]|[0-9]|_)*$/g.test(name);
@@ -440,31 +308,24 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @private
-   * @method isStatic
-   * @param {String} name
-   * @returns {Boolean}
-   */
   isStatic: {
     value: function (name) {
       return name == '__static__';
     },
     writable: false,
-    enumerable: false,
+    enumerable: true,
     configurable: false 
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method isField
-   * @param {String} name
-   * @param {Object} value
-   */
+  isEvents: {
+    value: function (name) {
+      return name === '__events__';
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   isField: {
     value: function (name, value) {
       return !TypeBuilder.isConstructor(name) && !TypeBuilder.isMethod(value) 
@@ -476,14 +337,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method forEach
-   * @param {Object} properties
-   * @param {Function} callback
-   */
   forEach: {
     value: function (properties, callback) {
       if (properties) {
@@ -500,17 +353,8 @@ var TypeBuilder = Object.create(Object.prototype, {
     writable: false,
     enumerable: true,
     configurable: false
-
   },
 
-  /**
-   * @memberOf {class4js.TypeException}
-   * @static
-   * @public
-   * @method getArgumentNames
-   * @param {Function} func
-   * @returns {Array} 
-   */
   getArgumentNames: {
     value: function (func) {
       if (func) {
@@ -529,15 +373,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method getPropertyDescriptor
-   * @param {Object} object
-   * @param {String} propertyName
-   * @returns {Object}
-   */
   getPropertyDescriptor: {
     value: function (object, propertyName) {
       if (object && propertyName) {
@@ -554,13 +389,6 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.TypeBuilder}
-   * @static
-   * @public
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Class]';

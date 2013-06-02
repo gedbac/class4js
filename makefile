@@ -61,6 +61,7 @@ test-node:
 	node ./tests/node/interface_proxy.js
 	node ./tests/node/class_proxy.js
 	node ./tests/node/event.js
+	node ./tests/node/custom_event.js
 
 build-browser: class4js.min.js
 
@@ -71,7 +72,7 @@ class4js.js: clean
 	echo "return exports;" >> $@
 	echo "\n}(typeof global !== 'undefined' ? global : window));\n" >> $@
 	echo "if (typeof module !== 'undefined' && module !== null) {" >> $@
-	echo "  module.exports.class4js = class4js;" >> $@
+	echo "  module.exports = class4js;" >> $@
 	echo "}" >> $@
 	node ./build/include_strict_mode.js $@
 
@@ -107,3 +108,4 @@ test-phantomjs:
 	phantomjs ./tests/node/interface_proxy.js
 	phantomjs ./tests/node/class_proxy.js
 	phantomjs ./tests/node/event.js
+	phantomjs ./tests/node/custom_event.js

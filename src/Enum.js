@@ -1,17 +1,5 @@
-/**
- * @static
- * @class {class4js.Enum}
- */
 var Enum = Object.create(Object.prototype, {
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @public
-   * @method create
-   * @param {Array} fields
-   * @returns {Object}
-   */
   create: {
     value: function (fields) {
       var obj = Object.create(Object.prototype);
@@ -29,13 +17,6 @@ var Enum = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @private
-   * @method toString
-   * @returns {String}
-   */
   toString: {
     value: function () {
       return '[object Enum]';
@@ -45,13 +26,6 @@ var Enum = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @private
-   * @method __isValidName
-   * @returns {Boolean} 
-   */
   __isValidName: {
     value: function (name) {
       return /^([A-Z]|[0-9]|_)*$/g.test(name);
@@ -61,16 +35,6 @@ var Enum = Object.create(Object.prototype, {
     configurable: false
   },
 
-  /**
-   * @memberOf {class4js.Enum}
-   * @static
-   * @private
-   * @method __addField
-   * @param {Object} owner
-   * @param {String} name
-   * @param {Object} value
-   * @returns {Boolean}
-   */
   __addField: {
     value: function (owner, name, value) {
       if (owner) {
@@ -98,6 +62,7 @@ var Enum = Object.create(Object.prototype, {
   }
 
 });
+
 Object.freeze(Enum);
 
 global.$enum = Enum.create;
