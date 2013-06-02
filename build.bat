@@ -4,7 +4,33 @@ set NODE="%ProgramFiles%\nodejs\node.exe"
 set PHANTOMJS="%ProgramFiles%\phantomjs\phantomjs.exe"
 set JAVA="%ProgramFiles(x86)%\Java\jre7\bin\java.exe"
 
-set SOURCES_FILES=.\src\class4js.js .\src\type_exception.js .\src\namespace.js .\src\type_builder.js .\src\type_extension.js .\src\class.js .\src\interface.js .\src\object_factory.js .\src\enum.js .\src\iinterceptor.js .\src\invocation_type.js .\src\invocation.js .\src\proxy.js .\src\module_exception.js .\src\module_configuration.js .\src\configuration.js .\src\module.js
+set SOURCES_FILES=^
+	.\src\Package.js ^
+	.\src\Compatability.js ^
+	.\src\TypeException.js ^
+	.\src\Namespace.js ^ 
+	.\src\TypeBuilder.js ^
+	.\src\TypeExtension.js ^
+	.\src\Class.js ^
+	.\src\Interface.js ^
+	.\src\ObjectFactory.js ^
+	.\src\Enum.js ^
+	.\src\IInterceptor.js ^
+	.\src\InvocationType.js ^
+	.\src\Invocation.js ^
+	.\src\IInterceptor.js ^
+	.\src\Proxy.js ^
+	.\src\ModuleException.js ^
+	.\src\ModuleConfiguration.js ^
+	.\src\Configuration.js ^
+	.\src\Module.js ^
+	.\src\IDisposable.js ^
+	.\src\EventException.js ^
+	.\src\IEventTarget.js ^
+	.\src\IEvent.js ^
+	.\src\Event.js ^
+	.\src\IEventListener.js ^
+	.\src\EventDispatcher.js
 
 if /i "%1"=="all" goto :all
 if /i "%1"=="clean" goto :clean
@@ -47,7 +73,7 @@ echo. >> .\class4js.js
 echo }(typeof global !== 'undefined' ? global : window)); >> .\class4js.js
 echo. >> .\class4js.js
 echo if (typeof module !== 'undefined' ^&^& module !== null) { >> .\class4js.js
-echo   module.exports.class4js = class4js; >> .\class4js.js
+echo   module.exports = class4js; >> .\class4js.js
 echo } >> .\class4js.js
 goto :exit
 
@@ -81,6 +107,10 @@ goto :exit
 %NODE% ./tests/node/module_inline.js
 %NODE% ./tests/node/module_with_arguments.js
 %NODE% ./tests/node/enum.js
+%NODE% ./tests/node/interface_proxy.js
+%NODE% ./tests/node/class_proxy.js
+%NODE% ./tests/node/event.js
+%NODE% ./tests/node/custom_event.js
 goto :exit
 
 :build-browser
@@ -117,6 +147,11 @@ goto :exit
 %PHANTOMJS% ./tests/node/module_inline.js
 %PHANTOMJS% ./tests/node/module_with_arguments.js
 %PHANTOMJS% ./tests/node/enum.js
+%PHANTOMJS% ./tests/node/interface_proxy.js
+%PHANTOMJS% ./tests/node/class_proxy.js
+%PHANTOMJS% ./tests/node/event.js
+%PHANTOMJS% ./tests/node/custom_event.js
 goto :exit
 
 :exit
+goto :eof
