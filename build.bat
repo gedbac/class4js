@@ -4,11 +4,11 @@ set NODE="%ProgramFiles%\nodejs\node.exe"
 set PHANTOMJS="%ProgramFiles%\phantomjs\phantomjs.exe"
 set JAVA="%ProgramFiles(x86)%\Java\jre7\bin\java.exe"
 
-set SOURCES_FILES=^
+set SOURCES_FILES= ^
 	.\src\Package.js ^
 	.\src\Compatability.js ^
 	.\src\TypeException.js ^
-	.\src\Namespace.js ^ 
+	.\src\Namespace.js ^
 	.\src\TypeBuilder.js ^
 	.\src\TypeExtension.js ^
 	.\src\Class.js ^
@@ -81,7 +81,7 @@ goto :exit
 call :clean-node
 call :build
 copy .\class4js.js .\lib\class4js.js
-%NODE% .\build\cat.js %SOURCES_FILES% > .\lib\class4js.js
+%NODE% .\build\cat.js %SOURCES_FILES% >> .\lib\class4js.js
 %NODE% .\build\include_strict_mode.js .\lib\class4js.js
 goto :exit
 
@@ -154,4 +154,4 @@ goto :exit
 goto :exit
 
 :exit
-goto :eof
+goto :EOF
