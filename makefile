@@ -84,7 +84,6 @@ class4js.js: clean
 
 class4js.min.js: class4js.js   
 	$(CC) --type js --nomunge --preserve-semi --disable-optimizations $^ -o $@
-	node ./build/include_strict_mode.js
 
 clean-browser:
 	rm -f class4js.js
