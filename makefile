@@ -66,11 +66,15 @@ test-node:
 build-browser: class4js.min.js
 
 class4js.js: clean
-	echo "var class4js = (function (global) {\n" >> $@
-	echo "var exports = {};\n" >> $@
+	echo "var class4js = (function (global) {" >> $@
+	echo >> $@
+	echo "var exports = {};">> $@
+	echo >> $@
 	node ./build/cat.js $(addprefix src/,$(SOURCES_FILES)) >> $@
 	echo "return exports;" >> $@
-	echo "\n}(typeof global !== 'undefined' ? global : window));\n" >> $@
+	echo >> $@
+	echo "}(typeof global !== 'undefined' ? global : window));" >> $@
+	echo >> $@
 	echo "if (typeof module !== 'undefined' && module !== null) {" >> $@
 	echo "  module.exports = class4js;" >> $@
 	echo "}" >> $@
