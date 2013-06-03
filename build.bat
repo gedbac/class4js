@@ -4,11 +4,11 @@ set NODE="%ProgramFiles%\nodejs\node.exe"
 set PHANTOMJS="%ProgramFiles%\phantomjs\phantomjs.exe"
 set JAVA="%ProgramFiles(x86)%\Java\jre7\bin\java.exe"
 
-set SOURCES_FILES=^
+set SOURCES_FILES= ^
 	.\src\Package.js ^
 	.\src\Compatability.js ^
 	.\src\TypeException.js ^
-	.\src\Namespace.js ^ 
+	.\src\Namespace.js ^
 	.\src\TypeBuilder.js ^
 	.\src\TypeExtension.js ^
 	.\src\Class.js ^
@@ -62,26 +62,26 @@ call :test-phantomjs
 goto :exit
 
 :build
-echo var class4js = (function (global) { >> .\class4js.js
-echo. >> .\class4js.js
-echo var exports = {}; >> .\class4js.js
-echo. >> .\class4js.js
-%NODE% .\build\cat.js %SOURCES_FILES% >> .\class4js.js
-echo. >> .\class4js.js
-echo return exports; >> .\class4js.js
-echo. >> .\class4js.js
-echo }(typeof global !== 'undefined' ? global : window)); >> .\class4js.js
-echo. >> .\class4js.js
-echo if (typeof module !== 'undefined' ^&^& module !== null) { >> .\class4js.js
-echo   module.exports = class4js; >> .\class4js.js
-echo } >> .\class4js.js
+echo var class4js = (function (global) {>> .\class4js.js
+echo.>> .\class4js.js
+echo var exports = {};>> .\class4js.js
+echo.>> .\class4js.js
+%NODE% .\build\cat.js %SOURCES_FILES%>> .\class4js.js
+echo.>> .\class4js.js
+echo return exports;>> .\class4js.js
+echo.>> .\class4js.js
+echo }(typeof global !== 'undefined' ? global : window));>> .\class4js.js
+echo.>> .\class4js.js
+echo if (typeof module !== 'undefined' ^&^& module !== null) {>> .\class4js.js
+echo   module.exports = class4js;>> .\class4js.js
+echo }>> .\class4js.js
 goto :exit
 
 :build-node
 call :clean-node
 call :build
 copy .\class4js.js .\lib\class4js.js
-%NODE% .\build\cat.js %SOURCES_FILES% > .\lib\class4js.js
+%NODE% .\build\cat.js %SOURCES_FILES% >> .\lib\class4js.js
 %NODE% .\build\include_strict_mode.js .\lib\class4js.js
 goto :exit
 
@@ -154,4 +154,4 @@ goto :exit
 goto :exit
 
 :exit
-goto :eof
+goto :EOF
