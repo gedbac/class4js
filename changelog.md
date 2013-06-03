@@ -124,3 +124,7 @@
 ## 2013.06.03, Version 1.10.1
 
 * Bug fix: "Method 'toString' can't be overridden"
+
+## 2013.06.04, Version 1.10.2
+
+* Bug fix: "Event listener for non existing event can be added"

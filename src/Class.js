@@ -221,6 +221,12 @@ var Class = Object.create(Object.prototype, {
         if (!('on' in owner)) {
           Object.defineProperty(owner, 'on', {
             value: function (type, listener) {
+              if (!type) {
+                throw new EventException({ message: "Event's 'type' is not set." });
+              }
+              if (!this.__events__ || !(type in this.__events__)) {
+                throw new EventException({ message: "Event '" + type + "' is not declared." });
+              }
               this.addEventListener(type, listener);
               return this;
             },
