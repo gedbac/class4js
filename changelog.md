@@ -112,7 +112,7 @@
 * Constructor invocation was improved
 * Enum's name checking was updated
 
-## ????.??.??, Version 1.10.0
+## 2013.06.03, Version 1.10.0
 
 * Proxies were introduced
 * Events were introduced
