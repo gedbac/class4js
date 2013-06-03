@@ -2771,7 +2771,9 @@ Object.defineProperties(EventDispatcher, {
 
 });
 
-exports.EventDispatcher = EventDispatcher;return exports;
+exports.EventDispatcher = EventDispatcher;
+
+return exports;
 
 }(typeof global !== 'undefined' ? global : window));
 

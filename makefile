@@ -71,6 +71,8 @@ class4js.js: clean
 	echo "var exports = {};">> $@
 	echo >> $@
 	node ./build/cat.js $(addprefix src/,$(SOURCES_FILES)) >> $@
+	echo >> $@
+	echo >> $@
 	echo "return exports;" >> $@
 	echo >> $@
 	echo "}(typeof global !== 'undefined' ? global : window));" >> $@
