@@ -11,6 +11,9 @@ var Person = $class({
   },
   getName: function () {
     return this.__name;
+  },
+  toString: function () {
+    return '[object Person]';
   }
 });
 

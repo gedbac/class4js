@@ -891,9 +891,6 @@ var Class = Object.create(Object.prototype, {
         TypeBuilder.addMethod(constructor, 'toString', function () {
           return '[object Class]';
         });
-        TypeBuilder.addMethod(constructor.prototype, 'toString', function () {
-          return '[object Class]';
-        });
       }
       if (!constructor.prototype.hasOwnProperty('__fields__')) {
         Object.defineProperty(constructor.prototype, '__fields__', {
@@ -979,6 +976,11 @@ var Class = Object.create(Object.prototype, {
           TypeBuilder.addField(constructor.prototype['__fields__'], name, value);
         }
       });
+      if (!('toString' in constructor.prototype)) {
+        TypeBuilder.addMethod(constructor.prototype, 'toString', function () {
+          return '[object Class]';
+        });
+      }
       Class.includeEvents(constructor.prototype);
       Class.initialize(constructor, constructor);
       Object.seal(constructor);

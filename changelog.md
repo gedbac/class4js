@@ -120,3 +120,7 @@
 * Object intialization with anonymous object was optimized
 * Parameter '$super' invoking was optimized
 * Fields initialization was fixed
+
+## 2013.06.03, Version 1.10.1
+
+* Bug fix: "Method 'toString' can't be overridden"
