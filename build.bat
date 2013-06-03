@@ -62,19 +62,19 @@ call :test-phantomjs
 goto :exit
 
 :build
-echo var class4js = (function (global) { >> .\class4js.js
-echo. >> .\class4js.js
-echo var exports = {}; >> .\class4js.js
-echo. >> .\class4js.js
-%NODE% .\build\cat.js %SOURCES_FILES% >> .\class4js.js
-echo. >> .\class4js.js
-echo return exports; >> .\class4js.js
-echo. >> .\class4js.js
-echo }(typeof global !== 'undefined' ? global : window)); >> .\class4js.js
-echo. >> .\class4js.js
-echo if (typeof module !== 'undefined' ^&^& module !== null) { >> .\class4js.js
-echo   module.exports = class4js; >> .\class4js.js
-echo } >> .\class4js.js
+echo var class4js = (function (global) {>> .\class4js.js
+echo.>> .\class4js.js
+echo var exports = {};>> .\class4js.js
+echo.>> .\class4js.js
+%NODE% .\build\cat.js %SOURCES_FILES%>> .\class4js.js
+echo.>> .\class4js.js
+echo return exports;>> .\class4js.js
+echo.>> .\class4js.js
+echo }(typeof global !== 'undefined' ? global : window));>> .\class4js.js
+echo.>> .\class4js.js
+echo if (typeof module !== 'undefined' ^&^& module !== null) {>> .\class4js.js
+echo   module.exports = class4js;>> .\class4js.js
+echo }>> .\class4js.js
 goto :exit
 
 :build-node
