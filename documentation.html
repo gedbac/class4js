@@ -555,7 +555,7 @@ layer.add({ x: 10, y: 10 });</code></pre>
           </section>
           <p>
             All properties from anonymous object can be copied to existing object. To accomplish 
-            such task keyword <strong>__$init__</strong> is used.      
+            such task keyword <strong>$init</strong> is used.      
           </p>
           <section class="example">
 <pre><code>$init(type:Function, options:Object): Object</code></pre>
@@ -646,6 +646,32 @@ org.myapp.util = (<span class="function">function</span> () {
   <span class="var">var</span> util = {};
   <span class="return">return</span> util;
 }());</code></pre>
+          </section>
+          <p>
+            Namespaces can be used within modules.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/namespace_within_module.js" target="_blank">Plain</a><code><span class="var">var</span> myapp = $module(<span class="function">function</span> () {
+
+  $namespace(<span class="string">'visual.shared'</span>);
+
+  visual.shared.Element = $class({
+    <span class="comment">// Code goes here....</span>
+  });
+});
+
+(<span class="function">function</span> () {
+
+  <span class="comment">// In other scope local variable, which will point to the desired</span>
+  <span class="comment">// class, can be created</span>
+  <span class="var">var</span> Element = myapp.visual.shared.Element;
+
+}());
+
+</code></pre>         
           </section>
           <h4 id="extension">Extension</h4>
           <p>
