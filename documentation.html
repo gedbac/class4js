@@ -553,6 +553,44 @@ console.log($is(shape, IDrawable));</code></pre>
 <span class="var">var</span> layer = <span class="new">new</span> Layer();
 layer.add({ x: 10, y: 10 });</code></pre>
           </section>
+          <p>
+            All properties from anonymous object can be copied to existing object. To accomplish 
+            such task keyword <strong>__$init__</strong> is used.      
+          </p>
+          <section class="example">
+<pre><code>$init(type:Function, options:Object): Object</code></pre>
+          </section>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/init.js" target="_blank">Plain</a><code><span class="var">var</span> Shape = $class({
+  __construct__: <span class="function">function</span> () {
+    <span class="this">this</span>.__x = 0;
+    <span class="this">this</span>.__y = 0;
+  },
+  x: {
+    get: <span class="function">function</span> () {
+      return <span class="this">this</span>.__x;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__x = value;
+    }
+  },
+  y: {
+    get: <span class="function">function</span> () {
+      return <span class="this">this</span>.__y;
+    },
+    set: <span class="function">function</span> (value) {
+      <span class="this">this</span>.__y = value;
+    }
+  }
+});
+
+<span class="var">var</span> shape = <span class="new">new</span> Shape();
+
+$init(shape, { x: 10, y: 10 });</code></pre>
+          </section>
           <h4 id="module">Module</h4>
           <p>
             Modules were included to <strong>class4js</strong> for better compatability with browsers.
@@ -592,7 +630,8 @@ reader.read();</code></pre>
           </section>
           <h4 id="namespace">Namespace</h4>
           <p>
-            Namespaces are declared using the keyword <strong>$namespace</strong>.
+            Namespaces are declared using the keyword <strong>$namespace</strong>. Namespaces help avoid 
+            naming collisions or excessive name prefixing.
           </p>
           <section class="example">
 <pre><code>$namespace(name:String): void</code></pre>
@@ -606,9 +645,7 @@ reader.read();</code></pre>
 org.myapp.util = (<span class="function">function</span> () {
   <span class="var">var</span> util = {};
   <span class="return">return</span> util;
-}());
-    
-console.log(org);</code></pre>
+}());</code></pre>
           </section>
           <h4 id="extension">Extension</h4>
           <p>
