@@ -1,7 +1,8 @@
 'use strict';
 
 $module(function (exports) { 
-  console.log('c starting');
+
+  $namespace('shared');
+
   exports.done = true;
-  console.log('c done');
 });

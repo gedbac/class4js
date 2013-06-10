@@ -194,11 +194,11 @@ var Class = Object.create(Object.prototype, {
             configurable: false
           });          
         }
-        if (!('removeAllEventListener' in owner)) {
-          Object.defineProperty(owner, 'removeAllEventListener', {
+        if (!('removeAllEventListeners' in owner)) {
+          Object.defineProperty(owner, 'removeAllEventListeners', {
             value: function (type) {
               if (this.__eventdispatcher__) {
-                this.__eventdispatcher__.removeAllEventListener(type);
+                this.__eventdispatcher__.removeAllEventListeners(type);
               }
             },
             writable: false,

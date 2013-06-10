@@ -543,6 +543,8 @@ __Example:__
 All properties from anonymous object can be copied to existing object. To 
 accomplish such task keyword __$init__ is used.
 
+    $init(target:Object, options:Object): void
+
 __Example:__
 
     var Shape = $class({
@@ -607,7 +609,8 @@ __Example:__
 
 ### Namespace
 
-Namespaces are declared using the keyword __$namespace__.
+Namespaces are declared using the keyword __$namespace__. Namespaces help avoid 
+naming collisions or excessive name prefixing.
 
     $namespace(name:String): void
 
@@ -619,8 +622,29 @@ __Example:__
       var util = {};
       return util;
     }());
-    
-    console.log(org);
+
+Namespaces can be used within modules.
+
+__Example:__
+
+    var myapp = $module(function () {
+
+    $namespace('visual.shared');
+
+      visual.shared.Element = $class({
+        // Code goes here....
+      });
+
+    });
+
+    (function () {
+
+      // In other scope local variable, which will point to the desired 
+      // class, can be created 
+      
+      var Element = myapp.visual.shared.Element;
+
+    }); 
 
 ### Extension
 

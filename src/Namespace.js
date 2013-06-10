@@ -3,8 +3,11 @@ var Namespace = Object.create(Object.prototype, {
   create: {
     value: function (name) {
       if (name) {
-        var fragments = name.split('.'),
+        var fragments = name.split('.');
             parent = global;
+        if (Module.exports) {
+          parent = Module.exports;
+        }
         for (var i = 0; i < fragments.length; i++) {
           if (!(fragments[i] in parent)) {
             parent[fragments[i]] = {}; 

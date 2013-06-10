@@ -4,7 +4,7 @@ var class4js = (function (global) {
 
 var exports = {};
 
-exports.version = '1.10.0';
+exports.version = '1.10.2';
 
 if (typeof Function.prototype.bind === 'undefined') {
   Function.prototype.bind = function (instance) {
@@ -81,8 +81,11 @@ var Namespace = Object.create(Object.prototype, {
   create: {
     value: function (name) {
       if (name) {
-        var fragments = name.split('.'),
+        var fragments = name.split('.');
             parent = global;
+        if (Module.exports) {
+          parent = Module.exports;
+        }
         for (var i = 0; i < fragments.length; i++) {
           if (!(fragments[i] in parent)) {
             parent[fragments[i]] = {}; 
@@ -772,11 +775,11 @@ var Class = Object.create(Object.prototype, {
             configurable: false
           });          
         }
-        if (!('removeAllEventListener' in owner)) {
-          Object.defineProperty(owner, 'removeAllEventListener', {
+        if (!('removeAllEventListeners' in owner)) {
+          Object.defineProperty(owner, 'removeAllEventListeners', {
             value: function (type) {
               if (this.__eventdispatcher__) {
-                this.__eventdispatcher__.removeAllEventListener(type);
+                this.__eventdispatcher__.removeAllEventListeners(type);
               }
             },
             writable: false,
@@ -799,6 +802,12 @@ var Class = Object.create(Object.prototype, {
         if (!('on' in owner)) {
           Object.defineProperty(owner, 'on', {
             value: function (type, listener) {
+              if (!type) {
+                throw new EventException({ message: "Event's 'type' is not set." });
+              }
+              if (!this.__events__ || !(type in this.__events__)) {
+                throw new EventException({ message: "Event '" + type + "' is not declared." });
+              }
               this.addEventListener(type, listener);
               return this;
             },
@@ -2122,6 +2131,21 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
+  __exports: {
+    value: null,
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
+
+  exports: {
+    get: function () {
+      return Module.__exports;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
   create: {
     value: function (callback, dependencies) {
       if (!Module.__current) {
@@ -2135,7 +2159,9 @@ Object.defineProperties(Module, {
       var onLoaded = function () {
         args.push(definition.value);
         args.push(global);
+        Module.__exports = definition.value;
         callback.apply(null, args);
+        Module.__exports = null;
         definition.isLoaded = true;
         if (Configuration.debug) {
           console.log("Module '" + definition.name + "' was created");
@@ -2710,7 +2736,7 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  removeAllEventListener: {
+  removeAllEventListeners: {
     value: function (type) {
       if (!type) {
         throw new EventException({ message: "Parameter 'type' is not set." });

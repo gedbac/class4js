@@ -125,6 +125,8 @@
 
 * Bug fix: "Method 'toString' can't be overridden"
 
-## 2013.06.04, Version 1.10.2
+## 2013.06.10, Version 1.10.2
 
 * Bug fix: "Event listener for non existing event can be added"
+* Improvement: Namespaces can be used within modules
+* Bug fix: "Method removeAllEventListener was renamed to removeAllEventListeners"

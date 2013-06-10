@@ -62,6 +62,7 @@ test-node:
 	node ./tests/node/class_proxy.js
 	node ./tests/node/event.js
 	node ./tests/node/custom_event.js
+	node ./tests/node/modules/main.js
 
 build-browser: class4js.min.js
 

@@ -64,7 +64,7 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
     configurable: false
   },
 
-  removeAllEventListener: {
+  removeAllEventListeners: {
     value: function (type) {
       if (!type) {
         throw new EventException({ message: "Parameter 'type' is not set." });

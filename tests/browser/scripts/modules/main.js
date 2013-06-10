@@ -21,10 +21,17 @@ $run("Module", function () {
 
   var test = { done: true };
 
-  $module(function (a, b, t) { 
+  $module(function (a, b, t, exports) { 
+
+    $namespace('shared');
+
     $assert(typeof a.done !== 'undefined');
     $assert(typeof b.done !== 'undefined');
     $assert(typeof t.done !== 'undefined');
+
+    $assert(typeof a.shared !== 'undefined');
+    $assert(typeof b.shared !== 'undefined');
+
     $complete('Constant');
   }, ['a', 'b', test]);
 

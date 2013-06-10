@@ -98,6 +98,21 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
+  __exports: {
+    value: null,
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
+
+  exports: {
+    get: function () {
+      return Module.__exports;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
   create: {
     value: function (callback, dependencies) {
       if (!Module.__current) {
@@ -111,7 +126,9 @@ Object.defineProperties(Module, {
       var onLoaded = function () {
         args.push(definition.value);
         args.push(global);
+        Module.__exports = definition.value;
         callback.apply(null, args);
+        Module.__exports = null;
         definition.isLoaded = true;
         if (Configuration.debug) {
           console.log("Module '" + definition.name + "' was created");
