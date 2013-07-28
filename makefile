@@ -63,6 +63,7 @@ test-node:
 	node ./tests/node/event.js
 	node ./tests/node/custom_event.js
 	node ./tests/node/modules/main.js
+	node ./tests/node/namespace_within_module.js
 
 build-browser: class4js.min.js
 

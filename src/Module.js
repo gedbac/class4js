@@ -105,9 +105,24 @@ Object.defineProperties(Module, {
     configurable: false
   },
 
+  __exportsName: {
+    value: null,
+    writable: true,
+    enumerable: false,
+    configurable: false
+  },
+
   exports: {
     get: function () {
       return Module.__exports;
+    },
+    enumerable: true,
+    configurable: false
+  },
+
+  exportsName: {
+    get: function () {
+      return Module.__exportsName;
     },
     enumerable: true,
     configurable: false
@@ -127,8 +142,10 @@ Object.defineProperties(Module, {
         args.push(definition.value);
         args.push(global);
         Module.__exports = definition.value;
+        Module.__exportsName = Module.__getExportsName(callback, dependencies);
         callback.apply(null, args);
         Module.__exports = null;
+        Module.__exportsName = null;
         definition.isLoaded = true;
         if (Configuration.debug) {
           console.log("Module '" + definition.name + "' was created");
@@ -356,6 +373,27 @@ Object.defineProperties(Module, {
   __hasRequire: {
     value: function () {
       return typeof require !== 'undefined';
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
+
+  __getExportsName: {
+    value: function (func, dependencies) {
+      var arguments = TypeBuilder.getArgumentNames(func);
+      if (arguments.length > 0) {
+        var index = 0;
+        if (dependencies && dependencies.length > 0) {
+          index += index + dependencies.length;
+          if (index < arguments.length) {
+            return arguments[index];
+          }
+        } else {
+          return arguments[index];
+        }
+      }
+      return null;
     },
     writable: false,
     enumerable: false,

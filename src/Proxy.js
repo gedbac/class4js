@@ -77,6 +77,9 @@ var Proxy = Object.create(Object.prototype, {
       var constructor = function () {
         Class.includeExtensions(this);
         Class.initialize(this, Object.getPrototypeOf(this), args);
+        if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
+          ObjectFactory.initialize(this, args[0]);
+        }
         Object.seal(this);
       };
       constructor.prototype = Object.create(type.prototype);

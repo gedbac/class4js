@@ -23,7 +23,7 @@ $run("Module", function () {
 
   $module(function (a, b, t, exports) { 
 
-    $namespace('shared');
+    exports.shared = {};
 
     $assert(typeof a.done !== 'undefined');
     $assert(typeof b.done !== 'undefined');

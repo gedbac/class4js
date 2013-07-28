@@ -24,6 +24,7 @@ $run('Fields', function () {
 
   var Person = $class({
     __age: 30,
+    __comment: null,
     __construct__: function (name) {
       this.__name = name;
     },
@@ -38,14 +39,23 @@ $run('Fields', function () {
     },
     setGender: function (gender) {
       this.__gender = gender;
+    },
+    getComment: function () {
+      return this.__comment;
+    },
+    setComment: function (comment) {
+      this.__comment = comment;
     }
   }, Entity);
 
   var person = new Person('John Smith');
+  
+  person.setComment("Person's name is John");
 
   $assert(person.getId() == 0);
   $assert(person.getName() == 'John Smith');
   $assert(person.getAge() == 30);
+  $assert(person.getComment() == "Person's name is John");
 
   person.setId(12);
   person.setAge(32);

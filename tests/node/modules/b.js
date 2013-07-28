@@ -2,7 +2,7 @@
 
 $module(function (c, d, exports) { 
 
-  $namespace('shared');
+  exports.shared = {};
   
   exports.done = true;
 }, ['c', 'd']);

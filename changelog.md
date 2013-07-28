@@ -130,3 +130,9 @@
 * Bug fix: "Event listener for non existing event can be added"
 * Improvement: Namespaces can be used within modules
 * Bug fix: "Method removeAllEventListener was renamed to removeAllEventListeners"
+
+## 2013.07.28, Version 1.10.3
+
+* Bug fix: "Namespace usage within module was fixed"
+* Bug fix: "Class proxy's initialization was fixed"
+* Bug fix: "Now field with 'null' value can be defined"

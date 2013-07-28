@@ -2,7 +2,7 @@
 
 $module(function (exports) { 
   
-  $namespace('shared');
+  exports.sahred = {};
 
   exports.done = true;
 });

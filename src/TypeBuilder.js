@@ -292,7 +292,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isProperty: {
     value: function (value) {
-      return (value['get'] || value['set']);
+      return value && (value['get'] || value['set']);
     },
     writable: false,
     enumerable: true,
