@@ -136,3 +136,5 @@
 * Bug fix: "Namespace usage within module was fixed"
 * Bug fix: "Class proxy's initialization was fixed"
 * Bug fix: "Now field with 'null' value can be defined"
+* Bug fix: Method 'removeAllEventListeners' can be invoked without parameters.
+* Class can be defined within namespace

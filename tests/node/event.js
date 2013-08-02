@@ -19,6 +19,8 @@ btn.on('click', function (e) {
 });
 btn.fire('click');
 
+btn.removeAllEventListeners();
+
 setTimeout(function () {
 
   console.assert(eventRaised);

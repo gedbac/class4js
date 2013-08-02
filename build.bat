@@ -93,6 +93,7 @@ goto :exit
 %NODE% ./tests/node/class_proxy.js
 %NODE% ./tests/node/event.js
 %NODE% ./tests/node/custom_event.js
+%NODE% ./tests/node/namespace_within_class.js
 goto :exit
 
 :build-browser
@@ -146,6 +147,7 @@ goto :exit
 %PHANTOMJS% ./tests/node/class_proxy.js
 %PHANTOMJS% ./tests/node/event.js
 %PHANTOMJS% ./tests/node/custom_event.js
+%PHANTOMJS% ./tests/node/namespace_within_class.js
 goto :exit
 
 :exit

@@ -1,7 +1,6 @@
 var EventException = function (message) {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
-    debugger
     ObjectFactory.initialize(this, arguments[0]);
   } else {
     this.__construct__.call(this, arguments);

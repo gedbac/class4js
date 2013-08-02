@@ -18,4 +18,6 @@ $run('Event', function () {
   });
   btn.fire('click');
 
+  btn.removeAllEventListeners();
+
 });
