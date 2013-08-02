@@ -612,7 +612,7 @@ __Example:__
 Namespaces are declared using the keyword __$namespace__. Namespaces help avoid 
 naming collisions or excessive name prefixing.
 
-    $namespace(name:String): void
+    $namespace(name:String, items:Object): void
 
 __Example:__
 
@@ -635,27 +635,7 @@ __Example:__
         // Code goes here....
       });
 
-      // Alternativlu you can write it in such manner
-      $namespace('myapp.visual.common', {
-
-        Button: $class({
-          // Code goes here....
-        })
-
-      });
-
     });
-
-    (function () {
-
-      'use strict';
-
-      // In other scope local variable, which will point to the desired 
-      // class, can be created 
-
-      var button = myapp.visual.common.Button;
-
-    }());
 
 Also class can be used within namespace.
 
