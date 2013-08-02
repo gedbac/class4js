@@ -4,7 +4,7 @@ var class4js = (function (global) {
 
 var exports = {};
 
-exports.version = '1.10.3';
+exports.version = '1.10.2';
 
 if (typeof Function.prototype.bind === 'undefined') {
   Function.prototype.bind = function (instance) {
