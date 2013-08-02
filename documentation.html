@@ -634,7 +634,7 @@ reader.read();</code></pre>
             naming collisions or excessive name prefixing.
           </p>
           <section class="example">
-<pre><code>$namespace(name:String): void</code></pre>
+<pre><code>$namespace(name:String, items:Object): void</code></pre>
           </section>
           <p>
             <strong>Example:</strong>
@@ -654,23 +654,34 @@ org.myapp.util = (<span class="function">function</span> () {
             <strong>Example:</strong>
           </p>
           <section class="example">
-<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/namespace_within_module.js" target="_blank">Plain</a><code><span class="var">var</span> myapp = $module(<span class="function">function</span> () {
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/namespace_within_module.js" target="_blank">Plain</a><code><span class="var">var</span> myapp = $module(<span class="function">function</span> (myapp) {
 
-  $namespace(<span class="string">'visual.shared'</span>);
+  $namespace(<span class="string">'myapp.visual.common'</span>);
 
-  visual.shared.Element = $class({
+  myapp.visual.common.Button = $class({
     <span class="comment">// Code goes here....</span>
   });
+
 });
+</code></pre>         
+          </section>
+          <p>
+            Also class can be used within namespace.
+          </p>
+          <p>
+            <strong>Example:</strong>
+          </p>
+          <section class="example">
+<pre><a href="https://raw.github.com/gedbac/class4js/master/examples/namespace_within_class.js" target="_blank">Plain</a><code>$namespace(<span class="string">'myapp.visual'</span>, {
+  Shape: $class({
+    __construct__: <span class="function">function</span> () {
 
-(<span class="function">function</span> () {
+    },
+    draw: <span class="function">function</span> () {
 
-  <span class="comment">// In other scope local variable, which will point to the desired</span>
-  <span class="comment">// class, can be created</span>
-  <span class="var">var</span> Element = myapp.visual.shared.Element;
-
-}());
-
+    }
+  })
+});
 </code></pre>         
           </section>
           <h4 id="extension">Extension</h4>
