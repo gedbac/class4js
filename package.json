@@ -1,19 +1,46 @@
-{ 
-  "name" : "class4js",
+{
+  "name": "class4js",
   "description": "The class4js module is for class-driven development in JavaScript. It allows to emulate classes in JavaScript. Module is based on ECMAScript 5 standart and implements open/close principle: 'A module should be open for extension but closed for modifications'",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "homepage": "http://www.class4js.com",
   "author": "Gediminas Backevicius <gediminas.backevicius@gmail.com>",
   "bugs": {
     "url": "https://github.com/gedbac/class4js/issues"
   },
-  "keywords": ["class", "abstract", "interface", "inheritance", "super", "constant", "static", "browser", "prototype", "extensions", "namespace", "phantomjs", "module", "javascript", "enum", "property", "field", "constructor", "static class", "abstract class", "object initializer"], 
+  "keywords": [
+    "class",
+    "abstract",
+    "interface",
+    "inheritance",
+    "super",
+    "constant",
+    "static",
+    "browser",
+    "prototype",
+    "extensions",
+    "namespace",
+    "phantomjs",
+    "module",
+    "javascript",
+    "enum",
+    "property",
+    "field",
+    "constructor",
+    "static class",
+    "abstract class",
+    "object initializer"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/gedbac/class4js.git"
-  },  
+  },
   "main": "./lib/class4js.js",
   "engines": {
     "node": ">=0.8.8"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0"
   }
 }

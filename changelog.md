@@ -138,3 +138,8 @@
 * Bug fix: "Now field with 'null' value can be defined"
 * Bug fix: Method 'removeAllEventListeners' can be invoked without parameters.
 * Class can be defined within namespace
+
+## 2013.08.03, Version 1.10.4
+
+* "Grunt has been integrated"
+* Bug fix: Statement 'use strict' has been fixed.

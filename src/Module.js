@@ -381,16 +381,16 @@ Object.defineProperties(Module, {
 
   __getExportsName: {
     value: function (func, dependencies) {
-      var arguments = TypeBuilder.getArgumentNames(func);
-      if (arguments.length > 0) {
+      var args = TypeBuilder.getArgumentNames(func);
+      if (args.length > 0) {
         var index = 0;
         if (dependencies && dependencies.length > 0) {
           index += index + dependencies.length;
-          if (index < arguments.length) {
-            return arguments[index];
+          if (index < args.length) {
+            return args[index];
           }
         } else {
-          return arguments[index];
+          return args[index];
         }
       }
       return null;

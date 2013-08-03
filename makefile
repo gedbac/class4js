@@ -1,6 +1,5 @@
 CC = java -jar ./build/yuicompressor-2.4.8.jar
-SOURCES_FILES =	Package.js \
-				Compatability.js \
+SOURCES_FILES =	Compatability.js \
 				TypeException.js \
 				Namespace.js \
 				TypeBuilder.js \

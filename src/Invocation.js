@@ -1,8 +1,8 @@
-var Invocation = function (target, name, type, arguments, interceptors) {
+var Invocation = function (target, name, type, args, interceptors) {
   this.__target = target;
   this.__name = name;
   this.__type = type;
-  this.__arguments = arguments;
+  this.__arguments = args;
   this.__returnValue = null;
   this.__interceptors = interceptors;
   this.__context = null;
