@@ -1,4 +1,6 @@
 var os = require('os');
+var compressor = require('yuicompressor');
+var fs = require('fs');
 
 module.exports = function (grunt) {
 
@@ -56,12 +58,42 @@ module.exports = function (grunt) {
         dest: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
         nonull: true
       }
+    },
+    minify: {
+      webBrowser: {
+        src: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
+        dest: './bin/<%= pkg.name %>-<%= pkg.version %>.min.js'
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
-  grunt.registerTask('default', [ 'clean:webBrowser', 'concat:webBrowser' ]);
+  grunt.registerMultiTask('minify', 'Minify JavaScript files with YUI Compressor', function () {
+    var done = this.async();
+    var src = this.data.src;
+    var dest = this.data.dest;
+    compressor.compress(this.data.src, {
+      charset: 'utf8',
+      type: 'js',
+      nomunge: true,
+      'preserve-semi': true,
+      'disable-optimizations': true
+    }, function(error, data, extra) {
+      if (error) {
+        grunt.log.writeln(error);
+        done(false);
+      } else {
+        if (extra) {
+          grunt.log.writeln(extra);
+        }
+        fs.writeFileSync(dest, data);
+        done(true);
+      }
+    });
+  });
+
+  grunt.registerTask('default', [ 'clean:webBrowser', 'concat:webBrowser', 'minify:webBrowser' ]);
 
 };
