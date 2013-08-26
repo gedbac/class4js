@@ -41,4 +41,4 @@ var InvocationType = Object.create(Object.prototype, {
 
 Object.freeze(InvocationType);
 
-exports.InvocationType == InvocationType;
+exports.InvocationType = InvocationType;

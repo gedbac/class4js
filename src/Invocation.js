@@ -23,13 +23,13 @@ Invocation.prototype = Object.create(Object.prototype, {
 
   name: {
     get: function () {
-      return this.__name;   
+      return this.__name;
     },
     set: function (value) {
       this.__name = value;
     },
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   type: {
@@ -105,7 +105,7 @@ Invocation.prototype = Object.create(Object.prototype, {
       this.__interceptors = value;
     },
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   context: {
@@ -127,14 +127,14 @@ Invocation.prototype = Object.create(Object.prototype, {
         if (typeof interceptor === 'function') {
           this.__returnValue = interceptor.call(this.target, this);
         } else {
-          this.__returnValue = interceptor.intercept.call(this.target, this);    
-        } 
+          this.__returnValue = interceptor.intercept.call(this.target, this);
+        }
       }
       return this.__returnValue;
     },
     writable: false,
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   toString: {

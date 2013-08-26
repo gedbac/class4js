@@ -33,7 +33,7 @@ EventException.prototype = Object.create(Object.prototype, {
 
   message: {
     get: function () {
-     return this.__message;
+      return this.__message;
     },
     set: function (value) {
       this.__message = value;
@@ -41,7 +41,7 @@ EventException.prototype = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false
   },
-  
+
   toString: {
     value: function () {
       return this.name + ': ' + this.message;

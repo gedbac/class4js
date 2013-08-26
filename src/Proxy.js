@@ -10,21 +10,21 @@ var Proxy = Object.create(Object.prototype, {
             for (var interceptor in interceptors) {
               if (typeof interceptor !== 'function' && Interface.instanceOf(interceptor, IInterceptor)) {
                 throw new TypeException("Interceptor type is invalid");
-              } 
+              }
             }
           } else {
             throw new TypeException("Interceptor type is invalid");
           }
         } else {
-          throw new TypeException("Interceptor is not set"); 
+          throw new TypeException("Interceptor is not set");
         }
         if (args && !(args instanceof Array)) {
           args = [ args ];
         }
         if (typeof type === 'function') {
-          return Proxy.__createClassProxy(type, interceptors, args);  
+          return Proxy.__createClassProxy(type, interceptors, args);
         } else {
-          return Proxy.__createInterfaceProxy(type, interceptors, args); 
+          return Proxy.__createInterfaceProxy(type, interceptors, args);
         }
       } else {
         throw new TypeException("Type is not set");
@@ -58,7 +58,7 @@ var Proxy = Object.create(Object.prototype, {
           var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
             Proxy.__intercepProperty(constructor.prototype, propertyName, descriptor, interceptors, interceptors);
-          } else if (TypeBuilder.isMethod(descriptor['value'])) {
+          } else if (TypeBuilder.isMethod(descriptor.value)) {
             Proxy.__interceptMethod(constructor.prototype, propertyName, descriptor, interceptors);
           }
         }
@@ -69,7 +69,7 @@ var Proxy = Object.create(Object.prototype, {
     },
     writable: false,
     enumerable: false,
-    configurable: false 
+    configurable: false
   },
 
   __createClassProxy: {
@@ -85,7 +85,7 @@ var Proxy = Object.create(Object.prototype, {
       constructor.prototype = Object.create(type.prototype);
       Proxy.__interceptClassConstructor(type.prototype, constructor.prototype, interceptors);
       for (var propertyName in type.prototype) {
-        Proxy.__intercepClassMember(type.prototype, constructor.prototype, 
+        Proxy.__intercepClassMember(type.prototype, constructor.prototype,
           propertyName, interceptors);
       }
       Object.seal(constructor);
@@ -109,33 +109,33 @@ var Proxy = Object.create(Object.prototype, {
 
   __intercepClassMember: {
     value: function (source, target, propertyName, interceptors) {
-      if (TypeBuilder.isPublic(propertyName)) {  
-        var descriptor = TypeBuilder.getPropertyDescriptor(source, propertyName); 
+      if (TypeBuilder.isPublic(propertyName)) {
+        var descriptor = TypeBuilder.getPropertyDescriptor(source, propertyName);
         if (TypeBuilder.isProperty(descriptor)) {
           var getterInterceptors;
-          if (descriptor['get']) {
+          if (descriptor.get) {
             getterInterceptors = interceptors.slice(0);
             getterInterceptors.push(function (invocation) {
-              return descriptor['get'].call(invocation.target); 
+              return descriptor.get.call(invocation.target);
             });
           }
           var setterInterceptors;
-          if (descriptor['set']) {
+          if (descriptor.set) {
             setterInterceptors = interceptors.slice(0);
             setterInterceptors.push(function (invocation) {
-              descriptor['set'].apply(invocation.target, invocation.arguments);
+              descriptor.set.apply(invocation.target, invocation.arguments);
             });
           }
-          Proxy.__intercepProperty(target, propertyName, descriptor, 
+          Proxy.__intercepProperty(target, propertyName, descriptor,
               getterInterceptors, setterInterceptors);
-        } else if (TypeBuilder.isMethod(descriptor['value'])) {
+        } else if (TypeBuilder.isMethod(descriptor.value)) {
           interceptors = interceptors.slice(0);
           interceptors.push(function (invocation) {
-            return descriptor['value'].apply(invocation.target, invocation.arguments); 
+            return descriptor.value.apply(invocation.target, invocation.arguments);
           });
           Proxy.__interceptMethod(target, propertyName, descriptor, interceptors);
         }
-      } 
+      }
     },
     writable: false,
     enumerable: false,
@@ -145,13 +145,13 @@ var Proxy = Object.create(Object.prototype, {
   __interceptConstructor: {
     value: function (proxy, descriptor, interceptors) {
       var constructor = function () {
-        var invocation = new Invocation(this, '__construct__', InvocationType.CONSTRUCTOR, 
+        var invocation = new Invocation(this, '__construct__', InvocationType.CONSTRUCTOR,
           arguments, interceptors);
         return invocation.procceed();
       };
       if (descriptor) {
         TypeBuilder.addMethod(constructor, 'toString', function () {
-          return descriptor['value'].toString();
+          return descriptor.value.toString();
         });
       }
       TypeBuilder.addConstructor(proxy, '__construct__', constructor);
@@ -164,14 +164,14 @@ var Proxy = Object.create(Object.prototype, {
   __interceptMethod: {
     value: function (proxy, propertyName, descriptor, interceptors) {
       var method = function () {
-        var invocation = new Invocation(this, propertyName, InvocationType.METHOD, 
+        var invocation = new Invocation(this, propertyName, InvocationType.METHOD,
           arguments, interceptors);
         return invocation.procceed();
       };
       TypeBuilder.addMethod(method, 'toString', function () {
-        return descriptor['value'].toString();
+        return descriptor.value.toString();
       });
-      TypeBuilder.addMethod(proxy, propertyName, method); 
+      TypeBuilder.addMethod(proxy, propertyName, method);
     },
     writable: false,
     enumerable: false,
@@ -181,24 +181,24 @@ var Proxy = Object.create(Object.prototype, {
   __intercepProperty: {
     value: function (proxy, propertyName, descriptor, getterInterceptors, setterInterceptors) {
       var getter, setter;
-      if (descriptor['get']) {
+      if (descriptor.get) {
         getter = function () {
-          var getterInvocation = new Invocation(this, propertyName, 
+          var getterInvocation = new Invocation(this, propertyName,
               InvocationType.PROPERTY_GETTER, arguments, getterInterceptors);
           return getterInvocation.procceed();
         };
         TypeBuilder.addMethod(getter, 'toString', function () {
-          return descriptor['get'].toString();
+          return descriptor.get.toString();
         });
-      } 
-      if (descriptor['set']) {
+      }
+      if (descriptor.set) {
         setter = function () {
-          var setterInvocation = new Invocation(this, propertyName, 
+          var setterInvocation = new Invocation(this, propertyName,
               InvocationType.PROPERTY_SETTER, arguments, setterInterceptors);
           setterInvocation.procceed();
         };
         TypeBuilder.addMethod(setter, 'toString', function () {
-          return descriptor['set'].toString();
+          return descriptor.set.toString();
         });
       }
       TypeBuilder.addProperty(proxy, propertyName, getter, setter);

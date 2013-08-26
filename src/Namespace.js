@@ -4,12 +4,12 @@ var Namespace = Object.create(Object.prototype, {
     value: function (name, items) {
       if (name) {
         var fragments = name.split('.'),
-            ns, 
+            ns,
             position = 0;
         if (Module.exports) {
           if (fragments[0] !== Module.exportsName) {
-            throw new TypeException("Module's name is invalid. Expected '" + fragments[0] + "', but found '" 
-              + Module.exportsName + "'.");
+            throw new TypeException("Module's name is invalid. Expected '" + fragments[0] + "', but found '" +
+              Module.exportsName + "'.");
           }
           ns = Module.exports;
           position = 1;
@@ -18,9 +18,9 @@ var Namespace = Object.create(Object.prototype, {
         }
         for (var i = position; i < fragments.length; i++) {
           if (!(fragments[i] in ns)) {
-            ns[fragments[i]] = {}; 
+            ns[fragments[i]] = {};
           }
-          ns = ns[fragments[i]]; 
+          ns = ns[fragments[i]];
         }
         if (items) {
           for (var propertyName in items) {

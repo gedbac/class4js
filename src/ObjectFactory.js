@@ -28,7 +28,7 @@ var ObjectFactory = Object.create(Object.prototype, {
           if (propertyName in target) {
             target[propertyName] = source[propertyName];
           } else {
-            throw new TypeException("Target doesn't contains a property '" + propertyName + "'"); 
+            throw new TypeException("Target doesn't contains a property '" + propertyName + "'");
           }
         }
       }
@@ -44,7 +44,7 @@ var ObjectFactory = Object.create(Object.prototype, {
     configurable: false
   }
 
-}); 
+});
 
 Object.seal(ObjectFactory);
 

@@ -33,7 +33,7 @@
 
 ## 2012.10.09, Version 1.4.0
 
-* Implemented extensions which enables you to add methods to existing types without creating a new derived type 
+* Implemented extensions which enables you to add methods to existing types without creating a new derived type
 
 ## 2012.10.10, Version 1.4.1
 
@@ -50,13 +50,13 @@
 
 ## 2012.10.15, Version 1.4.4
 
-* Object initializer was build-in to the object constructor 
+* Object initializer was build-in to the object constructor
 
 ## 2012.12.08, Version 1.5.0
 
 * Now an interface can extend more than one interface
 * Re-factored type checking
-* Re-factored object factory 
+* Re-factored object factory
 
 ## 2012.12.09, Version 1.6.0
 
@@ -107,7 +107,7 @@
 
 ## 2013.03.20, Version 1.9.2
 
-* Abstract class creation was fixed 
+* Abstract class creation was fixed
 * Parent's class method invocation was refactored. $super keyword was introduced
 * Constructor invocation was improved
 * Enum's name checking was updated
@@ -143,3 +143,4 @@
 
 * "Grunt has been integrated"
 * Bug fix: Statement 'use strict' has been fixed.
+* jshint task has been included

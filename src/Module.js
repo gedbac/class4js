@@ -1,5 +1,5 @@
 var Module = function (name) {
-  this.__name = name; 
+  this.__name = name;
   this.__loaded = false;
   this.__value = {};
   this.__loadedListeners = [];
@@ -49,11 +49,11 @@ Module.prototype = Object.create(Object.prototype, {
       if (!callback || typeof callback !== 'function') {
         throw new ModuleException("Callback is not set or it's type invalid");
       }
-      this.__loadedListeners.push(callback); 
+      this.__loadedListeners.push(callback);
     },
     writable: false,
     enumerable: true,
-    configurable: false  
+    configurable: false
   },
 
   fire: {
@@ -137,7 +137,7 @@ Object.defineProperties(Module, {
       if (Configuration.debug) {
         console.log("Creating module '" + definition.name + "'");
       }
-      var args = [];   
+      var args = [];
       var onLoaded = function () {
         args.push(definition.value);
         args.push(global);
@@ -167,7 +167,7 @@ Object.defineProperties(Module, {
       } else {
         onLoaded();
       }
-      return definition.value; 
+      return definition.value;
     },
     writable: false,
     enumerable: true,
@@ -206,13 +206,13 @@ Object.defineProperties(Module, {
               callback(definition.value);
             }
           } else {
-            throw new ModuleException("Circular reference for module '" + 
-              name + "' was detected"); 
-          }  
+            throw new ModuleException("Circular reference for module '" +
+              name + "' was detected");
+          }
         } else {
           if (Configuration.debug) {
             console.log("Loading module '" + name + "'");
-          } 
+          }
           definition = new Module(name);
           Module.__current = definition;
           Module.__modules.push(definition);
@@ -226,7 +226,7 @@ Object.defineProperties(Module, {
           });
         }
       } else {
-        throw new ModuleException("Module's name is not set");  
+        throw new ModuleException("Module's name is not set");
       }
     },
     writable: false,
@@ -236,7 +236,7 @@ Object.defineProperties(Module, {
 
   isValidModuleName: {
     value: function (name) {
-      return /^(_|[a-z]|[A-Z]|[0-9]|)*$/g.test(name);
+      return new RegExp('^(_|[a-z]|[A-Z]|[0-9]|)*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -255,16 +255,18 @@ Object.defineProperties(Module, {
   __loadMainModule: {
     value: function () {
       if (!Module.__hasRequire()) {
+        var mainScript;
         var scripts = document.getElementsByTagName('script');
+        var onError = function (e) {
+          throw new ModuleException("Failed to load module '" + mainScript + "'");
+        };
         for (var i = 0;i < scripts.length; i++) {
-          var mainScript = scripts[i].getAttribute('data-main');
+          mainScript = scripts[i].getAttribute('data-main');
           if (mainScript) {
             var script = document.createElement('script');
             script.async = true;
-            script.src = mainScript; 
-            script.addEventListener('error', function (e) {
-              throw new ModuleException("Failed to load module '" + mainScript + "'");
-            });
+            script.src = mainScript;
+            script.addEventListener('error', onError);
             scripts[i].parentNode.appendChild(script);
             break;
           }
@@ -280,11 +282,11 @@ Object.defineProperties(Module, {
     value: function (name, callback) {
       if (typeof name === 'string') {
         Module.load(name, function (dependency) {
-          callback(dependency); 
+          callback(dependency);
         });
       } else {
         callback(name);
-      } 
+      }
     },
     writable: false,
     enumerable: false,
@@ -296,11 +298,11 @@ Object.defineProperties(Module, {
       if (name && typeof name === 'string') {
         for (var i = 0; i < Module.__modules.length; i++) {
           if (Module.__modules[i].name === name) {
-            return Module.__modules[i];     
+            return Module.__modules[i];
           }
         }
       }
-      return null; 
+      return null;
     },
     writable: false,
     enumerable: true,
@@ -309,7 +311,7 @@ Object.defineProperties(Module, {
 
   __loadScript: {
     value: function (definition, callback) {
-      var path = Module.__getModulePath(definition.name); 
+      var path = Module.__getModulePath(definition.name);
       if (Module.__hasRequire()) {
         var exported = require(path);
         if (!definition.isLoaded) {
@@ -320,7 +322,7 @@ Object.defineProperties(Module, {
       } else {
         var script = document.createElement('script');
         script.async = true;
-        script.src = path; 
+        script.src = path;
         script.addEventListener('error', function (e) {
           throw new ModuleException("Failed to load module '" + definition.name + "'");
         });
@@ -353,7 +355,7 @@ Object.defineProperties(Module, {
             path = Configuration.modules[i].path;
             if (Module.__hasRequire()) {
               var dir = require('path').dirname(process.mainModule.filename);
-              if (path.substring(0, 2) === './') {  
+              if (path.substring(0, 2) === './') {
                 path = dir + path.substring(1, path.length);
               } else if (path.substring(0, 3) === '../') {
                 path = dir + '/' + path;

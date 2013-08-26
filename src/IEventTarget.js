@@ -7,14 +7,14 @@ var IEventTarget = Object.create(Object.prototype, {
     configurable: false
   },
 
-  removeEventListener: { 
+  removeEventListener: {
     value: function (type, listener) {},
     writable: false,
     enumerable: true,
     configurable: false
   },
 
-  dispatchEvent: { 
+  dispatchEvent: {
     value: function (e) {},
     writable: false,
     enumerable: true,

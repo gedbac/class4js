@@ -37,7 +37,7 @@ Configuration.prototype = Object.create(Object.prototype, {
       if (value) {
         for (var i = 0; i < value.length; i++) {
           this.__modules.push(ObjectFactory.create(ModuleConfiguration, value[i]));
-        } 
+        }
       } else {
         this.__modules = [];
       }
@@ -101,7 +101,7 @@ Object.defineProperties(Configuration, {
 
   configure: {
     value: function (options) {
-      Configuration.__configuration = ObjectFactory.create(Configuration, options); 
+      Configuration.__configuration = ObjectFactory.create(Configuration, options);
     },
     writable: false,
     enumerable: true,

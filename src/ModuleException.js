@@ -16,7 +16,7 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
   message: {
     get: function () {
-     return this.__message;
+      return this.__message;
     },
     enumerable: true,
     configurable: false

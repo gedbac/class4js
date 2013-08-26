@@ -28,7 +28,7 @@ var Enum = Object.create(Object.prototype, {
 
   __isValidName: {
     value: function (name) {
-      return /^([A-Z]|[0-9]|_)*$/g.test(name);
+      return new RegExp('^([A-Z]|[0-9]|_)*$', 'g').test(name);
     },
     writable: false,
     enumerable: false,
@@ -50,11 +50,11 @@ var Enum = Object.create(Object.prototype, {
             throw new TypeException("Field's '" + name + "' value is invalid");
           }
         } else {
-          throw new TypeException("Field's '" + name +"' name is invalid"); 
+          throw new TypeException("Field's '" + name +"' name is invalid");
         }
       } else {
         throw new TypeException("Field's '" + name + "' owner can't be null");
-      }      
+      }
     },
     writable: false,
     enumerable: false,

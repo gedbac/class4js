@@ -19,7 +19,7 @@ TypeException.prototype = Object.create(Object.prototype, {
 
   message: {
     get: function () {
-     return this.__message;
+      return this.__message;
     },
     set: function (value) {
       this.__message = value;

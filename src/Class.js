@@ -13,7 +13,7 @@ var Class = Object.create(Object.prototype, {
         if (typeof parent === 'object' || parent instanceof Array) {
           interfaces = parent;
           parent = null;
-        }  
+        }
       }
       var constructor = function () {
         Class.includeExtensions(this);
@@ -37,7 +37,7 @@ var Class = Object.create(Object.prototype, {
         if (typeof parent === 'object' || parent instanceof Array) {
           interfaces = parent;
           parent = null;
-        }  
+        }
       }
       var constructor = function () {
         throw new TypeException("Abstract class can't be instantiated");
@@ -61,7 +61,7 @@ var Class = Object.create(Object.prototype, {
       Class.includeEvents(constructor.prototype);
       Class.initialize(obj, obj);
       Object.seal(obj);
-      return obj; 
+      return obj;
     },
     writable: false,
     enumerable: true,
@@ -72,7 +72,7 @@ var Class = Object.create(Object.prototype, {
     value: function (target, name, value) {
       if (!target) {
         throw new TypeException("Target is not set");
-      } 
+      }
       if (!name) {
         throw new TypeException("Method name is not set");
       }
@@ -100,18 +100,18 @@ var Class = Object.create(Object.prototype, {
           Class.initialize(instance, parent, args);
         }
         if (prototype.hasOwnProperty('__fields__')) {
-          var properties = Object.getOwnPropertyNames(prototype['__fields__']);
+          var properties = Object.getOwnPropertyNames(prototype.__fields__);
           var descriptor;
           for (var i = 0; i < properties.length; i++) {
             if (properties[i] === '__events__') {
-              var events = Object.getOwnPropertyNames(prototype['__fields__']['__events__']);
-              if (events.length > 0 && !instance['__events__']) {
-                instance['__events__'] = Object.create(null);
+              var events = Object.getOwnPropertyNames(prototype.__fields__.__events__);
+              if (events.length > 0 && !instance.__events__) {
+                instance.__events__ = Object.create(null);
               }
               for (var j = 0; j < events.length; j++) {
-                if (!(events[j] in instance['__events__'])) {
-                  Object.defineProperty(instance['__events__'], events[j], {
-                    value: prototype['__fields__']['__events__'][events[j]],
+                if (!(events[j] in instance.__events__)) {
+                  Object.defineProperty(instance.__events__, events[j], {
+                    value: prototype.__fields__.__events__[events[j]],
                     writable: false,
                     enumerable: false,
                     configurable: false
@@ -121,7 +121,7 @@ var Class = Object.create(Object.prototype, {
                 }
               }
             } else {
-              descriptor = Object.getOwnPropertyDescriptor(prototype['__fields__'], properties[i]);
+              descriptor = Object.getOwnPropertyDescriptor(prototype.__fields__, properties[i]);
               if (!(properties[i] in instance)) {
                 Object.defineProperty(instance, properties[i], descriptor);
               } else {
@@ -131,11 +131,11 @@ var Class = Object.create(Object.prototype, {
           }
         }
         if (prototype.hasOwnProperty('__construct__')) {
-          if (typeof prototype['__construct__'] === 'function') {
+          if (typeof prototype.__construct__ === 'function') {
             if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-              prototype['__construct__'].apply(instance); 
+              prototype.__construct__.apply(instance);
             } else {
-              prototype['__construct__'].apply(instance, args);
+              prototype.__construct__.apply(instance, args);
             }
           } else {
             throw new TypeException("Class member's '__construct__' type is invalid");
@@ -155,7 +155,7 @@ var Class = Object.create(Object.prototype, {
           var extension = Class.__extensions[i];
           if (Interface.instanceOf(instance, extension.target)) {
             if (!(extension.name in instance)) {
-              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+              TypeBuilder.addMethod(instance, extension.name, extension.value);
             }
           }
         }
@@ -180,7 +180,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('removeEventListener' in owner)) {
           Object.defineProperty(owner, 'removeEventListener', {
@@ -192,7 +192,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('removeAllEventListeners' in owner)) {
           Object.defineProperty(owner, 'removeAllEventListeners', {
@@ -204,7 +204,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('dispatchEvent' in owner)) {
           Object.defineProperty(owner, 'dispatchEvent', {
@@ -216,7 +216,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('on' in owner)) {
           Object.defineProperty(owner, 'on', {
@@ -272,7 +272,7 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  __descriptorsAreEqual: { 
+  __descriptorsAreEqual: {
     value: function (property, source, target) {
       var sourceArguments, targetArguments;
       for (var propertyName in target) {
@@ -329,8 +329,8 @@ var Class = Object.create(Object.prototype, {
         });
       }
       if (!parent) {
-        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__wrappers__', null);
-        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__eventdispatcher__', null);
+        TypeBuilder.addSystemField(constructor.prototype.__fields__, '__wrappers__', null);
+        TypeBuilder.addSystemField(constructor.prototype.__fields__, '__eventdispatcher__', null);
       }
       TypeBuilder.forEach(properties, function (name, value) {
         var hasSupper;
@@ -339,7 +339,8 @@ var Class = Object.create(Object.prototype, {
         } else if (TypeBuilder.isMethod(value)) {
           hasSupper = Class.__hasSuper(value);
           if (!parent && hasSupper) {
-            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't have a parent.");
+            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't have " +
+              "a parent.");
           }
           if (parent && Class.__hasSuper(value)) {
             var method = function () {
@@ -359,49 +360,51 @@ var Class = Object.create(Object.prototype, {
             TypeBuilder.addMethod(constructor.prototype, name, value);
           }
         } else if (TypeBuilder.isProperty(value)) {
-          var getter = value['get'];
+          var getter = value.get;
           if (getter) {
             hasSupper = Class.__hasSuper(getter);
             if (!parent && hasSupper) {
-              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't have a parent.");
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't " +
+                "have a parent.");
             }
             if (parent && hasSupper) {
               getter = function () {
-                return value['get'].call(this, Class.__wrap(this, parent.prototype));
+                return value.get.call(this, Class.__wrap(this, parent.prototype));
               };
               TypeBuilder.addMethod(getter, 'toString', function () {
-                return value['get'].toString();
+                return value.get.toString();
               });
             }
           }
-          var setter = value['set'];
+          var setter = value.set;
           if (setter) {
             hasSupper = Class.__hasSuper(setter);
             if (!parent && hasSupper) {
-              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't have a parent.");
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't " +
+                "have a parent.");
             }
             if (parent && hasSupper) {
-              setter = function () {     
+              setter = function () {
                 var args = [ Class.__wrap(this, parent.prototype) ];
                 if (arguments && arguments.length > 0) {
                   args.push(arguments[0]);
                 }
-                value['set'].apply(this, args);
+                value.set.apply(this, args);
               };
               TypeBuilder.addMethod(setter, 'toString', function () {
-                return value['set'].toString();
+                return value.set.toString();
               });
             }
           }
           TypeBuilder.addProperty(constructor.prototype, name, getter, setter);
-        } else if (TypeBuilder.isConstant(name)) { 
+        } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(constructor, name, value);
         } else if (TypeBuilder.isStatic(name)) {
-          TypeBuilder.addStatic(constructor, value); 
+          TypeBuilder.addStatic(constructor, value);
         } else if (TypeBuilder.isEvents(name)) {
-          TypeBuilder.addEvents(constructor.prototype['__fields__'], value);
+          TypeBuilder.addEvents(constructor.prototype.__fields__, value);
         } else {
-          TypeBuilder.addField(constructor.prototype['__fields__'], name, value);
+          TypeBuilder.addField(constructor.prototype.__fields__, name, value);
         }
       });
       if (!('toString' in constructor.prototype)) {
@@ -420,7 +423,7 @@ var Class = Object.create(Object.prototype, {
           }
         } else {
           Class.__instanceOf(constructor.prototype, interfaces);
-        } 
+        }
       }
     },
     writable: false,
@@ -434,31 +437,31 @@ var Class = Object.create(Object.prototype, {
       if (names.length > 0 && names[0] === '$super') {
         return true;
       }
-      return false;  
+      return false;
     },
     writable: false,
     enumerable: false,
-    configurable: false 
+    configurable: false
   },
 
   __wrap: {
     value: function (instance, prototype) {
       if ('__wrappers__' in instance && instance.__wrappers__) {
         for (var i = 0; i < instance.__wrappers__.length; i++) {
-			    if (instance.__wrappers__[i].proto === prototype) {
-				    return instance.__wrappers__[i].wrapper;
-			    }	
-		    }
+          if (instance.__wrappers__[i].proto === prototype) {
+            return instance.__wrappers__[i].wrapper;
+          }
+        }
       }
       var wrapper = Object.create(Object.prototype);
       Class.__buildWrapper(instance, wrapper, prototype);
       Object.seal(wrapper);
       if ('__wrappers__' in instance) {
-		    if (!instance.__wrappers__) {
-			    instance.__wrappers__ = [];
-		    }
-		    instance.__wrappers__.push({ proto: prototype, wrapper: wrapper });
-	    }
+        if (!instance.__wrappers__) {
+          instance.__wrappers__ = [];
+        }
+        instance.__wrappers__.push({ proto: prototype, wrapper: wrapper });
+      }
       return wrapper;
     },
     writable: false,
@@ -471,7 +474,7 @@ var Class = Object.create(Object.prototype, {
       if (prototype && prototype !== Object.prototype) {
         var descriptor;
         var properties = Object.getOwnPropertyNames(prototype);
-        for (var i = 0; i < properties.length; i++) {  
+        for (var i = 0; i < properties.length; i++) {
           if (!TypeBuilder.isValidSystemFieldName(properties[i]) && !(properties[i] in wrapper)) {
             descriptor = Object.getOwnPropertyDescriptor(prototype, properties[i]);
             if (descriptor.value) {
@@ -492,7 +495,7 @@ var Class = Object.create(Object.prototype, {
           }
         }
         Class.__buildWrapper(instance, wrapper, Object.getPrototypeOf(prototype));
-      }   
+      }
     },
     writable: false,
     enumerable: false,

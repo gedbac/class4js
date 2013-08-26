@@ -21,10 +21,10 @@ Event.prototype = Object.create(Object.prototype, {
   },
 
   type: {
-    get: function () { 
+    get: function () {
       return this.__type;
     },
-    set: function (value) { 
+    set: function (value) {
       this.__type = value;
     },
     enumerable: true,
@@ -50,7 +50,7 @@ Event.prototype = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false
   }
-  
+
 });
 
 Object.defineProperties(Event, {

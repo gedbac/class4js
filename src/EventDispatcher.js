@@ -71,9 +71,8 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
           delete this.__listeners[type];
         }
       } else {
-        
-        for (var type in this.__listeners) {
-          this.removeAllEventListeners(type);
+        for (var listener in this.__listeners) {
+          this.removeAllEventListeners(listener);
         }
       }
     },

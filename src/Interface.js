@@ -9,20 +9,20 @@ var Interface = Object.create(Object.prototype, {
       if (parents) {
         if (parents instanceof Array) {
           for (var i = 0; i < parents.length; i++) {
-            Interface.__copyParentMembers(obj, parents[i]); 
+            Interface.__copyParentMembers(obj, parents[i]);
           }
         } else {
           Interface.__copyParentMembers(obj, parents);
-        } 
+        }
       }
       TypeBuilder.forEach(properties, function (name, value) {
         if (!(name in obj)) {
           if (TypeBuilder.isMethod(value)) {
             TypeBuilder.addMethod(obj, name, value);
           } else if (TypeBuilder.isProperty(value)) {
-            TypeBuilder.addProperty(obj, name, value['get'], value['set']);
+            TypeBuilder.addProperty(obj, name, value.get, value.set);
           } else {
-            throw new TypeException("Member '" + name + "' is invalid"); 
+            throw new TypeException("Member '" + name + "' is invalid");
           }
         }
       });
@@ -43,7 +43,7 @@ var Interface = Object.create(Object.prototype, {
               return false;
             }
           }
-        } else if (!(source instanceof target)) {            
+        } else if (!(source instanceof target)) {
           return false;
         }
         return true;
@@ -65,13 +65,13 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  __copyParentMembers: { 
+  __copyParentMembers: {
     value: function (target, source) {
       if (source) {
         for (var propertyName in source) {
           if (!(propertyName in target)) {
-            var property = Object.getOwnPropertyDescriptor(source, propertyName); 
-            if (property['value'] && TypeBuilder.isMethod(property['value'])) {
+            var property = Object.getOwnPropertyDescriptor(source, propertyName);
+            if (property.value && TypeBuilder.isMethod(property.value)) {
               TypeBuilder.addMethod(target, propertyName, property.value);
             } else if (TypeBuilder.isProperty(property)) {
               TypeBuilder.addProperty(target, propertyName, property.get, property.set);
