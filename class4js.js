@@ -4,8 +4,6 @@ var class4js = (function (global) {
 
 var exports = {};
 
-exports.version = '1.10.2';
-
 if (typeof Function.prototype.bind === 'undefined') {
   Function.prototype.bind = function (instance) {
     var fn = this,
@@ -38,7 +36,7 @@ TypeException.prototype = Object.create(Object.prototype, {
 
   message: {
     get: function () {
-     return this.__message;
+      return this.__message;
     },
     set: function (value) {
       this.__message = value;
@@ -82,12 +80,12 @@ var Namespace = Object.create(Object.prototype, {
     value: function (name, items) {
       if (name) {
         var fragments = name.split('.'),
-            ns, 
+            ns,
             position = 0;
         if (Module.exports) {
           if (fragments[0] !== Module.exportsName) {
-            throw new TypeException("Module's name is invalid. Expected '" + fragments[0] + "', but found '" 
-              + Module.exportsName + "'.");
+            throw new TypeException("Module's name is invalid. Expected '" + fragments[0] + "', but found '" +
+              Module.exportsName + "'.");
           }
           ns = Module.exports;
           position = 1;
@@ -96,9 +94,9 @@ var Namespace = Object.create(Object.prototype, {
         }
         for (var i = position; i < fragments.length; i++) {
           if (!(fragments[i] in ns)) {
-            ns[fragments[i]] = {}; 
+            ns[fragments[i]] = {};
           }
-          ns = ns[fragments[i]]; 
+          ns = ns[fragments[i]];
         }
         if (items) {
           for (var propertyName in items) {
@@ -135,7 +133,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isPrivate: {
     value: function (name) {
-      return /^__([A-Z]|[a-z]|[0-9])*$/g.test(name); 
+      return new RegExp('^__([A-Z]|[a-z]|[0-9])*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -144,7 +142,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isProtected: {
     value: function (name) {
-      return /^_([A-Z]|[a-z]|[0-9])*$/g.test(name);
+      return new RegExp('^_([A-Z]|[a-z]|[0-9])*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -162,7 +160,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isValidTypeName: {
     value: function (name) {
-      return /^[A-Z]([A-Z]|[a-z]|[0-9])*$/g.test(name);
+      return new RegExp('^[A-Z]([A-Z]|[a-z]|[0-9])*$','g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -180,7 +178,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isValidName: {
     value: function (name) {
-      return /^(_|__|[a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
+      return new RegExp('^(_|__|[a-z])([a-z]|[A-Z]|[0-9])*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -189,16 +187,16 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isValidConstantName: {
     value: function (name) {
-      return /^([A-Z]|[0-9]|_)*$/g.test(name);
+      return new RegExp('^([A-Z]|[0-9]|_)*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   isValidEventName: {
     value: function (name) {
-      return /^([a-z])([a-z]|[A-Z]|[0-9])*$/g.test(name);
+      return new RegExp('^([a-z])([a-z]|[A-Z]|[0-9])*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -207,7 +205,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isValidSystemFieldName: {
     value: function (name) {
-      return /^__([a-z]|[A-Z]|[0-9])*__$/g.test(name);
+      return new RegExp('^__([a-z]|[A-Z]|[0-9])*__$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -256,7 +254,7 @@ var TypeBuilder = Object.create(Object.prototype, {
             configurable: false
           });
         } else {
-          throw new TypeException("Field's '" + name + "' name is invalid"); 
+          throw new TypeException("Field's '" + name + "' name is invalid");
         }
       } else {
         throw new TypeException("Field's '" + name + "' owner can't be null");
@@ -278,7 +276,7 @@ var TypeBuilder = Object.create(Object.prototype, {
             configurable: false
           });
         } else {
-          throw new TypeException("System field's '" + name + "' name is invalid"); 
+          throw new TypeException("System field's '" + name + "' name is invalid");
         }
       } else {
         throw new TypeException("System field's '" + name + "' owner can't be null");
@@ -341,7 +339,7 @@ var TypeBuilder = Object.create(Object.prototype, {
             get: function () { return value; },
             enumerable: TypeBuilder.isPublic(name),
             configurable: false
-          }); 
+          });
         } else {
           throw new TypeException("Constant's name is invalid: '" + name + "'");
         }
@@ -362,7 +360,7 @@ var TypeBuilder = Object.create(Object.prototype, {
         } else if (TypeBuilder.isMethod(value)) {
           TypeBuilder.addMethod(owner, name, value);
         } else if (TypeBuilder.isProperty(value)) {
-          TypeBuilder.addProperty(owner, name, value['get'], value['set']);
+          TypeBuilder.addProperty(owner, name, value.get, value.set);
         } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(owner, name, value);
         } else {
@@ -380,10 +378,10 @@ var TypeBuilder = Object.create(Object.prototype, {
       if (owner) {
         TypeBuilder.forEach(properties, function (name, value) {
           if (TypeBuilder.isValidEventName(name)) {
-            if (typeof owner['__events__'] === 'undefined') {
-              owner['__events__']= Object.create(null);
+            if (typeof owner.__events__ === 'undefined') {
+              owner.__events__= Object.create(null);
             }
-            Object.defineProperty(owner['__events__'], name, {
+            Object.defineProperty(owner.__events__, name, {
               value: value,
               writable: false,
               enumerable: true,
@@ -393,8 +391,8 @@ var TypeBuilder = Object.create(Object.prototype, {
             throw new TypeException("Event's name is invalid");
           }
         });
-        if (typeof owner['__events__'] !== 'undefined') {
-          Object.freeze(owner['__events__']);
+        if (typeof owner.__events__ !== 'undefined') {
+          Object.freeze(owner.__events__);
         }
       } else {
         throw new TypeException("Event's owner is not set");
@@ -416,7 +414,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isMethod: {
     value: function (value) {
-      return typeof value === 'function'; 
+      return typeof value === 'function';
     },
     writable: false,
     enumerable: true,
@@ -425,7 +423,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isProperty: {
     value: function (value) {
-      return value && (value['get'] || value['set']);
+      return value && (value.get || value.set);
     },
     writable: false,
     enumerable: true,
@@ -434,11 +432,11 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isConstant: {
     value: function (name) {
-      return /^([A-Z]|[0-9]|_)*$/g.test(name);
+      return new RegExp('^([A-Z]|[0-9]|_)*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   isStatic: {
@@ -447,7 +445,7 @@ var TypeBuilder = Object.create(Object.prototype, {
     },
     writable: false,
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   isEvents: {
@@ -461,9 +459,8 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   isField: {
     value: function (name, value) {
-      return !TypeBuilder.isConstructor(name) && !TypeBuilder.isMethod(value) 
-        && !TypeBuilder.isProperty(value) && !TypeBuilder.isConstant(name) 
-        && !TypeBuilder.isStatic(name);
+      return !TypeBuilder.isConstructor(name) && !TypeBuilder.isMethod(value) &&
+        !TypeBuilder.isProperty(value) && !TypeBuilder.isConstant(name) && !TypeBuilder.isStatic(name);
     },
     writable: false,
     enumerable: true,
@@ -477,7 +474,7 @@ var TypeBuilder = Object.create(Object.prototype, {
           var names = Object.keys(properties);
           for (var i = 0; i < names.length; i++) {
             callback(names[i], properties[names[i]]);
-          } 
+          }
         } else {
           throw new TypeException("Callback is not function");
         }
@@ -509,7 +506,7 @@ var TypeBuilder = Object.create(Object.prototype, {
   getPropertyDescriptor: {
     value: function (object, propertyName) {
       if (object && propertyName) {
-        var descriptor = Object.getOwnPropertyDescriptor(object, propertyName); 
+        var descriptor = Object.getOwnPropertyDescriptor(object, propertyName);
         if (!descriptor) {
           return TypeBuilder.getPropertyDescriptor(Object.getPrototypeOf(object), propertyName);
         }
@@ -607,7 +604,7 @@ var Class = Object.create(Object.prototype, {
         if (typeof parent === 'object' || parent instanceof Array) {
           interfaces = parent;
           parent = null;
-        }  
+        }
       }
       var constructor = function () {
         Class.includeExtensions(this);
@@ -631,7 +628,7 @@ var Class = Object.create(Object.prototype, {
         if (typeof parent === 'object' || parent instanceof Array) {
           interfaces = parent;
           parent = null;
-        }  
+        }
       }
       var constructor = function () {
         throw new TypeException("Abstract class can't be instantiated");
@@ -655,7 +652,7 @@ var Class = Object.create(Object.prototype, {
       Class.includeEvents(constructor.prototype);
       Class.initialize(obj, obj);
       Object.seal(obj);
-      return obj; 
+      return obj;
     },
     writable: false,
     enumerable: true,
@@ -666,7 +663,7 @@ var Class = Object.create(Object.prototype, {
     value: function (target, name, value) {
       if (!target) {
         throw new TypeException("Target is not set");
-      } 
+      }
       if (!name) {
         throw new TypeException("Method name is not set");
       }
@@ -694,18 +691,18 @@ var Class = Object.create(Object.prototype, {
           Class.initialize(instance, parent, args);
         }
         if (prototype.hasOwnProperty('__fields__')) {
-          var properties = Object.getOwnPropertyNames(prototype['__fields__']);
+          var properties = Object.getOwnPropertyNames(prototype.__fields__);
           var descriptor;
           for (var i = 0; i < properties.length; i++) {
             if (properties[i] === '__events__') {
-              var events = Object.getOwnPropertyNames(prototype['__fields__']['__events__']);
-              if (events.length > 0 && !instance['__events__']) {
-                instance['__events__'] = Object.create(null);
+              var events = Object.getOwnPropertyNames(prototype.__fields__.__events__);
+              if (events.length > 0 && !instance.__events__) {
+                instance.__events__ = Object.create(null);
               }
               for (var j = 0; j < events.length; j++) {
-                if (!(events[j] in instance['__events__'])) {
-                  Object.defineProperty(instance['__events__'], events[j], {
-                    value: prototype['__fields__']['__events__'][events[j]],
+                if (!(events[j] in instance.__events__)) {
+                  Object.defineProperty(instance.__events__, events[j], {
+                    value: prototype.__fields__.__events__[events[j]],
                     writable: false,
                     enumerable: false,
                     configurable: false
@@ -715,7 +712,7 @@ var Class = Object.create(Object.prototype, {
                 }
               }
             } else {
-              descriptor = Object.getOwnPropertyDescriptor(prototype['__fields__'], properties[i]);
+              descriptor = Object.getOwnPropertyDescriptor(prototype.__fields__, properties[i]);
               if (!(properties[i] in instance)) {
                 Object.defineProperty(instance, properties[i], descriptor);
               } else {
@@ -725,11 +722,11 @@ var Class = Object.create(Object.prototype, {
           }
         }
         if (prototype.hasOwnProperty('__construct__')) {
-          if (typeof prototype['__construct__'] === 'function') {
+          if (typeof prototype.__construct__ === 'function') {
             if (args && args.length == 1 && TypeBuilder.isObjectInitializer(args[0])) {
-              prototype['__construct__'].apply(instance); 
+              prototype.__construct__.apply(instance);
             } else {
-              prototype['__construct__'].apply(instance, args);
+              prototype.__construct__.apply(instance, args);
             }
           } else {
             throw new TypeException("Class member's '__construct__' type is invalid");
@@ -749,7 +746,7 @@ var Class = Object.create(Object.prototype, {
           var extension = Class.__extensions[i];
           if (Interface.instanceOf(instance, extension.target)) {
             if (!(extension.name in instance)) {
-              TypeBuilder.addMethod(instance, extension.name, extension.value); 
+              TypeBuilder.addMethod(instance, extension.name, extension.value);
             }
           }
         }
@@ -774,7 +771,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('removeEventListener' in owner)) {
           Object.defineProperty(owner, 'removeEventListener', {
@@ -786,7 +783,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('removeAllEventListeners' in owner)) {
           Object.defineProperty(owner, 'removeAllEventListeners', {
@@ -798,7 +795,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('dispatchEvent' in owner)) {
           Object.defineProperty(owner, 'dispatchEvent', {
@@ -810,7 +807,7 @@ var Class = Object.create(Object.prototype, {
             writable: false,
             enumerable: true,
             configurable: false
-          });          
+          });
         }
         if (!('on' in owner)) {
           Object.defineProperty(owner, 'on', {
@@ -866,7 +863,7 @@ var Class = Object.create(Object.prototype, {
     configurable: false
   },
 
-  __descriptorsAreEqual: { 
+  __descriptorsAreEqual: {
     value: function (property, source, target) {
       var sourceArguments, targetArguments;
       for (var propertyName in target) {
@@ -923,8 +920,8 @@ var Class = Object.create(Object.prototype, {
         });
       }
       if (!parent) {
-        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__wrappers__', null);
-        TypeBuilder.addSystemField(constructor.prototype['__fields__'], '__eventdispatcher__', null);
+        TypeBuilder.addSystemField(constructor.prototype.__fields__, '__wrappers__', null);
+        TypeBuilder.addSystemField(constructor.prototype.__fields__, '__eventdispatcher__', null);
       }
       TypeBuilder.forEach(properties, function (name, value) {
         var hasSupper;
@@ -933,7 +930,8 @@ var Class = Object.create(Object.prototype, {
         } else if (TypeBuilder.isMethod(value)) {
           hasSupper = Class.__hasSuper(value);
           if (!parent && hasSupper) {
-            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't have a parent.");
+            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't have " +
+              "a parent.");
           }
           if (parent && Class.__hasSuper(value)) {
             var method = function () {
@@ -953,49 +951,51 @@ var Class = Object.create(Object.prototype, {
             TypeBuilder.addMethod(constructor.prototype, name, value);
           }
         } else if (TypeBuilder.isProperty(value)) {
-          var getter = value['get'];
+          var getter = value.get;
           if (getter) {
             hasSupper = Class.__hasSuper(getter);
             if (!parent && hasSupper) {
-              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't have a parent.");
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't " +
+                "have a parent.");
             }
             if (parent && hasSupper) {
               getter = function () {
-                return value['get'].call(this, Class.__wrap(this, parent.prototype));
+                return value.get.call(this, Class.__wrap(this, parent.prototype));
               };
               TypeBuilder.addMethod(getter, 'toString', function () {
-                return value['get'].toString();
+                return value.get.toString();
               });
             }
           }
-          var setter = value['set'];
+          var setter = value.set;
           if (setter) {
             hasSupper = Class.__hasSuper(setter);
             if (!parent && hasSupper) {
-              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't have a parent.");
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't " +
+                "have a parent.");
             }
             if (parent && hasSupper) {
-              setter = function () {     
+              setter = function () {
                 var args = [ Class.__wrap(this, parent.prototype) ];
                 if (arguments && arguments.length > 0) {
                   args.push(arguments[0]);
                 }
-                value['set'].apply(this, args);
+                value.set.apply(this, args);
               };
               TypeBuilder.addMethod(setter, 'toString', function () {
-                return value['set'].toString();
+                return value.set.toString();
               });
             }
           }
           TypeBuilder.addProperty(constructor.prototype, name, getter, setter);
-        } else if (TypeBuilder.isConstant(name)) { 
+        } else if (TypeBuilder.isConstant(name)) {
           TypeBuilder.addConstant(constructor, name, value);
         } else if (TypeBuilder.isStatic(name)) {
-          TypeBuilder.addStatic(constructor, value); 
+          TypeBuilder.addStatic(constructor, value);
         } else if (TypeBuilder.isEvents(name)) {
-          TypeBuilder.addEvents(constructor.prototype['__fields__'], value);
+          TypeBuilder.addEvents(constructor.prototype.__fields__, value);
         } else {
-          TypeBuilder.addField(constructor.prototype['__fields__'], name, value);
+          TypeBuilder.addField(constructor.prototype.__fields__, name, value);
         }
       });
       if (!('toString' in constructor.prototype)) {
@@ -1014,7 +1014,7 @@ var Class = Object.create(Object.prototype, {
           }
         } else {
           Class.__instanceOf(constructor.prototype, interfaces);
-        } 
+        }
       }
     },
     writable: false,
@@ -1028,31 +1028,31 @@ var Class = Object.create(Object.prototype, {
       if (names.length > 0 && names[0] === '$super') {
         return true;
       }
-      return false;  
+      return false;
     },
     writable: false,
     enumerable: false,
-    configurable: false 
+    configurable: false
   },
 
   __wrap: {
     value: function (instance, prototype) {
       if ('__wrappers__' in instance && instance.__wrappers__) {
         for (var i = 0; i < instance.__wrappers__.length; i++) {
-			    if (instance.__wrappers__[i].proto === prototype) {
-				    return instance.__wrappers__[i].wrapper;
-			    }	
-		    }
+          if (instance.__wrappers__[i].proto === prototype) {
+            return instance.__wrappers__[i].wrapper;
+          }
+        }
       }
       var wrapper = Object.create(Object.prototype);
       Class.__buildWrapper(instance, wrapper, prototype);
       Object.seal(wrapper);
       if ('__wrappers__' in instance) {
-		    if (!instance.__wrappers__) {
-			    instance.__wrappers__ = [];
-		    }
-		    instance.__wrappers__.push({ proto: prototype, wrapper: wrapper });
-	    }
+        if (!instance.__wrappers__) {
+          instance.__wrappers__ = [];
+        }
+        instance.__wrappers__.push({ proto: prototype, wrapper: wrapper });
+      }
       return wrapper;
     },
     writable: false,
@@ -1065,7 +1065,7 @@ var Class = Object.create(Object.prototype, {
       if (prototype && prototype !== Object.prototype) {
         var descriptor;
         var properties = Object.getOwnPropertyNames(prototype);
-        for (var i = 0; i < properties.length; i++) {  
+        for (var i = 0; i < properties.length; i++) {
           if (!TypeBuilder.isValidSystemFieldName(properties[i]) && !(properties[i] in wrapper)) {
             descriptor = Object.getOwnPropertyDescriptor(prototype, properties[i]);
             if (descriptor.value) {
@@ -1086,7 +1086,7 @@ var Class = Object.create(Object.prototype, {
           }
         }
         Class.__buildWrapper(instance, wrapper, Object.getPrototypeOf(prototype));
-      }   
+      }
     },
     writable: false,
     enumerable: false,
@@ -1115,20 +1115,20 @@ var Interface = Object.create(Object.prototype, {
       if (parents) {
         if (parents instanceof Array) {
           for (var i = 0; i < parents.length; i++) {
-            Interface.__copyParentMembers(obj, parents[i]); 
+            Interface.__copyParentMembers(obj, parents[i]);
           }
         } else {
           Interface.__copyParentMembers(obj, parents);
-        } 
+        }
       }
       TypeBuilder.forEach(properties, function (name, value) {
         if (!(name in obj)) {
           if (TypeBuilder.isMethod(value)) {
             TypeBuilder.addMethod(obj, name, value);
           } else if (TypeBuilder.isProperty(value)) {
-            TypeBuilder.addProperty(obj, name, value['get'], value['set']);
+            TypeBuilder.addProperty(obj, name, value.get, value.set);
           } else {
-            throw new TypeException("Member '" + name + "' is invalid"); 
+            throw new TypeException("Member '" + name + "' is invalid");
           }
         }
       });
@@ -1149,7 +1149,7 @@ var Interface = Object.create(Object.prototype, {
               return false;
             }
           }
-        } else if (!(source instanceof target)) {            
+        } else if (!(source instanceof target)) {
           return false;
         }
         return true;
@@ -1171,13 +1171,13 @@ var Interface = Object.create(Object.prototype, {
     configurable: false
   },
 
-  __copyParentMembers: { 
+  __copyParentMembers: {
     value: function (target, source) {
       if (source) {
         for (var propertyName in source) {
           if (!(propertyName in target)) {
-            var property = Object.getOwnPropertyDescriptor(source, propertyName); 
-            if (property['value'] && TypeBuilder.isMethod(property['value'])) {
+            var property = Object.getOwnPropertyDescriptor(source, propertyName);
+            if (property.value && TypeBuilder.isMethod(property.value)) {
               TypeBuilder.addMethod(target, propertyName, property.value);
             } else if (TypeBuilder.isProperty(property)) {
               TypeBuilder.addProperty(target, propertyName, property.get, property.set);
@@ -1232,7 +1232,7 @@ var ObjectFactory = Object.create(Object.prototype, {
           if (propertyName in target) {
             target[propertyName] = source[propertyName];
           } else {
-            throw new TypeException("Target doesn't contains a property '" + propertyName + "'"); 
+            throw new TypeException("Target doesn't contains a property '" + propertyName + "'");
           }
         }
       }
@@ -1248,7 +1248,7 @@ var ObjectFactory = Object.create(Object.prototype, {
     configurable: false
   }
 
-}); 
+});
 
 Object.seal(ObjectFactory);
 
@@ -1287,7 +1287,7 @@ var Enum = Object.create(Object.prototype, {
 
   __isValidName: {
     value: function (name) {
-      return /^([A-Z]|[0-9]|_)*$/g.test(name);
+      return new RegExp('^([A-Z]|[0-9]|_)*$', 'g').test(name);
     },
     writable: false,
     enumerable: false,
@@ -1309,11 +1309,11 @@ var Enum = Object.create(Object.prototype, {
             throw new TypeException("Field's '" + name + "' value is invalid");
           }
         } else {
-          throw new TypeException("Field's '" + name +"' name is invalid"); 
+          throw new TypeException("Field's '" + name +"' name is invalid");
         }
       } else {
         throw new TypeException("Field's '" + name + "' owner can't be null");
-      }      
+      }
     },
     writable: false,
     enumerable: false,
@@ -1395,13 +1395,13 @@ var InvocationType = Object.create(Object.prototype, {
 
 Object.freeze(InvocationType);
 
-exports.InvocationType == InvocationType;
+exports.InvocationType = InvocationType;
 
-var Invocation = function (target, name, type, arguments, interceptors) {
+var Invocation = function (target, name, type, args, interceptors) {
   this.__target = target;
   this.__name = name;
   this.__type = type;
-  this.__arguments = arguments;
+  this.__arguments = args;
   this.__returnValue = null;
   this.__interceptors = interceptors;
   this.__context = null;
@@ -1422,13 +1422,13 @@ Invocation.prototype = Object.create(Object.prototype, {
 
   name: {
     get: function () {
-      return this.__name;   
+      return this.__name;
     },
     set: function (value) {
       this.__name = value;
     },
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   type: {
@@ -1504,7 +1504,7 @@ Invocation.prototype = Object.create(Object.prototype, {
       this.__interceptors = value;
     },
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   context: {
@@ -1526,14 +1526,14 @@ Invocation.prototype = Object.create(Object.prototype, {
         if (typeof interceptor === 'function') {
           this.__returnValue = interceptor.call(this.target, this);
         } else {
-          this.__returnValue = interceptor.intercept.call(this.target, this);    
-        } 
+          this.__returnValue = interceptor.intercept.call(this.target, this);
+        }
       }
       return this.__returnValue;
     },
     writable: false,
     enumerable: true,
-    configurable: false 
+    configurable: false
   },
 
   toString: {
@@ -1601,21 +1601,21 @@ var Proxy = Object.create(Object.prototype, {
             for (var interceptor in interceptors) {
               if (typeof interceptor !== 'function' && Interface.instanceOf(interceptor, IInterceptor)) {
                 throw new TypeException("Interceptor type is invalid");
-              } 
+              }
             }
           } else {
             throw new TypeException("Interceptor type is invalid");
           }
         } else {
-          throw new TypeException("Interceptor is not set"); 
+          throw new TypeException("Interceptor is not set");
         }
         if (args && !(args instanceof Array)) {
           args = [ args ];
         }
         if (typeof type === 'function') {
-          return Proxy.__createClassProxy(type, interceptors, args);  
+          return Proxy.__createClassProxy(type, interceptors, args);
         } else {
-          return Proxy.__createInterfaceProxy(type, interceptors, args); 
+          return Proxy.__createInterfaceProxy(type, interceptors, args);
         }
       } else {
         throw new TypeException("Type is not set");
@@ -1649,7 +1649,7 @@ var Proxy = Object.create(Object.prototype, {
           var descriptor = TypeBuilder.getPropertyDescriptor(type, propertyName);
           if (TypeBuilder.isProperty(descriptor)) {
             Proxy.__intercepProperty(constructor.prototype, propertyName, descriptor, interceptors, interceptors);
-          } else if (TypeBuilder.isMethod(descriptor['value'])) {
+          } else if (TypeBuilder.isMethod(descriptor.value)) {
             Proxy.__interceptMethod(constructor.prototype, propertyName, descriptor, interceptors);
           }
         }
@@ -1660,7 +1660,7 @@ var Proxy = Object.create(Object.prototype, {
     },
     writable: false,
     enumerable: false,
-    configurable: false 
+    configurable: false
   },
 
   __createClassProxy: {
@@ -1676,7 +1676,7 @@ var Proxy = Object.create(Object.prototype, {
       constructor.prototype = Object.create(type.prototype);
       Proxy.__interceptClassConstructor(type.prototype, constructor.prototype, interceptors);
       for (var propertyName in type.prototype) {
-        Proxy.__intercepClassMember(type.prototype, constructor.prototype, 
+        Proxy.__intercepClassMember(type.prototype, constructor.prototype,
           propertyName, interceptors);
       }
       Object.seal(constructor);
@@ -1700,33 +1700,33 @@ var Proxy = Object.create(Object.prototype, {
 
   __intercepClassMember: {
     value: function (source, target, propertyName, interceptors) {
-      if (TypeBuilder.isPublic(propertyName)) {  
-        var descriptor = TypeBuilder.getPropertyDescriptor(source, propertyName); 
+      if (TypeBuilder.isPublic(propertyName)) {
+        var descriptor = TypeBuilder.getPropertyDescriptor(source, propertyName);
         if (TypeBuilder.isProperty(descriptor)) {
           var getterInterceptors;
-          if (descriptor['get']) {
+          if (descriptor.get) {
             getterInterceptors = interceptors.slice(0);
             getterInterceptors.push(function (invocation) {
-              return descriptor['get'].call(invocation.target); 
+              return descriptor.get.call(invocation.target);
             });
           }
           var setterInterceptors;
-          if (descriptor['set']) {
+          if (descriptor.set) {
             setterInterceptors = interceptors.slice(0);
             setterInterceptors.push(function (invocation) {
-              descriptor['set'].apply(invocation.target, invocation.arguments);
+              descriptor.set.apply(invocation.target, invocation.arguments);
             });
           }
-          Proxy.__intercepProperty(target, propertyName, descriptor, 
+          Proxy.__intercepProperty(target, propertyName, descriptor,
               getterInterceptors, setterInterceptors);
-        } else if (TypeBuilder.isMethod(descriptor['value'])) {
+        } else if (TypeBuilder.isMethod(descriptor.value)) {
           interceptors = interceptors.slice(0);
           interceptors.push(function (invocation) {
-            return descriptor['value'].apply(invocation.target, invocation.arguments); 
+            return descriptor.value.apply(invocation.target, invocation.arguments);
           });
           Proxy.__interceptMethod(target, propertyName, descriptor, interceptors);
         }
-      } 
+      }
     },
     writable: false,
     enumerable: false,
@@ -1736,13 +1736,13 @@ var Proxy = Object.create(Object.prototype, {
   __interceptConstructor: {
     value: function (proxy, descriptor, interceptors) {
       var constructor = function () {
-        var invocation = new Invocation(this, '__construct__', InvocationType.CONSTRUCTOR, 
+        var invocation = new Invocation(this, '__construct__', InvocationType.CONSTRUCTOR,
           arguments, interceptors);
         return invocation.procceed();
       };
       if (descriptor) {
         TypeBuilder.addMethod(constructor, 'toString', function () {
-          return descriptor['value'].toString();
+          return descriptor.value.toString();
         });
       }
       TypeBuilder.addConstructor(proxy, '__construct__', constructor);
@@ -1755,14 +1755,14 @@ var Proxy = Object.create(Object.prototype, {
   __interceptMethod: {
     value: function (proxy, propertyName, descriptor, interceptors) {
       var method = function () {
-        var invocation = new Invocation(this, propertyName, InvocationType.METHOD, 
+        var invocation = new Invocation(this, propertyName, InvocationType.METHOD,
           arguments, interceptors);
         return invocation.procceed();
       };
       TypeBuilder.addMethod(method, 'toString', function () {
-        return descriptor['value'].toString();
+        return descriptor.value.toString();
       });
-      TypeBuilder.addMethod(proxy, propertyName, method); 
+      TypeBuilder.addMethod(proxy, propertyName, method);
     },
     writable: false,
     enumerable: false,
@@ -1772,24 +1772,24 @@ var Proxy = Object.create(Object.prototype, {
   __intercepProperty: {
     value: function (proxy, propertyName, descriptor, getterInterceptors, setterInterceptors) {
       var getter, setter;
-      if (descriptor['get']) {
+      if (descriptor.get) {
         getter = function () {
-          var getterInvocation = new Invocation(this, propertyName, 
+          var getterInvocation = new Invocation(this, propertyName,
               InvocationType.PROPERTY_GETTER, arguments, getterInterceptors);
           return getterInvocation.procceed();
         };
         TypeBuilder.addMethod(getter, 'toString', function () {
-          return descriptor['get'].toString();
+          return descriptor.get.toString();
         });
-      } 
-      if (descriptor['set']) {
+      }
+      if (descriptor.set) {
         setter = function () {
-          var setterInvocation = new Invocation(this, propertyName, 
+          var setterInvocation = new Invocation(this, propertyName,
               InvocationType.PROPERTY_SETTER, arguments, setterInterceptors);
           setterInvocation.procceed();
         };
         TypeBuilder.addMethod(setter, 'toString', function () {
-          return descriptor['set'].toString();
+          return descriptor.set.toString();
         });
       }
       TypeBuilder.addProperty(proxy, propertyName, getter, setter);
@@ -1825,7 +1825,7 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
   message: {
     get: function () {
-     return this.__message;
+      return this.__message;
     },
     enumerable: true,
     configurable: false
@@ -1958,7 +1958,7 @@ Configuration.prototype = Object.create(Object.prototype, {
       if (value) {
         for (var i = 0; i < value.length; i++) {
           this.__modules.push(ObjectFactory.create(ModuleConfiguration, value[i]));
-        } 
+        }
       } else {
         this.__modules = [];
       }
@@ -2022,7 +2022,7 @@ Object.defineProperties(Configuration, {
 
   configure: {
     value: function (options) {
-      Configuration.__configuration = ObjectFactory.create(Configuration, options); 
+      Configuration.__configuration = ObjectFactory.create(Configuration, options);
     },
     writable: false,
     enumerable: true,
@@ -2048,7 +2048,7 @@ global.$configure = Configuration.configure;
 exports.Configuration = Configuration;
 
 var Module = function (name) {
-  this.__name = name; 
+  this.__name = name;
   this.__loaded = false;
   this.__value = {};
   this.__loadedListeners = [];
@@ -2098,11 +2098,11 @@ Module.prototype = Object.create(Object.prototype, {
       if (!callback || typeof callback !== 'function') {
         throw new ModuleException("Callback is not set or it's type invalid");
       }
-      this.__loadedListeners.push(callback); 
+      this.__loadedListeners.push(callback);
     },
     writable: false,
     enumerable: true,
-    configurable: false  
+    configurable: false
   },
 
   fire: {
@@ -2186,7 +2186,7 @@ Object.defineProperties(Module, {
       if (Configuration.debug) {
         console.log("Creating module '" + definition.name + "'");
       }
-      var args = [];   
+      var args = [];
       var onLoaded = function () {
         args.push(definition.value);
         args.push(global);
@@ -2216,7 +2216,7 @@ Object.defineProperties(Module, {
       } else {
         onLoaded();
       }
-      return definition.value; 
+      return definition.value;
     },
     writable: false,
     enumerable: true,
@@ -2255,13 +2255,13 @@ Object.defineProperties(Module, {
               callback(definition.value);
             }
           } else {
-            throw new ModuleException("Circular reference for module '" + 
-              name + "' was detected"); 
-          }  
+            throw new ModuleException("Circular reference for module '" +
+              name + "' was detected");
+          }
         } else {
           if (Configuration.debug) {
             console.log("Loading module '" + name + "'");
-          } 
+          }
           definition = new Module(name);
           Module.__current = definition;
           Module.__modules.push(definition);
@@ -2275,7 +2275,7 @@ Object.defineProperties(Module, {
           });
         }
       } else {
-        throw new ModuleException("Module's name is not set");  
+        throw new ModuleException("Module's name is not set");
       }
     },
     writable: false,
@@ -2285,7 +2285,7 @@ Object.defineProperties(Module, {
 
   isValidModuleName: {
     value: function (name) {
-      return /^(_|[a-z]|[A-Z]|[0-9]|)*$/g.test(name);
+      return new RegExp('^(_|[a-z]|[A-Z]|[0-9]|)*$', 'g').test(name);
     },
     writable: false,
     enumerable: true,
@@ -2304,16 +2304,18 @@ Object.defineProperties(Module, {
   __loadMainModule: {
     value: function () {
       if (!Module.__hasRequire()) {
+        var mainScript;
         var scripts = document.getElementsByTagName('script');
+        var onError = function (e) {
+          throw new ModuleException("Failed to load module '" + mainScript + "'");
+        };
         for (var i = 0;i < scripts.length; i++) {
-          var mainScript = scripts[i].getAttribute('data-main');
+          mainScript = scripts[i].getAttribute('data-main');
           if (mainScript) {
             var script = document.createElement('script');
             script.async = true;
-            script.src = mainScript; 
-            script.addEventListener('error', function (e) {
-              throw new ModuleException("Failed to load module '" + mainScript + "'");
-            });
+            script.src = mainScript;
+            script.addEventListener('error', onError);
             scripts[i].parentNode.appendChild(script);
             break;
           }
@@ -2329,11 +2331,11 @@ Object.defineProperties(Module, {
     value: function (name, callback) {
       if (typeof name === 'string') {
         Module.load(name, function (dependency) {
-          callback(dependency); 
+          callback(dependency);
         });
       } else {
         callback(name);
-      } 
+      }
     },
     writable: false,
     enumerable: false,
@@ -2345,11 +2347,11 @@ Object.defineProperties(Module, {
       if (name && typeof name === 'string') {
         for (var i = 0; i < Module.__modules.length; i++) {
           if (Module.__modules[i].name === name) {
-            return Module.__modules[i];     
+            return Module.__modules[i];
           }
         }
       }
-      return null; 
+      return null;
     },
     writable: false,
     enumerable: true,
@@ -2358,7 +2360,7 @@ Object.defineProperties(Module, {
 
   __loadScript: {
     value: function (definition, callback) {
-      var path = Module.__getModulePath(definition.name); 
+      var path = Module.__getModulePath(definition.name);
       if (Module.__hasRequire()) {
         var exported = require(path);
         if (!definition.isLoaded) {
@@ -2369,7 +2371,7 @@ Object.defineProperties(Module, {
       } else {
         var script = document.createElement('script');
         script.async = true;
-        script.src = path; 
+        script.src = path;
         script.addEventListener('error', function (e) {
           throw new ModuleException("Failed to load module '" + definition.name + "'");
         });
@@ -2402,7 +2404,7 @@ Object.defineProperties(Module, {
             path = Configuration.modules[i].path;
             if (Module.__hasRequire()) {
               var dir = require('path').dirname(process.mainModule.filename);
-              if (path.substring(0, 2) === './') {  
+              if (path.substring(0, 2) === './') {
                 path = dir + path.substring(1, path.length);
               } else if (path.substring(0, 3) === '../') {
                 path = dir + '/' + path;
@@ -2430,16 +2432,16 @@ Object.defineProperties(Module, {
 
   __getExportsName: {
     value: function (func, dependencies) {
-      var arguments = TypeBuilder.getArgumentNames(func);
-      if (arguments.length > 0) {
+      var args = TypeBuilder.getArgumentNames(func);
+      if (args.length > 0) {
         var index = 0;
         if (dependencies && dependencies.length > 0) {
           index += index + dependencies.length;
-          if (index < arguments.length) {
-            return arguments[index];
+          if (index < args.length) {
+            return args[index];
           }
         } else {
-          return arguments[index];
+          return args[index];
         }
       }
       return null;
@@ -2519,7 +2521,7 @@ EventException.prototype = Object.create(Object.prototype, {
 
   message: {
     get: function () {
-     return this.__message;
+      return this.__message;
     },
     set: function (value) {
       this.__message = value;
@@ -2527,7 +2529,7 @@ EventException.prototype = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false
   },
-  
+
   toString: {
     value: function () {
       return this.name + ': ' + this.message;
@@ -2566,14 +2568,14 @@ var IEventTarget = Object.create(Object.prototype, {
     configurable: false
   },
 
-  removeEventListener: { 
+  removeEventListener: {
     value: function (type, listener) {},
     writable: false,
     enumerable: true,
     configurable: false
   },
 
-  dispatchEvent: { 
+  dispatchEvent: {
     value: function (e) {},
     writable: false,
     enumerable: true,
@@ -2649,10 +2651,10 @@ Event.prototype = Object.create(Object.prototype, {
   },
 
   type: {
-    get: function () { 
+    get: function () {
       return this.__type;
     },
-    set: function (value) { 
+    set: function (value) {
       this.__type = value;
     },
     enumerable: true,
@@ -2678,7 +2680,7 @@ Event.prototype = Object.create(Object.prototype, {
     enumerable: true,
     configurable: false
   }
-  
+
 });
 
 Object.defineProperties(Event, {
@@ -2796,9 +2798,8 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
           delete this.__listeners[type];
         }
       } else {
-        
-        for (var type in this.__listeners) {
-          this.removeAllEventListeners(type);
+        for (var listener in this.__listeners) {
+          this.removeAllEventListeners(listener);
         }
       }
     },

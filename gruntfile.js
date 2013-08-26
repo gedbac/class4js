@@ -9,7 +9,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: {
-      browser: {
+      'browser-prod': {
         src: [
           './bin/<%= pkg.name %>-<%= pkg.version %>.js',
           './bin/<%= pkg.name %>-<%= pkg.version %>.min.js'
@@ -17,18 +17,25 @@ module.exports = function (grunt) {
       }
     },
     concat: {
-      browser: {
+      'browser-prod': {
         options: {
           separator: os.EOL + os.EOL,
-          banner: "'use strict';" + os.EOL + os.EOL +
-            "var class4js = (function (global) {" + os.EOL + os.EOL +
-            "var exports = {};" + os.EOL + os.EOL +
-            "exports.version = '<%= pkg.version %>';" + os.EOL + os.EOL,
-          footer: "return exports;" + os.EOL + os.EOL +
+          banner: "var class4js = (function (global) {" + os.EOL + os.EOL +
+            "  'use strict';" + os.EOL + os.EOL +
+            "  var exports = {};" + os.EOL + os.EOL +
+            "  exports.version = '<%= pkg.version %>';" + os.EOL + os.EOL,
+          footer: os.EOL + os.EOL + "  return exports;" + os.EOL + os.EOL +
             "} (typeof global !== 'undefined' ? global : window));" + os.EOL + os.EOL +
             "if (typeof module !== 'undefined' && module !== null) {" + os.EOL +
             "  module.exports = class4js;" + os.EOL +
-            "}"
+            "}",
+          process: function (src, filepath) {
+            var lines = src.split(os.EOL);
+            for (var i = 0; i < lines.length; i++) {
+              lines[i] = '  ' + lines[i];
+            }
+            return lines.join(os.EOL);
+          }
         },
         src: [
           "./src/Compatability.js",
@@ -62,7 +69,7 @@ module.exports = function (grunt) {
       }
     },
     minify: {
-      browser: {
+      'browser-prod': {
         src: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
         dest: './bin/<%= pkg.name %>-<%= pkg.version %>.min.js'
       }
@@ -73,9 +80,10 @@ module.exports = function (grunt) {
         curly: true,
         maxlen: 120,
         trailing: true,
-        smarttabs: false
+        smarttabs: false,
+        newcap: false
       },
-      node: {
+      'node-dev': {
         options: {
           node: true,
           strict: true
@@ -87,7 +95,7 @@ module.exports = function (grunt) {
           ]
         }
       },
-      browser: {
+      'browser-dev': {
         options: {
           browser: true,
           strict: false
@@ -121,6 +129,15 @@ module.exports = function (grunt) {
             "./src/EventDispatcher.js"
           ]
         }
+      },
+      'browser-prod': {
+        options: {
+          browser: true,
+          strict: true
+        },
+        files: {
+          src: [ './bin/<%= pkg.name %>-<%= pkg.version %>.js' ]
+        }
       }
     }
   });
@@ -147,6 +164,7 @@ module.exports = function (grunt) {
         if (extra) {
           grunt.log.writeln(extra);
         }
+        data = "\"use strict\";" + data;
         fs.writeFileSync(dest, data);
         done(true);
       }
@@ -154,11 +172,12 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', [
-    'jshint:node',
-    'jshint:browser',
-    'clean:browser',
-    'concat:browser',
-    'minify:browser'
+    'jshint:node-dev',
+    'jshint:browser-dev',
+    'clean:browser-prod',
+    'concat:browser-prod',
+    'jshint:browser-prod',
+    'minify:browser-prod'
   ]);
 
 };

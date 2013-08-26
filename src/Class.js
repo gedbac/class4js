@@ -339,8 +339,8 @@ var Class = Object.create(Object.prototype, {
         } else if (TypeBuilder.isMethod(value)) {
           hasSupper = Class.__hasSuper(value);
           if (!parent && hasSupper) {
-            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't have " +
-              "a parent.");
+            throw new TypeException("Method '" + name + "' has '$super' parameter, but method's class doesn't " +
+              "have a parent.");
           }
           if (parent && Class.__hasSuper(value)) {
             var method = function () {
@@ -364,8 +364,8 @@ var Class = Object.create(Object.prototype, {
           if (getter) {
             hasSupper = Class.__hasSuper(getter);
             if (!parent && hasSupper) {
-              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't " +
-                "have a parent.");
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class " +
+                "doesn't have a parent.");
             }
             if (parent && hasSupper) {
               getter = function () {
@@ -380,8 +380,8 @@ var Class = Object.create(Object.prototype, {
           if (setter) {
             hasSupper = Class.__hasSuper(setter);
             if (!parent && hasSupper) {
-              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class doesn't " +
-                "have a parent.");
+              throw new TypeException("Property '" + name + "' has '$super' parameter, but property's class " +
+                " doesn't have a parent.");
             }
             if (parent && hasSupper) {
               setter = function () {
