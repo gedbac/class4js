@@ -14,6 +14,11 @@ module.exports = function (grunt) {
           './bin/<%= pkg.name %>-<%= pkg.version %>.js',
           './bin/<%= pkg.name %>-<%= pkg.version %>.min.js'
         ]
+      },
+      'node-prod': {
+        src: [
+          './lib/<%= pkg.name %>.js'
+        ]
       }
     },
     concat: {
@@ -66,6 +71,56 @@ module.exports = function (grunt) {
         ],
         dest: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
         nonull: true
+      },
+      'node-prod': {
+        options: {
+          separator: os.EOL + os.EOL,
+          banner: "var class4js = (function (global) {" + os.EOL + os.EOL +
+            "  'use strict';" + os.EOL + os.EOL +
+            "  var exports = {};" + os.EOL + os.EOL +
+            "  exports.version = '<%= pkg.version %>';" + os.EOL + os.EOL,
+          footer: os.EOL + os.EOL + "  return exports;" + os.EOL + os.EOL +
+            "} (typeof global !== 'undefined' ? global : window));" + os.EOL + os.EOL +
+            "if (typeof module !== 'undefined' && module !== null) {" + os.EOL +
+            "  module.exports = class4js;" + os.EOL +
+            "}",
+          process: function (src, filepath) {
+            var lines = src.split(os.EOL);
+            for (var i = 0; i < lines.length; i++) {
+              lines[i] = '  ' + lines[i];
+            }
+            return lines.join(os.EOL);
+          }
+        },
+        src: [
+          "./src/Compatability.js",
+          "./src/TypeException.js",
+          "./src/Namespace.js",
+          "./src/TypeBuilder.js",
+          "./src/TypeExtension.js",
+          "./src/Class.js",
+          "./src/Interface.js",
+          "./src/ObjectFactory.js",
+          "./src/Enum.js",
+          "./src/IInterceptor.js",
+          "./src/InvocationType.js",
+          "./src/Invocation.js",
+          "./src/IInterceptor.js",
+          "./src/Proxy.js",
+          "./src/ModuleException.js",
+          "./src/ModuleConfiguration.js",
+          "./src/Configuration.js",
+          "./src/Module.js",
+          "./src/IDisposable.js",
+          "./src/EventException.js",
+          "./src/IEventTarget.js",
+          "./src/IEvent.js",
+          "./src/Event.js",
+          "./src/IEventListener.js",
+          "./src/EventDispatcher.js"
+        ],
+        dest: './lib/<%= pkg.name %>.js',
+        nonull: true
       }
     },
     minify: {
@@ -83,7 +138,7 @@ module.exports = function (grunt) {
         smarttabs: false,
         newcap: false
       },
-      'node-dev': {
+      'scripts': {
         options: {
           node: true,
           strict: true
@@ -92,6 +147,52 @@ module.exports = function (grunt) {
           src: [
             './tasks/*.js',
             './gruntfile.js'
+          ]
+        }
+      },
+      'node-dev': {
+        options: {
+          node: true,
+          strict: false
+        },
+        files: {
+          src: [
+            "./src/Compatability.js",
+            "./src/TypeException.js",
+            "./src/Namespace.js",
+            "./src/TypeBuilder.js",
+            "./src/TypeExtension.js",
+            "./src/Class.js",
+            "./src/Interface.js",
+            "./src/ObjectFactory.js",
+            "./src/Enum.js",
+            "./src/IInterceptor.js",
+            "./src/InvocationType.js",
+            "./src/Invocation.js",
+            "./src/IInterceptor.js",
+            "./src/Proxy.js",
+            "./src/ModuleException.js",
+            "./src/ModuleConfiguration.js",
+            "./src/Configuration.js",
+            "./src/Module.js",
+            "./src/IDisposable.js",
+            "./src/EventException.js",
+            "./src/IEventTarget.js",
+            "./src/IEvent.js",
+            "./src/Event.js",
+            "./src/IEventListener.js",
+            "./src/EventDispatcher.js"
+          ]
+        }
+      },
+      'node-prod': {
+        options: {
+          node: true,
+          strict: true
+        },
+        filse: {
+          src: [
+            './lib/<%= pkg.name %>.js'
           ]
         }
       },
@@ -172,12 +273,16 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', [
+    'jshint:scripts',
     'jshint:node-dev',
     'jshint:browser-dev',
     'clean:browser-prod',
     'concat:browser-prod',
     'jshint:browser-prod',
-    'minify:browser-prod'
+    'minify:browser-prod',
+    'clean:node-prod',
+    'concat:node-prod',
+    'jshint:node-prod'
   ]);
 
 };
