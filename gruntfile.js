@@ -3,6 +3,7 @@
 module.exports = function (grunt) {
 
   var os = require('os');
+  var path = require('path');
 
   var src = [
     "./src/Compatability.js",
@@ -162,6 +163,25 @@ module.exports = function (grunt) {
           src: [ './bin/<%= pkg.name %>-<%= pkg.version %>.js' ]
         }
       }
+    },
+    jasmine: {
+      spec: {
+        src: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
+        options: {
+          specs: './spec/*.js'
+        }
+      }
+    },
+    'jasmine-node': {
+      options: {
+        matchall: true,
+        color: true,
+        verbose: true
+      },
+      run: {
+        spec: './spec'
+      },
+      executable: path.join(__dirname, './node_modules/.bin/jasmine-node')
     }
   });
 
@@ -170,6 +190,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-jasmine-node');
 
   grunt.registerTask('default', [
     'jshint:scripts',
@@ -181,7 +203,9 @@ module.exports = function (grunt) {
     'minify:browser-prod',
     'clean:node-prod',
     'concat:node-prod',
-    'jshint:node-prod'
+    'jshint:node-prod',
+    'jasmine-node',
+    'jasmine:spec'
   ]);
 
 };
