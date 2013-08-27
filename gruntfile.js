@@ -3,8 +3,34 @@
 module.exports = function (grunt) {
 
   var os = require('os');
-  var compressor = require('yuicompressor');
-  var fs = require('fs');
+
+  var src = [
+    "./src/Compatability.js",
+    "./src/TypeException.js",
+    "./src/Namespace.js",
+    "./src/TypeBuilder.js",
+    "./src/TypeExtension.js",
+    "./src/Class.js",
+    "./src/Interface.js",
+    "./src/ObjectFactory.js",
+    "./src/Enum.js",
+    "./src/IInterceptor.js",
+    "./src/InvocationType.js",
+    "./src/Invocation.js",
+    "./src/IInterceptor.js",
+    "./src/Proxy.js",
+    "./src/ModuleException.js",
+    "./src/ModuleConfiguration.js",
+    "./src/Configuration.js",
+    "./src/Module.js",
+    "./src/IDisposable.js",
+    "./src/EventException.js",
+    "./src/IEventTarget.js",
+    "./src/IEvent.js",
+    "./src/Event.js",
+    "./src/IEventListener.js",
+    "./src/EventDispatcher.js"
+  ];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -42,33 +68,7 @@ module.exports = function (grunt) {
             return lines.join(os.EOL);
           }
         },
-        src: [
-          "./src/Compatability.js",
-          "./src/TypeException.js",
-          "./src/Namespace.js",
-          "./src/TypeBuilder.js",
-          "./src/TypeExtension.js",
-          "./src/Class.js",
-          "./src/Interface.js",
-          "./src/ObjectFactory.js",
-          "./src/Enum.js",
-          "./src/IInterceptor.js",
-          "./src/InvocationType.js",
-          "./src/Invocation.js",
-          "./src/IInterceptor.js",
-          "./src/Proxy.js",
-          "./src/ModuleException.js",
-          "./src/ModuleConfiguration.js",
-          "./src/Configuration.js",
-          "./src/Module.js",
-          "./src/IDisposable.js",
-          "./src/EventException.js",
-          "./src/IEventTarget.js",
-          "./src/IEvent.js",
-          "./src/Event.js",
-          "./src/IEventListener.js",
-          "./src/EventDispatcher.js"
-        ],
+        src: src,
         dest: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
         nonull: true
       },
@@ -92,33 +92,7 @@ module.exports = function (grunt) {
             return lines.join(os.EOL);
           }
         },
-        src: [
-          "./src/Compatability.js",
-          "./src/TypeException.js",
-          "./src/Namespace.js",
-          "./src/TypeBuilder.js",
-          "./src/TypeExtension.js",
-          "./src/Class.js",
-          "./src/Interface.js",
-          "./src/ObjectFactory.js",
-          "./src/Enum.js",
-          "./src/IInterceptor.js",
-          "./src/InvocationType.js",
-          "./src/Invocation.js",
-          "./src/IInterceptor.js",
-          "./src/Proxy.js",
-          "./src/ModuleException.js",
-          "./src/ModuleConfiguration.js",
-          "./src/Configuration.js",
-          "./src/Module.js",
-          "./src/IDisposable.js",
-          "./src/EventException.js",
-          "./src/IEventTarget.js",
-          "./src/IEvent.js",
-          "./src/Event.js",
-          "./src/IEventListener.js",
-          "./src/EventDispatcher.js"
-        ],
+        src: src,
         dest: './lib/<%= pkg.name %>.js',
         nonull: true
       }
@@ -156,33 +130,7 @@ module.exports = function (grunt) {
           strict: false
         },
         files: {
-          src: [
-            "./src/Compatability.js",
-            "./src/TypeException.js",
-            "./src/Namespace.js",
-            "./src/TypeBuilder.js",
-            "./src/TypeExtension.js",
-            "./src/Class.js",
-            "./src/Interface.js",
-            "./src/ObjectFactory.js",
-            "./src/Enum.js",
-            "./src/IInterceptor.js",
-            "./src/InvocationType.js",
-            "./src/Invocation.js",
-            "./src/IInterceptor.js",
-            "./src/Proxy.js",
-            "./src/ModuleException.js",
-            "./src/ModuleConfiguration.js",
-            "./src/Configuration.js",
-            "./src/Module.js",
-            "./src/IDisposable.js",
-            "./src/EventException.js",
-            "./src/IEventTarget.js",
-            "./src/IEvent.js",
-            "./src/Event.js",
-            "./src/IEventListener.js",
-            "./src/EventDispatcher.js"
-          ]
+          src: src,
         }
       },
       'node-prod': {
@@ -202,33 +150,7 @@ module.exports = function (grunt) {
           strict: false
         },
         files: {
-          src: [
-            "./src/Compatability.js",
-            "./src/TypeException.js",
-            "./src/Namespace.js",
-            "./src/TypeBuilder.js",
-            "./src/TypeExtension.js",
-            "./src/Class.js",
-            "./src/Interface.js",
-            "./src/ObjectFactory.js",
-            "./src/Enum.js",
-            "./src/IInterceptor.js",
-            "./src/InvocationType.js",
-            "./src/Invocation.js",
-            "./src/IInterceptor.js",
-            "./src/Proxy.js",
-            "./src/ModuleException.js",
-            "./src/ModuleConfiguration.js",
-            "./src/Configuration.js",
-            "./src/Module.js",
-            "./src/IDisposable.js",
-            "./src/EventException.js",
-            "./src/IEventTarget.js",
-            "./src/IEvent.js",
-            "./src/Event.js",
-            "./src/IEventListener.js",
-            "./src/EventDispatcher.js"
-          ]
+          src: src,
         }
       },
       'browser-prod': {
@@ -243,34 +165,11 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadTasks('tasks');
+
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-
-  grunt.registerMultiTask('minify', 'Minify JavaScript files with YUI Compressor', function () {
-    var done = this.async();
-    var src = this.data.src;
-    var dest = this.data.dest;
-    compressor.compress(this.data.src, {
-      charset: 'utf8',
-      type: 'js',
-      nomunge: true,
-      'preserve-semi': true,
-      'disable-optimizations': true
-    }, function(error, data, extra) {
-      if (error) {
-        grunt.log.writeln(error);
-        done(false);
-      } else {
-        if (extra) {
-          grunt.log.writeln(extra);
-        }
-        data = "\"use strict\";" + data;
-        fs.writeFileSync(dest, data);
-        done(true);
-      }
-    });
-  });
 
   grunt.registerTask('default', [
     'jshint:scripts',
