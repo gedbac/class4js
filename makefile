@@ -1,43 +1,4 @@
-CC = java -jar ./build/yuicompressor-2.4.8.jar
-SOURCES_FILES =	Compatability.js \
-				TypeException.js \
-				Namespace.js \
-				TypeBuilder.js \
-				TypeExtension.js \
-				Class.js \
-				Interface.js \
-				ObjectFactory.js \
-				Enum.js \
-				IInterceptor.js \
-				InvocationType.js \
-				Invocation.js \
-				IInterceptor.js \
-				Proxy.js \
-				ModuleException.js \
-				ModuleConfiguration.js \
-				Configuration.js \
-				Module.js \
-				IDisposable.js \
-				EventException.js \
-				IEventTarget.js \
-				IEvent.js \
-				Event.js \
-				IEventListener.js \
-				EventDispatcher.js
-
-all: build-node build-browser
-
-clean: clean-node clean-browser
-
 test: test-node test-phantomjs test-browser
-
-build-node: lib/class4js.js
-
-lib/class4js.js: class4js.js
-	cp class4js.js ./lib/class4js.js
-
-clean-node:
-	rm -f ./lib/class4js.js
 
 test-node:
 	node ./tests/node/class.js
@@ -63,32 +24,6 @@ test-node:
 	node ./tests/node/custom_event.js
 	node ./tests/node/modules/main.js
 	node ./tests/node/namespace_within_module.js
-
-build-browser: class4js.min.js
-
-class4js.js: clean
-	echo "var class4js = (function (global) {" >> $@
-	echo >> $@
-	echo "var exports = {};">> $@
-	echo >> $@
-	node ./build/cat.js $(addprefix src/,$(SOURCES_FILES)) >> $@
-	echo >> $@
-	echo >> $@
-	echo "return exports;" >> $@
-	echo >> $@
-	echo "}(typeof global !== 'undefined' ? global : window));" >> $@
-	echo >> $@
-	echo "if (typeof module !== 'undefined' && module !== null) {" >> $@
-	echo "  module.exports = class4js;" >> $@
-	echo "}" >> $@
-	node ./build/include_strict_mode.js $@
-
-class4js.min.js: class4js.js   
-	$(CC) --type js --nomunge --preserve-semi --disable-optimizations $^ -o $@
-
-clean-browser:
-	rm -f class4js.js
-	rm -f class4js.min.js
 
 test-browser:
 	xdg-open ./tests/browser/index.html

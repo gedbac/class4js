@@ -139,7 +139,7 @@ module.exports = function (grunt) {
           node: true,
           strict: true
         },
-        filse: {
+        files: {
           src: [
             './lib/<%= pkg.name %>.js'
           ]
@@ -168,7 +168,9 @@ module.exports = function (grunt) {
       spec: {
         src: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
         options: {
-          specs: './spec/*.js'
+          specs: './spec/*.js',
+          outfile: './SpecRunner.html',
+          keepRunner: true
         }
       }
     },
