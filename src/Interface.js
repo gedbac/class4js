@@ -35,21 +35,37 @@ var Interface = Object.create(Object.prototype, {
   },
 
   instanceOf: {
-    value: function (source, target) {
-      if (source && target) {
-        if (typeof target === 'object') {
-          for (var propertyName in target) {
-            if (!(propertyName in source)) {
-              return false;
-            }
-          }
-        } else if (!(source instanceof target)) {
-          return false;
-        }
-        return true;
-      } else {
-        throw new TypeException("Source or target is not set");
+    value: function (obj, type) {
+      if (!type) {
+        throw new TypeException({
+          message: "Object compatible with an undefined type can't be checked."
+        });
       }
+      if (obj !== null && obj !== undefined) {
+        if (typeof obj === 'object' || typeof obj === 'function') {
+          if (typeof type === 'object') {
+            for (var propertyName in type) {
+              if (!(propertyName in obj)) {
+                return false;
+              }
+            }
+          } else if (!(obj instanceof type)) {
+            return false;
+          }
+          return true;
+        } else {
+          if (typeof obj === 'string' && type === String) {
+            return true;
+          }
+          if (typeof obj === 'number' && type === Number) {
+            return true;
+          }
+          if (typeof obj === 'boolean' && type === Boolean) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
     writable: false,
     enumerable: true,

@@ -2,15 +2,15 @@
 
 [http://www.class4js.com](http://www.class4js.com)
 
-The __class4js__ module is for class-driven development in JavaScript. It 
-allows to emulate classes in JavaScript. Module based on ECMAScript 5 standart and 
-implements open/close principle:  _"When class is created, class is closed for 
-modifications"_. __class4js__  is free software distributed under the terms of 
-the _GNU General Public License version 3_ and can be used with __node.js__, 
+The __class4js__ module is for class-driven development in JavaScript. It
+allows to emulate classes in JavaScript. Module based on ECMAScript 5 standart and
+implements open/close principle:  _"When class is created, class is closed for
+modifications"_. __class4js__  is free software distributed under the terms of
+the _GNU General Public License version 3_ and can be used with __node.js__,
 __modern web browsers__ and even with __PhantomJS__.
 
     // Simple class example:
-    
+
     var Shape = $class({
       __construct__: function () {
         this.__x = 0;
@@ -34,17 +34,17 @@ __modern web browsers__ and even with __PhantomJS__.
       },
       draw: function () {
         console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
-      }, 
+      },
       moveTo: function (x, y) {
         this.x = x;
         this.y = y;
       }
     });
-    
+
     var shape = new Shape({ x: 100, y: 100 });
     shape.moveTo(120, 85);
     shape.draw();
-    
+
     // Output:
     // Drawing shape at: (120, 85)
 
@@ -67,7 +67,7 @@ __modern web browsers__ and even with __PhantomJS__.
   * Abstract Class
   * Static Class
   * Enum
-  * Interface 
+  * Interface
   * Object Factory
   * Modules
   * Namespace
@@ -85,15 +85,15 @@ To install __class4js__ module for node.js, this command should be used:
 Also __class4js__ module's loading statement should be added to main module:
 
     'use strict';
-    
+
     require('class4js');
-    
+
     // Your code goes here...
 
 ### Web Browser
 
-To use __class4js__ module in web browser, simply download newest minified 
-__class4js__ module file and include it to your browsers. You can also define 
+To use __class4js__ module in web browser, simply download newest minified
+__class4js__ module file and include it to your browsers. You can also define
 main module of application:
 
     <!DOCTYPE HTML>
@@ -108,19 +108,19 @@ main module of application:
 
 ### PhantomJS
 
-To use __class4js__ in with PhantomJS, simply copy __class4js__ module near 
-PhantomJS executor and include __class4js__ module's loading statement to main 
+To use __class4js__ in with PhantomJS, simply copy __class4js__ module near
+PhantomJS executor and include __class4js__ module's loading statement to main
 module:
 
     'use strict';
-    
+
     require('./class4js.js');
-    
+
     // Your code goes here...
 
 ### NuGet
 
-In Visual Studio __class4js__ module can be installed using NuGet extension. To 
+In Visual Studio __class4js__ module can be installed using NuGet extension. To
 install class4js, run the following command in the package manager console.
 
     Install-Package class4js
@@ -129,9 +129,9 @@ install class4js, run the following command in the package manager console.
 
 ### Class
 
-A class is a construct that is used to create instances of itself. A class defines 
-constituent members which enable its instances to have state and behavior. 
-Private class members are decorated with \_\_ and protected with \_. Classes are 
+A class is a construct that is used to create instances of itself. A class defines
+constituent members which enable its instances to have state and behavior.
+Private class members are decorated with \_\_ and protected with \_. Classes are
 declared by using the keyword __$class__:
 
     $class(properties:Object, parent:Object, interfaces:Array): Function
@@ -161,20 +161,20 @@ __Example:__
       },
       draw: function () {
         console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
-      }, 
+      },
       moveTo: function (x, y) {
         this.x = x;
         this.y = y;
       }
     });
-    
+
     var shape = new Shape({ x: 100, y: 100 });
     shape.moveTo(120, 85);
-    shape.draw();   
+    shape.draw();
 
 #### Constructor
 
-Whenever a class is created, its constructor is called. Name for a constructor 
+Whenever a class is created, its constructor is called. Name for a constructor
 is *\_\_construct\_\_*.
 
 __Example:__
@@ -187,8 +187,8 @@ __Example:__
 
 #### Static Constructor
 
-Static constructor is a static data initializer. Static constructors are called 
-when the class is defined. Name for a static constructor is the same as ordinal 
+Static constructor is a static data initializer. Static constructors are called
+when the class is defined. Name for a static constructor is the same as ordinal
 constructor name, but must be surrounded by *\_\_static\_\_* statement.
 
 __Example__:
@@ -203,7 +203,7 @@ __Example__:
 
 #### Object Initializer
 
-Object can be initialized with anonymous object. All properties from anonymous 
+Object can be initialized with anonymous object. All properties from anonymous
 object are copied to the target object.
 
 __Example:__
@@ -230,12 +230,12 @@ __Example:__
         }
       }
     });
-    
+
     var shape = new Shape({ x: 100, y: 100 });
 
 #### Constant
 
-A constant is a class member which value can't be changed. Constant names should 
+A constant is a class member which value can't be changed. Constant names should
 be in uppercasing.
 
 __Example:__
@@ -248,7 +248,7 @@ __Example:__
 
 #### Fields
 
-All class fields should be defined as class members or initialized in constructor, 
+All class fields should be defined as class members or initialized in constructor,
 because when class is created, class is closed for modifications.
 
 __Example:__
@@ -260,7 +260,7 @@ __Example:__
 
 #### Properties
 
-A property is a member that provides a flexible mechanism to read, write, or 
+A property is a member that provides a flexible mechanism to read, write, or
 compute the value of a private field.
 
 __Example__:
@@ -290,8 +290,8 @@ __Example__:
 
 #### Static members
 
-Static class members are used to create data and functions that can be accessed 
-without creating an instance of the class. All static class members should be 
+Static class members are used to create data and functions that can be accessed
+without creating an instance of the class. All static class members should be
 must be surrounded by *\_\_static\_\_* statement.
 
 __Example:__
@@ -306,13 +306,13 @@ __Example:__
         }
       }
     });
-    
+
     var result = Calculator.sum(2, 2);
 
 #### Inheritance
 
-Inheritance is a way to reuse code and to establish a subtype from an existing 
-object. Constructor inheritance is also supported. To access parent's method, 
+Inheritance is a way to reuse code and to establish a subtype from an existing
+object. Constructor inheritance is also supported. To access parent's method,
 argument *$super* should be used. It must be the first argument in method definition.
 *$super* argument is optional.
 
@@ -343,7 +343,7 @@ __Example:__
         console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
       }
     });
-    
+
     var Rectangle = $class({
       __construct__: function () {
         this.__width = 0;
@@ -367,18 +367,18 @@ __Example:__
       },
       draw: function ($super) {
         $super.draw();
-        console.log("Drawing rectangle (" + this.width + ", " + this.height 
+        console.log("Drawing rectangle (" + this.width + ", " + this.height
           + ") at: (" + this.x + ", " + this.y + ")");
       }
     }, Shape);
-    
+
     var shape = new Shape({ x: 100, y: 100, with: 50, height: 50 });
     shape.draw();
 
 ### Abstract Class
 
-Abstract class is intended only to be a base class of other classes. Abstract 
-class can't be  instantiated. Abstract classes are declared by using the keyword 
+Abstract class is intended only to be a base class of other classes. Abstract
+class can't be  instantiated. Abstract classes are declared by using the keyword
 __$abstract_class__.
 
     $abstract_class(properties:Object, parent:Object, interfaces:Array): Function
@@ -386,36 +386,36 @@ __$abstract_class__.
 __Example:__
 
     var Component = $abstract_class({
-      __construct__: function () { 
+      __construct__: function () {
         this.__name = 'Component';
       },
-      name: { 
-        get: function () { 
-          return this.__name; 
+      name: {
+        get: function () {
+          return this.__name;
         },
-        set: function (value) { 
-          this.__name = value; 
+        set: function (value) {
+          this.__name = value;
         }
       }
-    }); 
-    
+    });
+
     var Button = $class({
       __construct__: function () {
         this.name = 'Button1';
       }
     }, Component)
-    
+
     try {
-      var component = new Component(); 
+      var component = new Component();
     } catch (ex) {
       console.log(ex.message);
-    } 
-    
+    }
+
     var button = new Button();
 
 ### Static Class
 
-Static class can't be initialized or inherited and contains only static members. 
+Static class can't be initialized or inherited and contains only static members.
 Abstract classes are declared by using the keyword __$static_class__.
 
     $static_class(properties:Object): Object
@@ -435,7 +435,7 @@ __Example:__
         }
       }
     });
-    
+
     Counter.increment();
 
 ### Enum
@@ -454,30 +454,24 @@ __Example:__
 
 ### Interface
 
-Interfaces form a contract between the class and the outside world. If your class 
-claims to implement an interface, all methods defined by that interface must 
+Interfaces form a contract between the class and the outside world. If your class
+claims to implement an interface, all methods defined by that interface must
 appear in its source code. Interfaces are declared by using the keyword __$interface__.
 
     $interface(properties:Object, parent:Object): Object
 
-You can check if object is compatible with given interface or inherit given class.
+__$is__ keyword can be used to check object's compatible with a given type.
 
-    $is(source:Object, target:Object): Boolean 
+    $is(obj:Object, type:Object): Boolean
 
 A class can inherit one or more interfaces.
 
 __Example:__
 
-    var IComponent = $interface({ 
-      name: {
-        get: function () {}
-      }
-    });
-    
     var IDrawable = $interface({
-      draw: function (context) {} 
-    }, IComponent);
-    
+      draw: function (context) {}
+    });
+
     var Shape = $class({
       __construct__: function () {
         this.__name = 'Shape';
@@ -491,14 +485,14 @@ __Example:__
         console.log("Drawing shape at: (" + this.x + ", " + this.y + ")");
       }
     }, IDrawable);
-    
+
     var shape = new Shape();
-    
+
     console.log($is(shape, IDrawable));
 
 ### Object factory
 
-Object can be created by given type and initialized from anonymous object. To 
+Object can be created by given type and initialized from anonymous object. To
 accomplish such task keyword __$create__ is used.
 
     $create(type:Function, options:Object): Object
@@ -527,7 +521,7 @@ __Example:__
         }
       }
     });
-    
+
     var Layer = $class({
       __construct__: function () {
         this.__shapes = [];
@@ -536,11 +530,11 @@ __Example:__
         this.__shapes.push($create(Shape, options));
       }
     });
-    
+
     var layer = new Layer();
     layer.add({ x: 10, y: 10 });
 
-All properties from anonymous object can be copied to existing object. To 
+All properties from anonymous object can be copied to existing object. To
 accomplish such task keyword __$init__ is used.
 
     $init(target:Object, options:Object): void
@@ -569,7 +563,7 @@ __Example:__
         }
       }
     });
-    
+
     var shape = new Shape();
     $init(shape, { x: 10, y: 10 });
 
@@ -592,24 +586,24 @@ __Example:__
     });
 
     var external_module = {};
-    
+
     var util = $module(function (fs, a, em, exports, global) {
       var Reader = $class({
         __construct__: function () {
-        },  
+        },
         read: function () {
-          console.log("Reading...");  
-        }  
-      }); 
+          console.log("Reading...");
+        }
+      });
       exports.Reader = Reader;
     }, ['fs', 'a', external_module]);
-    
+
     var reader = new util.Reader();
     reader.read();
 
 ### Namespace
 
-Namespaces are declared using the keyword __$namespace__. Namespaces help avoid 
+Namespaces are declared using the keyword __$namespace__. Namespaces help avoid
 naming collisions or excessive name prefixing.
 
     $namespace(name:String, items:Object): void
@@ -617,7 +611,7 @@ naming collisions or excessive name prefixing.
 __Example:__
 
     $namespace('org.myapp.util');
-    
+
     org.myapp.util = (function () {
       var util = {};
       return util;
@@ -654,7 +648,7 @@ __Example:__
 
 ### Extension
 
-Extensions enables you to add methods to existing types without creating a new 
+Extensions enables you to add methods to existing types without creating a new
 derived type.
 
     $extend(target:Object, name:String, value:Function): void
@@ -665,7 +659,7 @@ __Example:__
       items: function() {
       }
     });
-    
+
     var Collection = $class({
       __construct__: function (items) {
         this.__items = items;
@@ -674,15 +668,15 @@ __Example:__
         return this.__items;
       }
     }, ICollection);
-    
+
     $extend(ICollection, 'forEach', function (callback) {
       if (callback) {
         for (var i = 0; i < this.items().length; i++) {
           callback(this.items()[i]);
-        } 
-      } 
+        }
+      }
     });
-    
+
     var collection = new Collection([1, 2, 3]);
     collection.forEach(function (item) {
       console.log(item);
@@ -690,5 +684,5 @@ __Example:__
 
 ## License
 
-This software is distributed under the terms of the GNU General Public License, 
+This software is distributed under the terms of the GNU General Public License,
 version 3 (GPL-3.0).

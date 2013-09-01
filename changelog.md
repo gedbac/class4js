@@ -139,8 +139,9 @@
 * Bug fix: Method 'removeAllEventListeners' can be invoked without parameters.
 * Class can be defined within namespace
 
-## 2013.08.03, Version 1.10.4
+## 2013.08.03, Version 1.11.0
 
 * "Grunt has been integrated"
 * Bug fix: Statement 'use strict' has been fixed.
 * jshint task has been included
+* Type checking has been improved

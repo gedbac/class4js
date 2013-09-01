@@ -1,10 +1,24 @@
-var TypeException = function (message) {
-  this.__name = 'TypeException';
-  this.__message = message || "A type exception has occurred.";
+var TypeException = function () {
+  if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
+    this.__construct__.call(this);
+    ObjectFactory.initialize(this, arguments[0]);
+  } else {
+    this.__construct__.call(this, arguments);
+  }
   Object.seal(this);
 };
 
 TypeException.prototype = Object.create(Object.prototype, {
+
+  __construct__: {
+    value: function (TypeException) {
+      this.__name = 'TypeException';
+      this.__message = message || "A type exception has occurred.";
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+  },
 
   name: {
     get: function () {

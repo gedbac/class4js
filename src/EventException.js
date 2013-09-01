@@ -1,4 +1,4 @@
-var EventException = function (message) {
+var EventException = function () {
   if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
     this.__construct__.call(this);
     ObjectFactory.initialize(this, arguments[0]);

@@ -162,6 +162,17 @@ module.exports = function (grunt) {
         files: {
           src: [ './bin/<%= pkg.name %>-<%= pkg.version %>.js' ]
         }
+      },
+      'spec': {
+        options: {
+          globals: {
+            describe: true,
+            it: true
+          }
+        },
+        files: {
+          src: './spec/**/*.js'
+        }
       }
     },
     jasmine: {
@@ -206,6 +217,7 @@ module.exports = function (grunt) {
     'clean:node-prod',
     'concat:node-prod',
     'jshint:node-prod',
+    'jshint:spec',
     'jasmine-node',
     'jasmine:spec'
   ]);
