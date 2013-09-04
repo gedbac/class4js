@@ -97,104 +97,109 @@ describe("$is keyword spec", function() {
   var rec = new Rectangle();
   var component = new Component();
 
-  it("object 'shape' has to implement an interface 'IShape'", function() {
+  it("object 'shape' has to implement an interface 'IShape'", function () {
     expect($is(shape, IShape)).toBeTruthy();
   });
 
-  it("object 'shape' has to be an instance of class 'Shape'", function() {
+  it("object 'shape' has to be an instance of class 'Shape'", function () {
     expect($is(shape, Shape)).toBeTruthy();
   });
 
-  it("object 'rec' has to implement an interface 'IShape'", function() {
+  it("object 'rec' has to implement an interface 'IShape'", function () {
     expect($is(rec, IShape)).toBeTruthy();
   });
 
-  it("object 'rec' has to be an instance of class 'Shape'", function() {
+  it("object 'rec' has to be an instance of class 'Shape'", function () {
     expect($is(shape, Shape)).toBeTruthy();
   });
 
-  it("object 'rec' has to implement an interface 'IRectangle'", function() {
+  it("object 'rec' has to implement an interface 'IRectangle'", function () {
     expect($is(rec, IShape)).toBeTruthy();
   });
 
-  it("object 'rec' has to be an instance of class 'Rectangle'", function() {
+  it("object 'rec' has to be an instance of class 'Rectangle'", function () {
     expect($is(shape, Shape)).toBeTruthy();
   });
 
-  it("object 'component' has not to implement an interface 'IShape'", function() {
+  it("object 'component' has not to implement an interface 'IShape'", function () {
     expect($is(component, IShape)).toBeFalsy();
   });
 
-  it("object 'component' has not to be an instance of class 'Shape'", function() {
+  it("object 'component' has not to be an instance of class 'Shape'", function () {
     expect($is(component, Shape)).toBeFalsy();
   });
 
-  it("object 'component' has not to implement an interface 'IRectangle'", function() {
+  it("object 'component' has not to implement an interface 'IRectangle'", function () {
     expect($is(component, IShape)).toBeFalsy();
   });
 
-  it("object 'component' has not to be an instance of class 'Rectangle'", function() {
+  it("object 'component' has not to be an instance of class 'Rectangle'", function () {
     expect($is(component, Shape)).toBeFalsy();
   });
 
-  it("null has not to implement an interface 'IShape'", function() {
+  it("null has not to implement an interface 'IShape'", function () {
     expect($is(null, IShape)).toBeFalsy();
   });
 
-  it("number has not to implement an interface 'IShape'", function() {
+  it("number has not to implement an interface 'IShape'", function () {
     expect($is(22, IShape)).toBeFalsy();
   });
 
-  it("string has not to implement an interface 'IShape'", function() {
+  it("string has not to implement an interface 'IShape'", function () {
     expect($is('Shape', IShape)).toBeFalsy();
   });
 
-  it("date has not to implement an interface 'IShape'", function() {
+  it("date has not to implement an interface 'IShape'", function () {
     expect($is(new Date(), IShape)).toBeFalsy();
   });
 
-  it("boolean has not to implement an interface 'IShape'", function() {
+  it("boolean has not to implement an interface 'IShape'", function () {
     expect($is(true, IShape)).toBeFalsy();
   });
 
-  it("object checking with undefined type has to throw an exception", function() {
+  it("object checking with undefined type has to throw an exception", function () {
     var func = function() {
       $is(shape, null);
     };
     expect(func).toThrow();
   });
 
-  it("array has to be an instance of class 'Array'", function() {
+  it("array has to be an instance of class 'Array'", function () {
     expect($is([], Array)).toBeTruthy();
   });
 
-  it("created string object has to be an instance of class 'String'", function() {
+  it("created string object has to be an instance of class 'String'", function () {
     /* jshint -W053:false */
     expect($is(new String('Shape'), String)).toBeTruthy();
   });
 
-  it("created date object has to be an instance of class 'Date'", function() {
+  it("created date object has to be an instance of class 'Date'", function () {
     expect($is(new Date(), Date)).toBeTruthy();
   });
 
-  it("created number object has to be an instance of class 'Number'", function() {
+  it("created number object has to be an instance of class 'Number'", function () {
     /* jshint -W053:false */
     expect($is(new Number(22), Number)).toBeTruthy();
   });
 
-  it("created boolean object has to be an instance of class 'Boolean'", function() {
+  it("created boolean object has to be an instance of class 'Boolean'", function () {
     /* jshint -W053:false */
     expect($is(new Boolean(true), Boolean)).toBeTruthy();
   });
 
-  it("created object has to be an instance of class 'Object'", function() {
+  it("created object has to be an instance of class 'Object'", function () {
     /* jshint -W010:false */
     expect($is(new Object(), Object)).toBeTruthy();
   });
 
-  it("created function has to be an instance of class 'Function'", function() {
+  it("created function has to be an instance of class 'Function'", function () {
     /* jshint -W054:false */
     expect($is(new Function("a", "b", "return a + b"), Function)).toBeTruthy();
+  });
+
+  it("function has to be an instance of class 'Function'", function () {
+    /* jshint -W054:false */
+    expect($is(function () {}, Function)).toBeTruthy();
   });
 
   it("number '22' has to be a 'Number'", function () {
@@ -207,6 +212,26 @@ describe("$is keyword spec", function() {
 
   it("boolean 'true' has to be a 'Boolean'", function () {
     expect($is(true, Boolean)).toBeTruthy();
+  });
+
+  it("interface 'IRectangle' has to implement an 'IShape' interface", function () {
+    expect($is(IRectangle, IShape)).toBeTruthy();
+  });
+
+  it("class 'Rectangle' has to implement an 'IRectangle' interface", function () {
+    expect($is(Rectangle, IRectangle)).toBeTruthy();
+  });
+
+  it("class 'Rectangle' has to be inherited from 'Shape' class", function () {
+    expect($is(Rectangle, Shape)).toBeTruthy();
+  });
+
+  it("class 'Rectangle' has to be inherited from 'Rectangle' class", function () {
+    expect($is(Rectangle, Rectangle)).toBeTruthy();
+  });
+
+  it("class 'Shape' can not be inherited from 'Rectangle' class", function () {
+    expect($is(Shape, Rectangle)).toBeFalsy();
   });
 
 });

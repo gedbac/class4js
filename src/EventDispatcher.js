@@ -30,7 +30,7 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
       if (!listener) {
         throw new EventException({ message: "Parameter 'listener' is not set." });
       }
-      if (typeof listener !== 'function' || Interface.instanceOf(listener, IEventListener)) {
+      if (typeof listener !== 'function' || TypeBuilder.instanceOf(listener, IEventListener)) {
         throw new EventException({ message: "Parameter's 'listener' type is invalid." });
       }
       if (this.__listeners[type]) {
@@ -83,7 +83,7 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
 
   dispatchEvent: {
     value: function (e) {
-      if (!Interface.instanceOf(e, IEvent)) {
+      if (!TypeBuilder.instanceOf(e, IEvent)) {
         throw new EventException({ message: "Event's class doesn't imlement interface 'class4js.IEvent'" });
       }
       if (!e.type) {

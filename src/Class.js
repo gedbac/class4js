@@ -153,7 +153,7 @@ var Class = Object.create(Object.prototype, {
       if (instance && Class.__extensions && Class.__extensions.length > 0) {
         for (var i = 0; i < Class.__extensions.length; i++) {
           var extension = Class.__extensions[i];
-          if (Interface.instanceOf(instance, extension.target)) {
+          if (TypeBuilder.instanceOf(instance, extension.target)) {
             if (!(extension.name in instance)) {
               TypeBuilder.addMethod(instance, extension.name, extension.value);
             }

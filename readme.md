@@ -68,6 +68,7 @@ __modern web browsers__ and even with __PhantomJS__.
   * Static Class
   * Enum
   * Interface
+  * Type checking
   * Object Factory
   * Modules
   * Namespace
@@ -460,10 +461,6 @@ appear in its source code. Interfaces are declared by using the keyword __$inter
 
     $interface(properties:Object, parent:Object): Object
 
-__$is__ keyword can be used to check object's compatible with a given type.
-
-    $is(obj:Object, type:Object): Boolean
-
 A class can inherit one or more interfaces.
 
 __Example:__
@@ -488,7 +485,25 @@ __Example:__
 
     var shape = new Shape();
 
-    console.log($is(shape, IDrawable));
+### Type checking
+
+__$is__ keyword can be used to check object's compatible with a given type or to check type's compatabilty with other type. Also keyword __$is__ can be used to check object compatabilty with value types.
+
+    $is(obj:Object, type:Object): Boolean
+
+__Example:__
+
+    $is(rec, IShape);             // returns true
+    $is(rec, Shape);              // returns true
+    $is(null, IShape);            // returns false
+    $is(Rectangle, IRectangle);   // returns true
+    $is(Rectangle, Shape);        // returns true
+    $is([], Array);               // returns true
+    $({}, Object);                // returns true
+    $(function () {}, Function);  // returns true
+    $(true, Boolean);             // returns true
+    $(22, Number);                // returns true
+    $('Shape', String);           // returns true
 
 ### Object factory
 

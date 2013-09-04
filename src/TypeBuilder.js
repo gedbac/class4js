@@ -388,6 +388,63 @@ var TypeBuilder = Object.create(Object.prototype, {
     configurable: false
   },
 
+  instanceOf: {
+    value: function (obj, type) {
+      if (!type) {
+        throw new TypeException({
+          message: "Object compatible with an undefined type can't be checked."
+        });
+      }
+      var propertyName;
+      if (obj && typeof obj === 'function') {
+        if (type === Function) {
+          return true;
+        }
+        var prototype = obj.prototype;
+        if (typeof type === 'function') {
+          while (prototype) {
+            if (prototype === type.prototype) {
+              return true;
+            }
+            prototype = Object.getPrototypeOf(prototype);
+          }
+        } else if (typeof type === 'object') {
+          for (propertyName in type) {
+            if (!(propertyName in prototype)) {
+              return false;
+            }
+          }
+          return true;
+        }
+      } else if (obj !== null && obj !== undefined && typeof obj === 'object') {
+        if (typeof type === 'object') {
+          for (propertyName in type) {
+            if (!(propertyName in obj)) {
+              return false;
+            }
+          }
+        } else if (!(obj instanceof type)) {
+          return false;
+        }
+        return true;
+      } else {
+        if (typeof obj === 'string' && type === String) {
+          return true;
+        }
+        if (typeof obj === 'number' && type === Number) {
+          return true;
+        }
+        if (typeof obj === 'boolean' && type === Boolean) {
+          return true;
+        }
+      }
+      return false;
+    },
+    writable: false,
+    enumerable: true,
+    configurable: false
+  },
+
   toString: {
     value: function () {
       return '[object Class]';
@@ -400,5 +457,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 });
 
 Object.seal(TypeBuilder);
+
+global.$is = TypeBuilder.instanceOf;
 
 exports.TypeBuilder = TypeBuilder;

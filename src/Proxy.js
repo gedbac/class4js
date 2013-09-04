@@ -4,11 +4,11 @@ var Proxy = Object.create(Object.prototype, {
     value: function (type, interceptors, args) {
       if (type) {
         if (interceptors) {
-          if (typeof interceptors === 'function' || Interface.instanceOf(interceptors, IInterceptor)) {
+          if (typeof interceptors === 'function' || TypeBuilder.instanceOf(interceptors, IInterceptor)) {
             interceptors = [ interceptors ];
           } else if (interceptors instanceof Array) {
             for (var interceptor in interceptors) {
-              if (typeof interceptor !== 'function' && Interface.instanceOf(interceptor, IInterceptor)) {
+              if (typeof interceptor !== 'function' && TypeBuilder.instanceOf(interceptor, IInterceptor)) {
                 throw new TypeException("Interceptor type is invalid");
               }
             }
