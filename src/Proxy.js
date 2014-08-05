@@ -37,7 +37,7 @@ var Proxy = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Class]';
+      return '[object Proxy]';
     },
     writable: false,
     enumerable: true,

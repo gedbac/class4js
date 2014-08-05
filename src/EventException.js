@@ -53,19 +53,6 @@ EventException.prototype = Object.create(Object.prototype, {
 
 });
 
-Object.defineProperties(EventException, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-
-});
-
 Object.seal(EventException);
 Object.seal(EventException.prototype);
 

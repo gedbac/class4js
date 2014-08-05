@@ -139,20 +139,7 @@ Invocation.prototype = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object class4js.Invocation]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-
-});
-
-Object.defineProperties(Invocation, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
+      return '[object Invocation]';
     },
     writable: false,
     enumerable: true,

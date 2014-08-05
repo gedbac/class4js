@@ -32,20 +32,7 @@ TypeExtension.prototype = Object.create(Object.prototype, {
   },
 
   toString: function () {
-    return '[object class4js.TypeExtension]';
-  }
-
-});
-
-Object.defineProperties(TypeExtension, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
+    return '[object TypeExtension]';
   }
 
 });

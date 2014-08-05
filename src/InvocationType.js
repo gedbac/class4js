@@ -30,7 +30,7 @@ var InvocationType = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Enum]';
+      return '[object InvocationType]';
     },
     writable: false,
     enumerable: true,

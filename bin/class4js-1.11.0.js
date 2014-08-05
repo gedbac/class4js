@@ -76,7 +76,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Class]';
+        return '[object TypeException]';
       },
       writable: false,
       enumerable: true,
@@ -130,7 +130,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Class]';
+        return '[object Namespace]';
       },
       writable: false,
       enumerable: true,
@@ -594,7 +594,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Class]';
+        return '[object TypeBuilder]';
       },
       writable: false,
       enumerable: true,
@@ -643,20 +643,7 @@ var class4js = (function (global) {
     },
   
     toString: function () {
-      return '[object class4js.TypeExtension]';
-    }
-  
-  });
-  
-  Object.defineProperties(TypeExtension, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
+      return '[object TypeExtension]';
     }
   
   });
@@ -721,9 +708,11 @@ var class4js = (function (global) {
         var obj = Object.create(Object.prototype);
         TypeBuilder.addSystemField(obj, '__eventdispatcher__', null);
         TypeBuilder.addStatic(obj, properties);
-        TypeBuilder.addMethod(obj, 'toString', function () {
-          return '[object Class]';
-        });
+        if (!obj.hasOwnProperty('toString')) {
+          TypeBuilder.addMethod(obj, 'toString', function () {
+            return '[object Class]';
+          });
+        }
         Class.includeEvents(constructor.prototype);
         Class.initialize(obj, obj);
         Object.seal(obj);
@@ -982,10 +971,11 @@ var class4js = (function (global) {
           constructor.prototype = Object.create(parent.prototype);
         } else {
           constructor.prototype = Object.create(Object.prototype);
-          TypeBuilder.addMethod(constructor, 'toString', function () {
-            return '[object Class]';
-          });
         }
+        var constructorString = constructor.toString();
+        TypeBuilder.addMethod(constructor, 'toString', function () {
+          return constructorString;
+        });
         if (!constructor.prototype.hasOwnProperty('__fields__')) {
           Object.defineProperty(constructor.prototype, '__fields__', {
             value: Object.create(null),
@@ -1184,9 +1174,6 @@ var class4js = (function (global) {
     create: {
       value: function (properties, parents) {
         var obj = Object.create(Object.prototype);
-        TypeBuilder.addMethod(obj, 'toString', function () {
-          return '[object Interface]';
-        });
         if (parents) {
           if (parents instanceof Array) {
             for (var i = 0; i < parents.length; i++) {
@@ -1197,7 +1184,7 @@ var class4js = (function (global) {
           }
         }
         TypeBuilder.forEach(properties, function (name, value) {
-          if (!(name in obj)) {
+          if (!obj.hasOwnProperty(name)) {
             if (TypeBuilder.isMethod(value)) {
               TypeBuilder.addMethod(obj, name, value);
             } else if (TypeBuilder.isProperty(value)) {
@@ -1207,6 +1194,11 @@ var class4js = (function (global) {
             }
           }
         });
+        if (!obj.hasOwnProperty('toString')) {
+          TypeBuilder.addMethod(obj, 'toString', function () {
+            return '[object Interface]';
+          });
+        }
         Object.freeze(obj);
         return obj;
       },
@@ -1217,7 +1209,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Class]';
+        return '[object Interface]';
       },
       writable: false,
       enumerable: true,
@@ -1228,7 +1220,7 @@ var class4js = (function (global) {
       value: function (target, source) {
         if (source) {
           for (var propertyName in source) {
-            if (!(propertyName in target)) {
+            if (!target.hasOwnProperty(propertyName)) {
               var property = Object.getOwnPropertyDescriptor(source, propertyName);
               if (property.value && TypeBuilder.isMethod(property.value)) {
                 TypeBuilder.addMethod(target, propertyName, property.value);
@@ -1293,7 +1285,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Class]';
+        return '[object ObjectFactory]';
       },
       writable: false,
       enumerable: true,
@@ -1391,7 +1383,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Interface]';
+        return '[object IInterceptor]';
       },
       writable: false,
       enumerable: true,
@@ -1436,7 +1428,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Enum]';
+        return '[object InvocationType]';
       },
       writable: false,
       enumerable: true,
@@ -1590,20 +1582,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object class4js.Invocation]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    }
-  
-  });
-  
-  Object.defineProperties(Invocation, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
+        return '[object Invocation]';
       },
       writable: false,
       enumerable: true,
@@ -1656,7 +1635,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Class]';
+        return '[object Proxy]';
       },
       writable: false,
       enumerable: true,
@@ -1870,19 +1849,6 @@ var class4js = (function (global) {
   
   });
   
-  Object.defineProperties(ModuleException, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    }
-  
-  });
-  
   Object.seal(ModuleException);
   Object.seal(ModuleException.prototype);
   
@@ -1920,20 +1886,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object class4js.ModuleConfiguration]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    }
-  
-  });
-  
-  Object.defineProperties(ModuleConfiguration, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
+        return '[object ModuleConfiguration]';
       },
       writable: false,
       enumerable: true,
@@ -1997,7 +1950,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object class4js.Configuration]';
+        return '[object Configuration]';
       },
       writable: false,
       enumerable: true,
@@ -2051,15 +2004,6 @@ var class4js = (function (global) {
     configure: {
       value: function (options) {
         Configuration.__configuration = ObjectFactory.create(Configuration, options);
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    },
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
       },
       writable: false,
       enumerable: true,
@@ -2150,7 +2094,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object class4js.Module]';
+        return '[object Module]';
       },
       writable: false,
       enumerable: true,
@@ -2314,15 +2258,6 @@ var class4js = (function (global) {
     isValidModuleName: {
       value: function (name) {
         return new RegExp('^(_|[a-z]|[A-Z]|[0-9]|)*$', 'g').test(name);
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    },
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
       },
       writable: false,
       enumerable: true,
@@ -2501,7 +2436,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Interface]';
+        return '[object IDisposable]';
       },
       writable: false,
       enumerable: true,
@@ -2569,19 +2504,6 @@ var class4js = (function (global) {
   
   });
   
-  Object.defineProperties(EventException, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    }
-  
-  });
-  
   Object.seal(EventException);
   Object.seal(EventException.prototype);
   
@@ -2612,7 +2534,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Interface]';
+        return '[object IEventTarget]';
       },
       writable: false,
       enumerable: true,
@@ -2643,7 +2565,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Interface]';
+        return '[object IEvent]';
       },
       writable: false,
       enumerable: true,
@@ -2702,20 +2624,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object class4js.Event]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    }
-  
-  });
-  
-  Object.defineProperties(Event, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
+        return '[object Event]';
       },
       writable: false,
       enumerable: true,
@@ -2740,7 +2649,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object Interface]';
+        return '[object IEventListener]';
       },
       writable: false,
       enumerable: true,
@@ -2863,20 +2772,7 @@ var class4js = (function (global) {
   
     toString: {
       value: function () {
-        return '[object class4js.EventDispatcher]';
-      },
-      writable: false,
-      enumerable: true,
-      configurable: false
-    }
-  
-  });
-  
-  Object.defineProperties(EventDispatcher, {
-  
-    toString: {
-      value: function () {
-        return '[object Class]';
+        return '[object EventDispatcher]';
       },
       writable: false,
       enumerable: true,

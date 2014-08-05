@@ -3,9 +3,6 @@ var Interface = Object.create(Object.prototype, {
   create: {
     value: function (properties, parents) {
       var obj = Object.create(Object.prototype);
-      TypeBuilder.addMethod(obj, 'toString', function () {
-        return '[object Interface]';
-      });
       if (parents) {
         if (parents instanceof Array) {
           for (var i = 0; i < parents.length; i++) {
@@ -16,7 +13,7 @@ var Interface = Object.create(Object.prototype, {
         }
       }
       TypeBuilder.forEach(properties, function (name, value) {
-        if (!(name in obj)) {
+        if (!obj.hasOwnProperty(name)) {
           if (TypeBuilder.isMethod(value)) {
             TypeBuilder.addMethod(obj, name, value);
           } else if (TypeBuilder.isProperty(value)) {
@@ -26,6 +23,11 @@ var Interface = Object.create(Object.prototype, {
           }
         }
       });
+      if (!obj.hasOwnProperty('toString')) {
+        TypeBuilder.addMethod(obj, 'toString', function () {
+          return '[object Interface]';
+        });
+      }
       Object.freeze(obj);
       return obj;
     },
@@ -36,7 +38,7 @@ var Interface = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Class]';
+      return '[object Interface]';
     },
     writable: false,
     enumerable: true,
@@ -47,7 +49,7 @@ var Interface = Object.create(Object.prototype, {
     value: function (target, source) {
       if (source) {
         for (var propertyName in source) {
-          if (!(propertyName in target)) {
+          if (!target.hasOwnProperty(propertyName)) {
             var property = Object.getOwnPropertyDescriptor(source, propertyName);
             if (property.value && TypeBuilder.isMethod(property.value)) {
               TypeBuilder.addMethod(target, propertyName, property.value);

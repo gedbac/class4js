@@ -55,9 +55,11 @@ var Class = Object.create(Object.prototype, {
       var obj = Object.create(Object.prototype);
       TypeBuilder.addSystemField(obj, '__eventdispatcher__', null);
       TypeBuilder.addStatic(obj, properties);
-      TypeBuilder.addMethod(obj, 'toString', function () {
-        return '[object Class]';
-      });
+      if (!obj.hasOwnProperty('toString')) {
+        TypeBuilder.addMethod(obj, 'toString', function () {
+          return '[object Class]';
+        });
+      }
       Class.includeEvents(constructor.prototype);
       Class.initialize(obj, obj);
       Object.seal(obj);
@@ -316,10 +318,11 @@ var Class = Object.create(Object.prototype, {
         constructor.prototype = Object.create(parent.prototype);
       } else {
         constructor.prototype = Object.create(Object.prototype);
-        TypeBuilder.addMethod(constructor, 'toString', function () {
-          return '[object Class]';
-        });
       }
+      var constructorString = constructor.toString();
+      TypeBuilder.addMethod(constructor, 'toString', function () {
+        return constructorString;
+      });
       if (!constructor.prototype.hasOwnProperty('__fields__')) {
         Object.defineProperty(constructor.prototype, '__fields__', {
           value: Object.create(null),

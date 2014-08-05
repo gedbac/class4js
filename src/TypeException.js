@@ -57,7 +57,7 @@ Object.defineProperties(TypeException, {
 
   toString: {
     value: function () {
-      return '[object Class]';
+      return '[object TypeException]';
     },
     writable: false,
     enumerable: true,

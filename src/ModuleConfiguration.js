@@ -30,20 +30,7 @@ ModuleConfiguration.prototype = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object class4js.ModuleConfiguration]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-
-});
-
-Object.defineProperties(ModuleConfiguration, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
+      return '[object ModuleConfiguration]';
     },
     writable: false,
     enumerable: true,

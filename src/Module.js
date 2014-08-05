@@ -73,7 +73,7 @@ Module.prototype = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object class4js.Module]';
+      return '[object Module]';
     },
     writable: false,
     enumerable: true,
@@ -237,15 +237,6 @@ Object.defineProperties(Module, {
   isValidModuleName: {
     value: function (name) {
       return new RegExp('^(_|[a-z]|[A-Z]|[0-9]|)*$', 'g').test(name);
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  },
-
-  toString: {
-    value: function () {
-      return '[object Class]';
     },
     writable: false,
     enumerable: true,

@@ -44,20 +44,7 @@ Event.prototype = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object class4js.Event]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-
-});
-
-Object.defineProperties(Event, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
+      return '[object Event]';
     },
     writable: false,
     enumerable: true,

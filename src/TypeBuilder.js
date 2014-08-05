@@ -447,7 +447,7 @@ var TypeBuilder = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Class]';
+      return '[object TypeBuilder]';
     },
     writable: false,
     enumerable: true,

@@ -108,20 +108,7 @@ EventDispatcher.prototype = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object class4js.EventDispatcher]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-
-});
-
-Object.defineProperties(EventDispatcher, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
+      return '[object EventDispatcher]';
     },
     writable: false,
     enumerable: true,

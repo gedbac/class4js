@@ -9,7 +9,7 @@ var IEventListener = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Interface]';
+      return '[object IEventListener]';
     },
     writable: false,
     enumerable: true,

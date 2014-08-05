@@ -48,7 +48,7 @@ Configuration.prototype = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object class4js.Configuration]';
+      return '[object Configuration]';
     },
     writable: false,
     enumerable: true,
@@ -102,15 +102,6 @@ Object.defineProperties(Configuration, {
   configure: {
     value: function (options) {
       Configuration.__configuration = ObjectFactory.create(Configuration, options);
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  },
-
-  toString: {
-    value: function () {
-      return '[object Class]';
     },
     writable: false,
     enumerable: true,

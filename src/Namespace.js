@@ -38,7 +38,7 @@ var Namespace = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Class]';
+      return '[object Namespace]';
     },
     writable: false,
     enumerable: true,

@@ -9,7 +9,7 @@ var IInterceptor = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Interface]';
+      return '[object IInterceptor]';
     },
     writable: false,
     enumerable: true,

@@ -33,19 +33,6 @@ ModuleException.prototype = Object.create(Object.prototype, {
 
 });
 
-Object.defineProperties(ModuleException, {
-
-  toString: {
-    value: function () {
-      return '[object Class]';
-    },
-    writable: false,
-    enumerable: true,
-    configurable: false
-  }
-
-});
-
 Object.seal(ModuleException);
 Object.seal(ModuleException.prototype);
 

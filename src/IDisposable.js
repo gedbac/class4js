@@ -9,7 +9,7 @@ var IDisposable = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Interface]';
+      return '[object IDisposable]';
     },
     writable: false,
     enumerable: true,

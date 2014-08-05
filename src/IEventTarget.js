@@ -23,7 +23,7 @@ var IEventTarget = Object.create(Object.prototype, {
 
   toString: {
     value: function () {
-      return '[object Interface]';
+      return '[object IEventTarget]';
     },
     writable: false,
     enumerable: true,

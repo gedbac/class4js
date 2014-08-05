@@ -1,8 +1,8 @@
 if (typeof require !== 'undefined' && module !== null) {
-  var class4js = require('../lib/class4js.js');
+  var cls = require('../lib/class4js.js');
 }
 
-describe("$is keyword spec", function() {
+describe("Type checking spec", function() {
 
   var IShape = $interface({
     x: {
