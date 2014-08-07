@@ -148,7 +148,8 @@ module.exports = function (grunt) {
       'browser-dev': {
         options: {
           browser: true,
-          strict: false
+          strict: false,
+          '-W079': false
         },
         files: {
           src: src,
