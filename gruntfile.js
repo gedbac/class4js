@@ -176,35 +176,30 @@ module.exports = function (grunt) {
       }
     },
     jasmine: {
-      spec: {
+      'spec': {
         src: './bin/<%= pkg.name %>-<%= pkg.version %>.js',
+        version: '2.0.1',
         options: {
-          specs: './spec/*.js',
-          outfile: './SpecRunner.html',
+          specs: './spec/**/*.spec.js',
+          outfile: './spec-runner.html',
           keepRunner: true
         }
       }
     },
-    'jasmine-node': {
-      options: {
-        matchall: true,
-        color: true,
-        verbose: true
-      },
-      run: {
-        spec: './spec'
-      },
-      executable: path.join(__dirname, './node_modules/.bin/jasmine-node')
+    jasmine_node: {
+      spec: ['spec/']
     }
   });
 
   grunt.loadTasks('tasks');
 
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-jasmine-node');
+  grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('default', [
     'jshint:scripts',
@@ -218,7 +213,7 @@ module.exports = function (grunt) {
     'concat:node-prod',
     'jshint:node-prod',
     'jshint:spec',
-    'jasmine-node',
+    'jasmine_node',
     'jasmine:spec'
   ]);
 

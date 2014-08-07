@@ -1,5 +1,8 @@
 # class4js
 
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![devDependency Status](https://david-dm.org/gedbac/class4js/dev-status.svg)](https://david-dm.org/gedbac/class4js#info=devDependencies)
+
 [http://www.class4js.com](http://www.class4js.com)
 
 The __class4js__ module is for class-driven development in JavaScript. It
