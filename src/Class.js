@@ -21,7 +21,9 @@ var Class = Object.create(Object.prototype, {
         if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
           ObjectFactory.initialize(this, arguments[0]);
         }
-        Object.seal(this);
+        if (!Array.prototype.isPrototypeOf(prototype)) {
+          Object.seal(this);
+        }
       };
       Class.__onCreateClass(constructor, properties, parent, interfaces);
       return constructor;
