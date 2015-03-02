@@ -253,7 +253,7 @@ var TypeBuilder = Object.create(Object.prototype, {
             Object.defineProperty(owner.__events__, name, {
               value: value,
               writable: false,
-              enumerable: true,
+              enumerable: false,
               configurable: false
             });
           } else {

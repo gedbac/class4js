@@ -21,6 +21,14 @@ var Class = Object.create(Object.prototype, {
         if (arguments && arguments.length == 1 && TypeBuilder.isObjectInitializer(arguments[0])) {
           ObjectFactory.initialize(this, arguments[0]);
         }
+        var ownPropertyNames = Object.getOwnPropertyNames(this);
+        if (ownPropertyNames) {
+          ownPropertyNames.forEach(function (propertyName) {
+            if (TypeBuilder.isPrivate(propertyName)) {
+              Object.defineProperty(this, propertyName, { enumerable: false })
+            }
+          }.bind(this));
+        }
         if (!Array.prototype.isPrototypeOf(prototype)) {
           Object.seal(this);
         }
@@ -110,7 +118,10 @@ var Class = Object.create(Object.prototype, {
             if (properties[i] === '__events__') {
               var events = Object.getOwnPropertyNames(prototype.__fields__.__events__);
               if (events.length > 0 && !instance.__events__) {
-                instance.__events__ = Object.create(null);
+                Object.defineProperty(instance, '__events__', {
+                  value: Object.create(null),
+                  enumerable: false
+                });
               }
               for (var j = 0; j < events.length; j++) {
                 if (!(events[j] in instance.__events__)) {
